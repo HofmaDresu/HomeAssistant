@@ -1,0 +1,66 @@
+alias: Set alarm when plugged in
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.pixel_8_battery_state
+    to: charging
+    from: null
+condition:
+  - condition: and
+    conditions:
+      - condition: device
+        device_id: 6dbdf144428b850689a68b1c6b7b19de
+        domain: device_tracker
+        entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
+        type: is_home
+      - condition: device
+        type: is_on
+        device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+        entity_id: 89d5346579b899623f4d4f45014c604a
+        domain: switch
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: input_boolean.alarm_circuitbreaker
+            state: "on"
+      - condition: or
+        conditions:
+          - condition: time
+            after: "21:00:00"
+            weekday:
+              - sat
+              - fri
+              - thu
+              - wed
+              - tue
+              - mon
+              - sun
+          - condition: time
+            before: "04:00:00"
+            weekday:
+              - sat
+              - fri
+              - thu
+              - wed
+              - tue
+              - mon
+              - sun
+action:
+  - parallel:
+      - if:
+          - condition: template
+            value_template: "{{true}}"
+        then:
+          - delay:
+              hours: 0
+              minutes: 1
+              seconds: 0
+              milliseconds: 0
+          - service: scene.turn_on
+            target:
+              entity_id: scene.power_off
+            metadata: {}
+      - service: script.morning_routine
+        data: {}
+mode: single
