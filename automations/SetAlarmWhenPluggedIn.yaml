@@ -10,11 +10,6 @@ condition:
   - condition: and
     conditions:
       - condition: device
-        device_id: 6dbdf144428b850689a68b1c6b7b19de
-        domain: device_tracker
-        entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
-        type: is_home
-      - condition: device
         type: is_on
         device_id: d4b4dce9f0f3fcdf3e769a70ff259468
         entity_id: 89d5346579b899623f4d4f45014c604a
@@ -46,12 +41,29 @@ condition:
               - tue
               - mon
               - sun
+      - condition: or
+        conditions:
+          - condition: device
+            device_id: 6dbdf144428b850689a68b1c6b7b19de
+            domain: device_tracker
+            entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
+            type: is_home
+          - type: is_connected
+            condition: device
+            device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+            entity_id: 25fca37d1879ff89c99e5dace6790ba9
+            domain: binary_sensor
 action:
   - parallel:
       - if:
           - condition: template
             value_template: "{{true}}"
         then:
+          - device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: arm_home
+            code: ""
           - delay:
               hours: 0
               minutes: 1
