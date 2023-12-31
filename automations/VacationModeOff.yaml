@@ -1,0 +1,46 @@
+alias: Vacation mode off
+description: ""
+trigger:
+  - type: connected
+    platform: device
+    device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+    entity_id: 25fca37d1879ff89c99e5dace6790ba9
+    domain: binary_sensor
+condition: []
+action:
+  - service: script.turn_off
+    target:
+      entity_id: script.vacation
+    data: {}
+  - device_id: 23709abe8dedaad622d3af350cc22555
+    domain: climate
+    entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+    type: set_preset_mode
+    preset_mode: none
+  - alias: Turn on heat if cold
+    if:
+      - condition: and
+        conditions:
+          - condition: device
+            device_id: 23709abe8dedaad622d3af350cc22555
+            domain: climate
+            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            type: is_hvac_mode
+            hvac_mode: "off"
+          - type: is_temperature
+            condition: device
+            device_id: 23709abe8dedaad622d3af350cc22555
+            entity_id: 25a139e3be6e233ac87115b109a825c1
+            domain: sensor
+            below: 60
+    then:
+      - device_id: 23709abe8dedaad622d3af350cc22555
+        domain: climate
+        entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+        type: set_hvac_mode
+        hvac_mode: heat
+  - type: turn_off
+    device_id: 76db24d3a176285f3be6d972ee76b37a
+    entity_id: 5ad0c441de281a50a15823b58a21081a
+    domain: switch
+mode: single
