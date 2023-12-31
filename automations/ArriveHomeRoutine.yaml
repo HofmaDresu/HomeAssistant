@@ -1,0 +1,47 @@
+alias: "Arrive home routine "
+description: ""
+trigger:
+  - type: connected
+    platform: device
+    device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+    entity_id: 25fca37d1879ff89c99e5dace6790ba9
+    domain: binary_sensor
+condition: []
+action:
+  - device_id: 12991409e93a14125e39db65a3b740dc
+    domain: alarm_control_panel
+    entity_id: ed8fc83278462fc5ba4f6de76da799ad
+    type: disarm
+    code: ""
+  - if:
+      - condition: sun
+        after: sunset
+        before: sunrise
+    then:
+      - type: turn_on
+        device_id: 0f1815f6576728547da6fbc3a3b69277
+        entity_id: d7144b619bd94371cb9c1e6459036229
+        domain: switch
+      - type: turn_on
+        device_id: 8576e7dab40455676993ad9a4bcc5c49
+        entity_id: f2899e19720f9c1b0f0c164f3eea4069
+        domain: switch
+      - type: turn_on
+        device_id: 3760e1833184baf271de63cb70927def
+        entity_id: 2142caaf7a8101bbb6902e44d162f416
+        domain: light
+      - type: turn_on
+        device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+        entity_id: b5d123c0b7fd2748264a524c8082d027
+        domain: light
+      - delay:
+          hours: 0
+          minutes: 10
+          seconds: 0
+          milliseconds: 0
+      - type: turn_off
+        device_id: 0f1815f6576728547da6fbc3a3b69277
+        entity_id: d7144b619bd94371cb9c1e6459036229
+        domain: switch
+    alias: Lights on if dark
+mode: single
