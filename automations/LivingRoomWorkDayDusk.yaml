@@ -1,0 +1,36 @@
+alias: Living room work day dusk
+description: ""
+trigger:
+  - platform: sun
+    event: sunset
+    offset: "-1:00:00"
+condition:
+  - condition: and
+    conditions:
+      - condition: device
+        type: is_on
+        device_id: bad671e7062197c2244063c9ab807b41
+        entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
+        domain: light
+      - condition: or
+        conditions:
+          - condition: device
+            device_id: 6dbdf144428b850689a68b1c6b7b19de
+            domain: device_tracker
+            entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
+            type: is_home
+          - type: is_connected
+            condition: device
+            device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+            entity_id: 25fca37d1879ff89c99e5dace6790ba9
+            domain: binary_sensor
+action:
+  - type: turn_on
+    device_id: 3760e1833184baf271de63cb70927def
+    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    domain: light
+  - type: turn_on
+    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+    entity_id: b5d123c0b7fd2748264a524c8082d027
+    domain: light
+mode: single
