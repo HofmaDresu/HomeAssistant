@@ -1,0 +1,140 @@
+alias: Vacation lights
+sequence:
+  - alias: Wait until 07:01
+    wait_for_trigger:
+      - platform: time
+        at: "07:01:00"
+  - type: turn_on
+    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+    entity_id: 89d5346579b899623f4d4f45014c604a
+    domain: switch
+  - alias: Wait until 07:07
+    wait_for_trigger:
+      - platform: time
+        at: "07:07:00"
+  - type: turn_on
+    device_id: 3760e1833184baf271de63cb70927def
+    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    domain: light
+  - type: turn_on
+    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+    entity_id: b5d123c0b7fd2748264a524c8082d027
+    domain: light
+  - alias: Wait until 07:23
+    wait_for_trigger:
+      - platform: time
+        at: "07:23:00"
+  - type: turn_off
+    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+    entity_id: 89d5346579b899623f4d4f45014c604a
+    domain: switch
+  - alias: Wait until 07:24
+    wait_for_trigger:
+      - platform: time
+        at: "07:24:00"
+  - type: turn_on
+    device_id: 8576e7dab40455676993ad9a4bcc5c49
+    entity_id: f2899e19720f9c1b0f0c164f3eea4069
+    domain: switch
+  - alias: Wait until 07:59
+    wait_for_trigger:
+      - platform: time
+        at: "07:59:00"
+  - type: turn_off
+    device_id: 8576e7dab40455676993ad9a4bcc5c49
+    entity_id: f2899e19720f9c1b0f0c164f3eea4069
+    domain: switch
+  - alias: Wait until 08:01
+    wait_for_trigger:
+      - platform: time
+        at: "08:01:00"
+  - type: turn_on
+    device_id: bad671e7062197c2244063c9ab807b41
+    entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
+    domain: light
+  - alias: Wait until 08:21
+    wait_for_trigger:
+      - platform: time
+        at: "08:21:00"
+  - type: turn_off
+    device_id: 3760e1833184baf271de63cb70927def
+    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    domain: light
+  - type: turn_off
+    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+    entity_id: b5d123c0b7fd2748264a524c8082d027
+    domain: light
+  - alias: Wait until 15:23
+    wait_for_trigger:
+      - platform: time
+        at: "15:23:00"
+  - type: turn_on
+    device_id: 1155e017f2b58ecdf76d69807001a0b9
+    entity_id: 525207ce60b068d636526e83f993b12a
+    domain: light
+  - alias: Wait until 15:25
+    wait_for_trigger:
+      - platform: time
+        at: "15:25:00"
+  - type: turn_off
+    device_id: bad671e7062197c2244063c9ab807b41
+    entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
+    domain: light
+  - alias: Wait until 16:32
+    wait_for_trigger:
+      - platform: time
+        at: "16:32:00"
+  - type: turn_on
+    device_id: 3760e1833184baf271de63cb70927def
+    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    domain: light
+  - type: turn_on
+    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+    entity_id: b5d123c0b7fd2748264a524c8082d027
+    domain: light
+  - alias: Wait until 17:03
+    wait_for_trigger:
+      - platform: time
+        at: "17:03:00"
+  - type: turn_on
+    device_id: 8576e7dab40455676993ad9a4bcc5c49
+    entity_id: f2899e19720f9c1b0f0c164f3eea4069
+    domain: switch
+  - alias: Wait until 18:05
+    wait_for_trigger:
+      - platform: time
+        at: "18:05:00"
+  - type: turn_off
+    device_id: 8576e7dab40455676993ad9a4bcc5c49
+    entity_id: f2899e19720f9c1b0f0c164f3eea4069
+    domain: switch
+  - wait_for_trigger:
+      - platform: time
+        at: "22:07:00"
+    alias: Wait until 22:07
+  - type: turn_off
+    device_id: 1155e017f2b58ecdf76d69807001a0b9
+    entity_id: 525207ce60b068d636526e83f993b12a
+    domain: light
+  - wait_for_trigger:
+      - platform: time
+        at: "22:57:00"
+    timeout:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    alias: Wait until 22:57
+  - type: turn_on
+    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+    entity_id: 89d5346579b899623f4d4f45014c604a
+    domain: switch
+  - alias: Wait until 23:22
+    wait_for_trigger:
+      - platform: time
+        at: "23:22:00"
+  - service: scene.turn_on
+    target:
+      entity_id: scene.power_off
+    metadata: {}
+mode: restart
