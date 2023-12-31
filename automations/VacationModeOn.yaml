@@ -1,0 +1,38 @@
+alias: Vacation mode on
+description: ""
+trigger:
+  - platform: time
+    at: "04:00:00"
+condition:
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vacation_mode_circuitbreaker
+        state: "off"
+      - condition: or
+        conditions:
+          - type: is_connected
+            condition: device
+            device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+            entity_id: 25fca37d1879ff89c99e5dace6790ba9
+            domain: binary_sensor
+          - condition: device
+            device_id: 6dbdf144428b850689a68b1c6b7b19de
+            domain: device_tracker
+            entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
+            type: is_home
+action:
+  - service: script.turn_on
+    target:
+      entity_id: script.vacation
+    data: {}
+  - device_id: 23709abe8dedaad622d3af350cc22555
+    domain: climate
+    entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+    type: set_preset_mode
+    preset_mode: eco
+  - type: turn_on
+    device_id: 76db24d3a176285f3be6d972ee76b37a
+    entity_id: 5ad0c441de281a50a15823b58a21081a
+    domain: switch
+mode: single
