@@ -1,0 +1,38 @@
+alias: Terrible air notification
+description: ""
+trigger:
+  - type: carbon_dioxide
+    platform: device
+    device_id: d276e61bffda959e361f8b8683b8afd6
+    entity_id: 070616c02a3b9688b3a97f4023c0b515
+    domain: sensor
+    above: 1000
+  - type: carbon_dioxide
+    platform: device
+    device_id: d276e61bffda959e361f8b8683b8afd6
+    entity_id: 070616c02a3b9688b3a97f4023c0b515
+    domain: sensor
+    above: 800
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+condition:
+  - condition: or
+    conditions:
+      - type: is_connected
+        condition: device
+        device_id: 73cf62095f63eb5a9abc0ef8d0494a64
+        entity_id: 25fca37d1879ff89c99e5dace6790ba9
+        domain: binary_sensor
+      - condition: device
+        device_id: 6dbdf144428b850689a68b1c6b7b19de
+        domain: device_tracker
+        entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
+        type: is_home
+action:
+  - service: notify.mobile_app_pixel_8
+    data:
+      title: Terrible air, maybe you should open a window
+      message: CO2 is very high
+mode: single
