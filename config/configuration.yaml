@@ -9,12 +9,14 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+mqtt:
+  sensor:
+    - name: "DTE Energy Bridge"
+      state_topic: "event/metering/summation/minute"
+      unit_of_measurement: "W"
+      value_template: "{{ value_json.value | round (0) }}"
+
 sensor:
-  - platform: mqtt
-    name: "DTE Energy Bridge"
-    state_topic: "event/metering/summation/minute"
-    unit_of_measurement: "W"
-    value_template: "{{ value_json.value | round (0) }}"
   - platform: integration
     source: sensor.dte_energy_bridge
     name: energy_spent
