@@ -1,11 +1,11 @@
 alias: "Arrive home routine "
 description: ""
 trigger:
-  - type: connected
-    platform: device
-    device_id: 73cf62095f63eb5a9abc0ef8d0494a64
-    entity_id: 25fca37d1879ff89c99e5dace6790ba9
-    domain: binary_sensor
+  - platform: state
+    entity_id:
+      - binary_sensor.hofmadresu_pixel_8_wireless_connected
+    from: "off"
+    to: "on"
 condition: []
 action:
   - device_id: 12991409e93a14125e39db65a3b740dc
