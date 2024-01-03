@@ -39,8 +39,8 @@ action:
         entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
         type: set_hvac_mode
         hvac_mode: heat
-  - type: turn_off
-    device_id: 76db24d3a176285f3be6d972ee76b37a
-    entity_id: 5ad0c441de281a50a15823b58a21081a
-    domain: switch
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.vacuum_circuitbreaker
+    data: {}
 mode: single
