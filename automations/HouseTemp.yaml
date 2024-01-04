@@ -1,0 +1,61 @@
+alias: House temp
+description: ""
+trigger:
+  - platform: time
+    at: "07:00:00"
+  - platform: time
+    at: "21:00:00"
+condition:
+  - condition: not
+    conditions:
+      - condition: or
+        conditions:
+          - condition: device
+            device_id: 23709abe8dedaad622d3af350cc22555
+            domain: climate
+            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            type: is_hvac_mode
+            hvac_mode: "off"
+          - condition: device
+            device_id: 23709abe8dedaad622d3af350cc22555
+            domain: climate
+            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            type: is_preset_mode
+            preset_mode: eco
+    alias: Not off nor eco
+action:
+  - variables:
+      temps:
+        heat:
+          day:
+            normal: 65
+            pet: 68
+            sick: 68
+          night:
+            normal: 60
+            pet: 65
+            sick: 65
+        cool:
+          day:
+            normal: 80
+            pet: 75
+            sick: 75
+          night:
+            normal: 75
+            pet: 75
+            sick: 75
+      petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
+      sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
+      dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
+      heatCoolMode: "{{states('climate.family_room')}}"
+      tempMode: "{{petMode or sickMode or 'normal'}}"
+      targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
+  - service: notify.mobile_app_pixel_8
+    data:
+      message: target temp is {{targetTemp}}
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.family_room
+    data:
+      temperature: "{{targetTemp}}"
+mode: single
