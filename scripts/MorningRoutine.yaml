@@ -29,9 +29,10 @@ sequence:
       weekendFireAlarmAt: "{{targetEightAm if timeToEightAm >= eightHours else targetNineAm}}"
       targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
       targetIsTuesday: "{{target.weekday == 1}}"
+      isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
   - variables:
       baseFireAlarmAt: "{{weekendFireAlarmAt if targetIsWeekend else weekdayFireAlarmAt}}"
-      fireAlarmAt: "{{targetSevenAm if targetIsTuesday else baseFireAlarmAt}}"
+      fireAlarmAt: "{{targetSevenAm if targetIsTuesday or isPetMode else baseFireAlarmAt}}"
       fireAlarmIn: >-
         {{strptime(fireAlarmAt, '%Y-%m-%d %H:%M:%S').timestamp() -
         now().timestamp()}}
