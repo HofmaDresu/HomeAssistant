@@ -1,0 +1,25 @@
+alias: Bedroom light off on shades opened
+description: ""
+trigger:
+  - platform: device
+    device_id: 4b17156df9449eb672e5e59d69161367
+    domain: lutron_caseta
+    type: press
+    subtype: "on"
+condition:
+  - condition: device
+    type: is_on
+    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+    entity_id: 89d5346579b899623f4d4f45014c604a
+    domain: switch
+action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
+  - type: turn_off
+    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
+    entity_id: 89d5346579b899623f4d4f45014c604a
+    domain: switch
+mode: single
