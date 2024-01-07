@@ -29,6 +29,10 @@ sequence:
     target:
       entity_id: scene.indoor_power_off
     metadata: {}
+  - service: cover.close_cover
+    target:
+      entity_id: cover.all_shades
+    data: {}
   - alias: Wait until I leave or 5 min pass
     wait_for_trigger:
       - platform: zone
