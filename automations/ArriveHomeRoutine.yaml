@@ -6,7 +6,14 @@ trigger:
       - binary_sensor.hofmadresu_pixel_8_wireless_connected
     from: "off"
     to: "on"
-condition: []
+condition:
+  - condition: not
+    conditions:
+      - condition: device
+        device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: is_disarmed
 action:
   - device_id: 12991409e93a14125e39db65a3b740dc
     domain: alarm_control_panel
