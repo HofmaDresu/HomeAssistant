@@ -56,6 +56,12 @@ sequence:
     then:
       - stop: Circuit Breaker
     enabled: true
+  - service: alarm_control_panel.alarm_disarm
+    metadata: {}
+    data:
+      code: ""
+    target:
+      device_id: 12991409e93a14125e39db65a3b740dc
   - alias: Stop if already awake
     if:
       - condition: state
