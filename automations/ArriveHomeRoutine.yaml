@@ -20,7 +20,8 @@ action:
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
     code: ""
-  - if:
+  - alias: Lights on if dark
+    if:
       - condition: sun
         after: sunset
         before: sunrise
@@ -50,5 +51,10 @@ action:
         device_id: 0f1815f6576728547da6fbc3a3b69277
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
-    alias: Lights on if dark
+    else:
+      - service: cover.open_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.all_shades
 mode: single
