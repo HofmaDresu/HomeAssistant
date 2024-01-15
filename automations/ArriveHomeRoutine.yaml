@@ -52,9 +52,14 @@ action:
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
     else:
-      - service: cover.open_cover
-        metadata: {}
-        data: {}
-        target:
-          entity_id: cover.all_shades
+      - if:
+          - condition: numeric_state
+            entity_id: sensor.karb_temperature
+            above: 10
+        then:
+          - service: cover.open_cover
+            metadata: {}
+            data: {}
+            target:
+              entity_id: cover.all_shades
 mode: single
