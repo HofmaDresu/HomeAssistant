@@ -6,15 +6,15 @@ trigger:
     device_id: 73cf62095f63eb5a9abc0ef8d0494a64
     entity_id: 25fca37d1879ff89c99e5dace6790ba9
     domain: binary_sensor
-condition:
-  - condition: state
-    entity_id: automation.vacation_mode_on
-    state: "on"
+condition: []
 action:
-  - service: script.turn_off
-    target:
-      entity_id: script.vacation
-    data: {}
+  - if:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: "off"
+    then:
+      - stop: ""
+    alias: Stop if vacation mode off
   - device_id: 23709abe8dedaad622d3af350cc22555
     domain: climate
     entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
