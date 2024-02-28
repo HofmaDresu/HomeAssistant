@@ -1,4 +1,4 @@
-alias: Living room work day dusk
+alias: Living room dusk
 description: ""
 trigger:
   - platform: sun
@@ -7,11 +7,6 @@ trigger:
 condition:
   - condition: and
     conditions:
-      - condition: device
-        type: is_on
-        device_id: bad671e7062197c2244063c9ab807b41
-        entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
-        domain: light
       - condition: or
         conditions:
           - condition: device
