@@ -21,7 +21,11 @@ sequence:
       targetEightAmTimestamp: "{{strptime(targetEightAmString, '%Y:%m:%d:%H').timestamp()}}"
       targetNineAmString: "{{target.year}}:{{target.month}}:{{target.day}}:9"
       targetNineAm: "{{strptime(targetNineAmString, '%Y:%m:%d:%H')}}"
-      targetNineAmTimestamp: "{{strptime(targetNineAmString, '%Y:%m:%d:%H').timestamp()}}"
+      overrideString: >-
+        {{target.year}}:{{target.month}}:{{target.day}}:{{strptime(states('input_datetime.alarm_override_time'),
+        '%H:%M:%S').hour}}:{{strptime(states('input_datetime.alarm_override_time'),
+        '%H:%M:%S').minute}}
+      overrideAt: "{{strptime(overrideString, '%Y:%m:%d:%H:%M')}}"
       eightHours: "{{8 * 60 * 60}}"
       timeToSevenAm: "{{targetSevenAmTimestamp - now().timestamp()}}"
       timeToEightAm: "{{targetEightAmTimestamp - now().timestamp()}}"
@@ -32,11 +36,37 @@ sequence:
       isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
   - variables:
       baseFireAlarmAt: "{{weekendFireAlarmAt if targetIsWeekend else weekdayFireAlarmAt}}"
-      fireAlarmAt: "{{targetSevenAm if targetIsTuesday or isPetMode else baseFireAlarmAt}}"
+      calculatedFireAlarmAt: "{{targetSevenAm if targetIsTuesday or isPetMode else baseFireAlarmAt}}"
+      isOverrideActive: "{{states('input_boolean.alarm_override_active') == 'on'}}"
+      fireAlarmAt: "{{overrideAt if isOverrideActive else calculatedFireAlarmAt}}"
       fireAlarmIn: >-
         {{strptime(fireAlarmAt, '%Y-%m-%d %H:%M:%S').timestamp() -
         now().timestamp()}}
     enabled: true
+  - if: []
+    then:
+      - service: tts.cloud_say
+        data:
+          cache: false
+          entity_id: media_player.living_room_home
+          message: >-
+            Goodnight Matt. {{overrideString}} Your alarm is set to {{'today' if
+            targetIsToday else 'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
+            %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
+            %H:%M:%S').minute}}
+        enabled: false
+      - service: logbook.log
+        metadata: {}
+        data:
+          name: morning_routine_testing
+          message: >-
+            "Goodnight Matt. Your alarm is set to {{'today' if targetIsToday
+            else     'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d    
+            %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
+            %H:%M:%S').minute}}"
+      - stop: ""
+    alias: Test logging (halts)
+    enabled: false
   - service: tts.cloud_say
     data:
       cache: false
