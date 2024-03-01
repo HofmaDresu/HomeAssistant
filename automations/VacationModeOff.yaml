@@ -6,7 +6,10 @@ trigger:
     device_id: 73cf62095f63eb5a9abc0ef8d0494a64
     entity_id: 25fca37d1879ff89c99e5dace6790ba9
     domain: binary_sensor
-condition: []
+condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: "on"
 action:
   - if:
       - condition: state
