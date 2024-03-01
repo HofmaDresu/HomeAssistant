@@ -11,13 +11,6 @@ condition:
     entity_id: input_boolean.vacation_mode
     state: "on"
 action:
-  - if:
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: "off"
-    then:
-      - stop: ""
-    alias: Stop if vacation mode off
   - device_id: 23709abe8dedaad622d3af350cc22555
     domain: climate
     entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
