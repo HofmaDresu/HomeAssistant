@@ -5,24 +5,28 @@ trigger:
     at: "07:00:00"
   - platform: time
     at: "21:00:00"
+  - platform: state
+    entity_id:
+      - input_boolean.sick_mode
+      - input_boolean.pet_mode
 condition:
-  - condition: not
+  - alias: Not off nor eco
+    condition: not
     conditions:
       - condition: or
         conditions:
           - condition: device
-            device_id: 23709abe8dedaad622d3af350cc22555
+            device_id: 695ac42995783206896bb51e715e03e1
             domain: climate
-            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
             type: is_hvac_mode
             hvac_mode: "off"
           - condition: device
-            device_id: 23709abe8dedaad622d3af350cc22555
+            device_id: 695ac42995783206896bb51e715e03e1
             domain: climate
-            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
             type: is_preset_mode
             preset_mode: eco
-    alias: Not off nor eco
 action:
   - variables:
       temps:
@@ -50,9 +54,6 @@ action:
       heatCoolMode: "{{states('climate.family_room')}}"
       tempMode: "{{petMode or sickMode or 'normal'}}"
       targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
-  - service: notify.mobile_app_pixel_8
-    data:
-      message: target temp is {{targetTemp}}
   - service: climate.set_temperature
     target:
       entity_id: climate.family_room
