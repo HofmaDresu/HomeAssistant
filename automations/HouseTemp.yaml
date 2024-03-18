@@ -1,36 +1,19 @@
-alias: Vacation mode off
+alias: House temp
 description: ""
 trigger:
-  - type: connected
-    platform: device
-    device_id: 73cf62095f63eb5a9abc0ef8d0494a64
-    entity_id: 25fca37d1879ff89c99e5dace6790ba9
-    domain: binary_sensor
-  - platform: zone
-    entity_id: person.hofmadresu
-    zone: zone.dtw
-    event: enter
-  - platform: zone
-    entity_id: person.hofmadresu
-    zone: zone.jackson
-    event: enter
-  - platform: zone
-    entity_id: person.hofmadresu
-    zone: zone.us_23_96
-    event: enter
+  - platform: time
+    at: "07:00:00"
+  - platform: time
+    at: "21:00:00"
+  - platform: state
+    entity_id:
+      - input_boolean.sick_mode
+      - input_boolean.pet_mode
 condition:
-  - condition: state
-    entity_id: input_boolean.vacation_mode
-    state: "on"
-action:
-  - device_id: 695ac42995783206896bb51e715e03e1
-    domain: climate
-    entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
-    type: set_preset_mode
-    preset_mode: none
-  - alias: Turn on heat if cold
-    if:
-      - condition: and
+  - alias: Not off nor eco
+    condition: not
+    conditions:
+      - condition: or
         conditions:
           - condition: device
             device_id: 695ac42995783206896bb51e715e03e1
@@ -38,21 +21,42 @@ action:
             entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
             type: is_hvac_mode
             hvac_mode: "off"
-          - type: is_temperature
-            condition: device
+          - condition: device
             device_id: 695ac42995783206896bb51e715e03e1
-            entity_id: fe7d20a775b5d52b1009b9f293aa91dc
-            domain: sensor
-            below: 60
-    then:
-      - device_id: 695ac42995783206896bb51e715e03e1
-        domain: climate
-        entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
-        type: set_hvac_mode
-        hvac_mode: heat
-  - service: input_boolean.turn_off
+            domain: climate
+            entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
+            type: is_preset_mode
+            preset_mode: eco
+action:
+  - variables:
+      temps:
+        heat:
+          day:
+            normal: 65
+            pet: 68
+            sick: 68
+          night:
+            normal: 60
+            pet: 65
+            sick: 65
+        cool:
+          day:
+            normal: 80
+            pet: 75
+            sick: 75
+          night:
+            normal: 75
+            pet: 75
+            sick: 75
+      petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
+      sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
+      dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
+      heatCoolMode: "{{states('climate.family_room')}}"
+      tempMode: "{{petMode or sickMode or 'normal'}}"
+      targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
+  - service: climate.set_temperature
     target:
-      entity_id:
-        - input_boolean.vacation_mode
-    data: {}
+      entity_id: climate.family_room
+    data:
+      temperature: "{{targetTemp}}"
 mode: single
