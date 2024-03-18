@@ -10,15 +10,15 @@ trigger:
 condition:
   - condition: and
     conditions:
-      - condition: not
+      - alias: Nest not off
+        condition: not
         conditions:
           - condition: device
-            device_id: 23709abe8dedaad622d3af350cc22555
+            device_id: 695ac42995783206896bb51e715e03e1
             domain: climate
-            entity_id: 2e2068e09ae328d4105e9a1a7f6d148c
+            entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
             type: is_hvac_mode
             hvac_mode: "off"
-        alias: Nest not off
       - condition: or
         conditions:
           - type: is_connected
@@ -33,10 +33,10 @@ condition:
             type: is_home
 action:
   - service: climate.set_fan_mode
-    target:
-      device_id: 23709abe8dedaad622d3af350cc22555
     data:
       fan_mode: "on"
+    target:
+      device_id: 695ac42995783206896bb51e715e03e1
   - wait_for_trigger:
       - type: carbon_dioxide
         platform: device
@@ -46,8 +46,8 @@ action:
         below: 600
     alias: Wait for good air
   - service: climate.set_fan_mode
-    target:
-      device_id: 23709abe8dedaad622d3af350cc22555
     data:
       fan_mode: "off"
+    target:
+      device_id: 695ac42995783206896bb51e715e03e1
 mode: single
