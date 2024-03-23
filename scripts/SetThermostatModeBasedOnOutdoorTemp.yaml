@@ -1,0 +1,24 @@
+alias: Set thermostat mode based on outdoor temp
+sequence:
+  - if:
+      - condition: numeric_state
+        entity_id: sensor.karb_temperature
+        above: 80
+    then:
+      - service: climate.set_hvac_mode
+        metadata: {}
+        data:
+          hvac_mode: cool
+        target:
+          entity_id: climate.family_room
+        alias: Set thermostat to cool
+    else:
+      - alias: Set thermostat to heat
+        service: climate.set_hvac_mode
+        metadata: {}
+        data:
+          hvac_mode: heat
+        target:
+          entity_id: climate.family_room
+    alias: Turn on thermostat
+mode: single
