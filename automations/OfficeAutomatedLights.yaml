@@ -1,0 +1,9 @@
+alias: Office automatic lights
+description: ""
+use_blueprint:
+  path: homeassistant/motion_light.yaml
+  input:
+    motion_entity: binary_sensor.office_motion_sensor_motion
+    light_target:
+      area_id: office
+    no_motion_wait: 60
