@@ -59,4 +59,12 @@ action:
       entity_id: climate.family_room
     data:
       temperature: "{{targetTemp}}"
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - service: script.set_thermostat_mode_based_on_outdoor_temp
+    metadata: {}
+    data: {}
 mode: single
