@@ -1,0 +1,8 @@
+alias: Basement automatic lights
+description: ""
+use_blueprint:
+  path: homeassistant/motion_light.yaml
+  input:
+    motion_entity: binary_sensor.basement_motion_sensor_motion
+    light_target:
+      area_id: basement
