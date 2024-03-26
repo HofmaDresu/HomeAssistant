@@ -1,9 +1,34 @@
 alias: Office automatic lights
 description: ""
-use_blueprint:
-  path: homeassistant/motion_light.yaml
-  input:
-    motion_entity: binary_sensor.office_motion_sensor_motion
-    light_target:
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.office_motion_sensor_motion
+    to: "on"
+condition:
+  - condition: device
+    type: is_off
+    device_id: 53c67fc630ffb53184d225bbfc7c2fa8
+    entity_id: df93ec8a60392af9342a2076858609f2
+    domain: light
+action:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
       area_id: office
-    no_motion_wait: 60
+  - wait_for_trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.office_motion_sensor_motion
+        from: "on"
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
+mode: single
