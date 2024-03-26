@@ -1,8 +1,41 @@
 alias: Basement automatic lights
 description: ""
-use_blueprint:
-  path: homeassistant/motion_light.yaml
-  input:
-    motion_entity: binary_sensor.basement_motion_sensor_motion
-    light_target:
-      area_id: basement
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.basement_motion_sensor_motion
+    to: "on"
+condition:
+  - condition: and
+    conditions:
+      - condition: device
+        type: is_off
+        device_id: 7ee989242547eb89f3064d90902f0eb7
+        entity_id: bb00fcbf210a9d5ff50742987089da85
+        domain: light
+      - condition: sun
+        before: sunrise
+        after: sunset
+action:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+        - basement
+  - wait_for_trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.basement_motion_sensor_motion
+        from: "on"
+        for:
+          hours: 0
+          minutes: 5
+          seconds: 0
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+        - basement
+mode: single
