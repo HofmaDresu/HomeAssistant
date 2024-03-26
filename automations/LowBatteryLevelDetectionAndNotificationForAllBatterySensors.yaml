@@ -11,3 +11,6 @@ use_blueprint:
           title: Zigbee low battery
           message: "'The battery of the sensor(s) {{sensors}} is low.'"
     threshold: 20
+    exclude:
+      entity_id: []
+      device_id: 6dbdf144428b850689a68b1c6b7b19de
