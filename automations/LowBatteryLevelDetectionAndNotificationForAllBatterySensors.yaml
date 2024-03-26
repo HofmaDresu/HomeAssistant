@@ -1,0 +1,13 @@
+alias: Low battery level detection & notification for all battery sensors
+description: ""
+use_blueprint:
+  path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+  input:
+    day: 6
+    actions:
+      - service: notify.mobile_app_pixel_8
+        metadata: {}
+        data:
+          title: Zigbee low battery
+          message: "'The battery of the sensor(s) {{sensors}} is low.'"
+    threshold: 20
