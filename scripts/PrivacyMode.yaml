@@ -5,13 +5,10 @@ sequence:
         domain: alarm_control_panel
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_home
-        code: ""
-      - device_id: 7ee78be9a93e45574dd6dbf0c1be0437
-        domain: cover
-        entity_id: c26a39751784493f2c1fbcd8190e9dfd
-        type: close
-      - device_id: 6cfa343332d80013a9fde31bd07fc3e3
-        domain: cover
-        entity_id: a6c4b6f9865b3a59d121d3c4e1277563
-        type: close
+        code: "3971"
+      - service: cover.close_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.all_shades
 mode: single
