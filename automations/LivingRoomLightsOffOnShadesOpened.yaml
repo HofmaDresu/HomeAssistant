@@ -1,0 +1,28 @@
+alias: Living room lights off on shades opened
+description: ""
+trigger:
+  - platform: template
+    value_template: "  {{state_attr('cover.living_room_short_shades', 'current_position') | int == 100 }}"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  - platform: template
+    value_template: "  {{state_attr('cover.living_room_long_shades', 'current_position') | int == 100 }}"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+condition:
+  - condition: sun
+    before: sunset
+action:
+  - type: turn_off
+    device_id: 3760e1833184baf271de63cb70927def
+    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    domain: light
+  - type: turn_off
+    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
+    entity_id: b5d123c0b7fd2748264a524c8082d027
+    domain: light
+mode: single
