@@ -2,9 +2,48 @@ alias: Zarathustra
 sequence:
   - service: media_player.play_media
     target:
-      entity_id: media_player.main_floor_speakers
+      entity_id: media_player.living_room_home
     data:
       media_content_id: media-source://media_source/local/Zarathustra.mp3
       media_content_type: audio/mpeg
-    metadata: {}
+    metadata:
+      title: Zarathustra.mp3
+      thumbnail: null
+      media_class: music
+      children_media_class: null
+      navigateIds:
+        - {}
+        - media_content_type: app
+          media_content_id: media-source://media_source
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - parallel:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 18
+          milliseconds: 500
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.all_shades
+        data:
+          position: 25
+  - parallel:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 18
+          milliseconds: 700
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.all_shades
+        data:
+          position: 50
+  - service: cover.open_cover
+    target:
+      entity_id: cover.all_shades
+    data: {}
 mode: single
