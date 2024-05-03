@@ -57,9 +57,7 @@ action:
             entity_id: sensor.karb_temperature
             above: 10
         then:
-          - service: cover.open_cover
+          - service: script.zarathustra
             metadata: {}
             data: {}
-            target:
-              entity_id: cover.all_shades
 mode: single
