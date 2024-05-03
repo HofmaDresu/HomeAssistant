@@ -13,9 +13,6 @@ condition:
         device_id: 7ee989242547eb89f3064d90902f0eb7
         entity_id: bb00fcbf210a9d5ff50742987089da85
         domain: light
-      - condition: sun
-        before: sunrise
-        after: sunset
 action:
   - service: light.turn_on
     metadata: {}
