@@ -1,0 +1,15 @@
+alias: Work Mode
+sequence:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
+  - service: cover.open_cover
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+        - bedroom
+        - living_room
+mode: single
