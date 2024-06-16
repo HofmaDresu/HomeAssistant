@@ -1,0 +1,19 @@
+alias: Close all shades before sunruse
+description: ""
+trigger:
+  - platform: sun
+    event: sunrise
+    offset: "-2:00:00"
+condition:
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: cover.all_shades
+        state: closed
+action:
+  - service: cover.close_cover
+    metadata: {}
+    data: {}
+    target:
+      entity_id: cover.all_shades
+mode: single
