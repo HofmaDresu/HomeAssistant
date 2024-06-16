@@ -1,0 +1,100 @@
+alias: Protect from heat
+description: ""
+trigger:
+  - platform: numeric_state
+    entity_id:
+      - sensor.karb_heat_index
+    above: 89
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: cover.south_shades
+        state: open
+      - condition: state
+        entity_id: binary_sensor.bedroom_window_open_state
+        state: "on"
+  - condition: state
+    entity_id: person.hofmadresu
+    state: home
+action:
+  - alias: If shades and windows both open
+    if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.bedroom_window_open_state
+            state: "on"
+          - condition: state
+            entity_id: cover.all_shades
+            state: open
+    then:
+      - service: tts.cloud_say
+        metadata: {}
+        data:
+          cache: false
+          entity_id: media_player.living_room_home
+          message: >-
+            Heat index is very high, you should close windows. South shades will
+            close in 5 minutes
+      - service: notify.mobile_app_pixel_8
+        data:
+          title: Extreme high temperature
+          message: >-
+            Heat index is very high, you should close windows. South shades will
+            close in 5 minutes
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - service: cover.close_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.south_shades
+  - alias: If only shades open
+    if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: cover.all_shades
+            state: open
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.bedroom_window_open_state
+                state: "on"
+            alias: Windows not open
+    then:
+      - service: cover.close_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.south_shades
+  - alias: If only windows open
+    if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.bedroom_window_open_state
+            state: "on"
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: cover.all_shades
+                state: open
+            alias: Shades not open
+    then:
+      - service: notify.persistent_notification
+        metadata: {}
+        data:
+          title: Extreme high temperature
+          message: Heat index is very high, you should close windows
+      - service: tts.cloud_say
+        metadata: {}
+        data:
+          cache: false
+          entity_id: media_player.living_room_home
+          message: Heat index is very high, you should close windows
+mode: single
