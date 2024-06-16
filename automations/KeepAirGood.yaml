@@ -50,4 +50,4 @@ action:
       fan_mode: "off"
     target:
       device_id: 695ac42995783206896bb51e715e03e1
-mode: single
+mode: restart
