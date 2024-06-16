@@ -2,7 +2,7 @@ alias: House temp
 description: ""
 trigger:
   - platform: time_pattern
-    hours: "1"
+    hours: /1
   - platform: state
     entity_id:
       - input_boolean.sick_mode
@@ -26,6 +26,9 @@ condition:
             type: is_preset_mode
             preset_mode: eco
 action:
-  - service: climate.set_temperature
+  - service: script.turn_on
+    metadata: {}
     data: {}
+    target:
+      entity_id: script.set_temp_based_on_mode
 mode: single
