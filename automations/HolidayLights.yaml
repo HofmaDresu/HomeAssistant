@@ -1,0 +1,99 @@
+alias: Holiday lights
+description: ""
+trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+condition: []
+action:
+  - if:
+      - condition: template
+        value_template: "{{ now().month == 7 and now().day == 4 }}"
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: murica
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
+    alias: turn on murica if US-type holiday
+  - if:
+      - condition: template
+        value_template: "{{ now().month == 6 and now().day == 19 }}"
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: Juneteenth
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
+    alias: Juneteenth
+  - alias: Birthday
+    if:
+      - condition: template
+        value_template: "{{ now().month == 12 and now().day == 12 }}"
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: Birthday
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
+  - alias: Christmas
+    if:
+      - condition: template
+        value_template: "{{ now().month == 12 and now().day != 12 }}"
+    then:
+      - alias: Christmas on 0/3
+        if:
+          - condition: template
+            value_template: "{{ now().day % 3 == 0 }}"
+        then:
+          - service: light.turn_on
+            metadata: {}
+            data:
+              effect: Christmas
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+      - alias: Christmas Gift on 1/3
+        if:
+          - condition: template
+            value_template: "{{ now().day % 3 == 1 }}"
+        then:
+          - service: light.turn_on
+            metadata: {}
+            data:
+              effect: Christmas Gift
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+      - alias: Christmas Tree on 2/3
+        if:
+          - condition: template
+            value_template: "{{ now().day % 3 == 2 }}"
+        then:
+          - service: light.turn_on
+            metadata: {}
+            data:
+              effect: Christmas Tree
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+  - wait_for_trigger:
+      - platform: time
+        at: "23:59:59"
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 957afb69a90840abaf62c497bf3c4185
+  - alias: 6/16 test
+    if:
+      - condition: template
+        value_template: "{{ now().month == 6 and now().day == 16 }}"
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: Go Blue
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
+mode: single
