@@ -1,10 +1,8 @@
 alias: House temp
 description: ""
 trigger:
-  - platform: time
-    at: "07:00:00"
-  - platform: time
-    at: "22:00:00"
+  - platform: time_pattern
+    hours: "1"
   - platform: state
     entity_id:
       - input_boolean.sick_mode
@@ -28,43 +26,6 @@ condition:
             type: is_preset_mode
             preset_mode: eco
 action:
-  - variables:
-      temps:
-        heat:
-          day:
-            normal: 65
-            pet: 68
-            sick: 68
-          night:
-            normal: 60
-            pet: 65
-            sick: 65
-        cool:
-          day:
-            normal: 80
-            pet: 75
-            sick: 75
-          night:
-            normal: 75
-            pet: 75
-            sick: 75
-      petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
-      sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
-      dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
-      heatCoolMode: "{{states('climate.family_room')}}"
-      tempMode: "{{petMode or sickMode or 'normal'}}"
-      targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
   - service: climate.set_temperature
-    target:
-      entity_id: climate.family_room
-    data:
-      temperature: "{{targetTemp}}"
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 0
-      milliseconds: 0
-  - service: script.set_thermostat_mode_based_on_outdoor_temp
-    metadata: {}
     data: {}
 mode: single
