@@ -4,9 +4,14 @@ trigger:
   - platform: time
     at: "11:00:00"
 condition:
-  - condition: state
-    entity_id: input_boolean.vacuum_circuitbreaker
-    state: "off"
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.vacuum_circuitbreaker
+        state: "off"
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: "off"
 action:
   - if:
       - condition: time
