@@ -36,8 +36,4 @@ action:
     entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
     type: set_preset_mode
     preset_mode: eco
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.vacuum_circuitbreaker
-    data: {}
 mode: single
