@@ -15,6 +15,10 @@ mqtt:
       state_topic: "event/metering/summation/minute"
       unit_of_measurement: "W"
       value_template: "{{ value_json.value | round (0) }}"
+    - name: "Instant Energy Use"
+      state_topic: "event/metering/instantaneous_demand"
+      unit_of_measurement: "W"
+      value_template: "{{ value_json.demand | int }}"
 
 sensor:
   - platform: integration
@@ -27,3 +31,41 @@ utility_meter:
   energy_daily:
     source: sensor.energy_spent
     cycle: daily
+
+template:
+  - trigger:
+      - platform: time
+        at: "00:01:00"
+      - platform: homeassistant
+        event: start
+    action:
+      - service: calendar.get_events
+        data:
+          start_date_time: "{{ today_at() }}"
+          end_date_time: "{{ today_at('23:59:00') }}"
+        target:
+          entity_id: calendar.birthdays
+        response_variable: agenda
+    binary_sensor:
+      - name: Today Has Birthdays
+        state: |-
+          {% set search_term = "Birthday" %}
+          {{ agenda['calendar.birthdays'].events 
+          | selectattr('summary', 'search', search_term) | list | count > 0 }}
+  - trigger:
+      - platform: time
+        at: "00:01:00"
+      - platform: homeassistant
+        event: start
+    action:
+      - service: calendar.get_events
+        data:
+          start_date_time: "{{ today_at() }}"
+          end_date_time: "{{ today_at('23:59:00') }}"
+        target:
+          entity_id: calendar.united_states_mi
+        response_variable: agenda
+    sensor:
+      - name: Today's Holiday
+        state: |-
+          {{ agenda['calendar.united_states_mi'].events[0].summary if agenda['calendar.united_states_mi'].events else 'none' }}
