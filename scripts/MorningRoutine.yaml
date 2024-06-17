@@ -113,7 +113,7 @@ sequence:
         target:
           device_id: 9fc03fd71134e36fcd2978f851022652
         data:
-          volume_level: 0.6
+          volume_level: 0.5
       - service: media_player.play_media
         target:
           entity_id: media_player.bedroom_speaker
@@ -153,7 +153,7 @@ sequence:
         target:
           device_id: 9fc03fd71134e36fcd2978f851022652
         data:
-          volume_level: 0.6
+          volume_level: 0.5
       - service: media_player.play_media
         target:
           entity_id: media_player.bedroom_speaker
