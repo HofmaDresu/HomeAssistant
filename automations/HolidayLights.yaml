@@ -6,9 +6,22 @@ trigger:
     offset: 0
 condition: []
 action:
-  - if:
-      - condition: template
-        value_template: "{{ now().month == 7 and now().day == 4 }}"
+  - alias: turn on murica if US-type holiday
+    if:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: sensor.today_s_holiday
+            state: Independence Day
+          - condition: state
+            entity_id: sensor.today_s_holiday
+            state: Memorial Day
+          - condition: state
+            entity_id: sensor.today_s_holiday
+            state: Labor Day
+          - condition: state
+            entity_id: sensor.today_s_holiday
+            state: Veterans Day
     then:
       - service: light.turn_on
         metadata: {}
@@ -16,27 +29,16 @@ action:
           effect: murica
         target:
           device_id: 957afb69a90840abaf62c497bf3c4185
-    alias: turn on murica if US-type holiday
-  - if:
-      - condition: template
-        value_template: "{{ now().month == 6 and now().day == 19 }}"
+  - alias: Juneteenth
+    if:
+      - condition: state
+        entity_id: sensor.today_s_holiday
+        state: Juneteenth National Independence Day
     then:
       - service: light.turn_on
         metadata: {}
         data:
           effect: Juneteenth
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
-    alias: Juneteenth
-  - alias: Birthday
-    if:
-      - condition: template
-        value_template: "{{ now().month == 12 and now().day == 12 }}"
-    then:
-      - service: light.turn_on
-        metadata: {}
-        data:
-          effect: Birthday
         target:
           device_id: 957afb69a90840abaf62c497bf3c4185
   - alias: Christmas
@@ -77,6 +79,18 @@ action:
               effect: Christmas Tree
             target:
               device_id: 957afb69a90840abaf62c497bf3c4185
+  - alias: Birthday
+    if:
+      - condition: state
+        entity_id: binary_sensor.today_has_birthdays
+        state: "on"
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: Birthday
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
   - wait_for_trigger:
       - platform: time
         at: "23:59:59"
@@ -85,15 +99,4 @@ action:
     data: {}
     target:
       device_id: 957afb69a90840abaf62c497bf3c4185
-  - alias: 6/16 test
-    if:
-      - condition: template
-        value_template: "{{ now().month == 6 and now().day == 16 }}"
-    then:
-      - service: light.turn_on
-        metadata: {}
-        data:
-          effect: Go Blue
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
 mode: single
