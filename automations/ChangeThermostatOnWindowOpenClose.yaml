@@ -30,7 +30,6 @@ action:
           entity_id: climate.family_room
         alias: Turn off thermostat
     else:
-      - service: script.set_thermostat_mode_based_on_outdoor_temp
-        metadata: {}
+      - service: script.set_temp_based_on_mode
         data: {}
 mode: single
