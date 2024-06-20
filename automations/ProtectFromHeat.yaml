@@ -7,7 +7,15 @@ trigger:
     above: 89
   - platform: numeric_state
     entity_id:
-      - sensor.karb_temperature
+      - sensor.temperature_forecast_next_hour
+    above: 89
+  - platform: numeric_state
+    entity_id:
+      - sensor.family_room_temperature
+    above: 89
+  - platform: numeric_state
+    entity_id:
+      - sensor.awair_element_3403_temperature
     above: 89
 condition:
   - condition: and
