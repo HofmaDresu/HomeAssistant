@@ -12,25 +12,15 @@ scene: !include scenes.yaml
 mqtt:
   sensor:
     - name: "DTE Energy Bridge"
+      unique_id: dte_energy_bridge
       state_topic: "event/metering/summation/minute"
       unit_of_measurement: "W"
       value_template: "{{ value_json.value | round (0) }}"
     - name: "Instant Energy Use"
+      unique_id: instant_energy_use
       state_topic: "event/metering/instantaneous_demand"
       unit_of_measurement: "W"
       value_template: "{{ value_json.demand | int }}"
-
-sensor:
-  - platform: integration
-    source: sensor.dte_energy_bridge
-    name: energy_spent
-    unit_prefix: k
-    round: 2
-
-utility_meter:
-  energy_daily:
-    source: sensor.energy_spent
-    cycle: daily
 
 template:
   - trigger:
