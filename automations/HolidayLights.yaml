@@ -3,7 +3,7 @@ description: ""
 trigger:
   - platform: sun
     event: sunset
-    offset: 0
+    offset: "-01:00:00"
 condition: []
 action:
   - alias: turn on murica if US-type holiday
