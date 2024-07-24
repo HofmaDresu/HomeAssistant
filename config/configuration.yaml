@@ -114,9 +114,3 @@ switch:
       - light.living_2
       - light.basement_light_1
       - light.basement_light_2
-
-logger:
-  logs:
-    custom_components.circadian_lighting: debug
-    custom_components.circadian_lighting.sensor: debug
-    custom_components.circadian_lighting.switch: debug
