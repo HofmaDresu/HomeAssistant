@@ -91,6 +91,20 @@ action:
           effect: Birthday
         target:
           device_id: 957afb69a90840abaf62c497bf3c4185
+  - alias: Party
+    if:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: sensor.today_s_events
+            state: Beerfest
+    then:
+      - service: light.turn_on
+        metadata: {}
+        data:
+          effect: Party
+        target:
+          device_id: 957afb69a90840abaf62c497bf3c4185
   - wait_for_trigger:
       - platform: time
         at: "23:59:59"
