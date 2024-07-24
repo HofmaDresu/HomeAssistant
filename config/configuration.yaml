@@ -98,6 +98,7 @@ template:
           {{ hourly['weather.karb_daynight'].forecast[0].temperature }}
         unit_of_measurement: °F
 
+# https://github.com/claytonjn/hass-circadian_lighting
 circadian_lighting:
   max_colortemp: 6500
   min_colortemp: 2500
