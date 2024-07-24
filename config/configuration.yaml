@@ -102,11 +102,9 @@ circadian_lighting:
   max_colortemp: 6500
   min_colortemp: 2500
   sunset_offset: -01:00:00
-  transition: 3
 
 switch:
   - platform: circadian_lighting
-    id: whole_house_circadian_switch_58723498
     name: "Whole House Circadian Switch"
     lights_ct:
       - light.office_1
@@ -114,5 +112,11 @@ switch:
       - light.office_backlight
       - light.living_1
       - light.living_2
-    min_brightness: 5
-    max_brightness: 100
+      - light.basement_light_1
+      - light.basement_light_2
+
+logger:
+  logs:
+    custom_components.circadian_lighting: debug
+    custom_components.circadian_lighting.sensor: debug
+    custom_components.circadian_lighting.switch: debug
