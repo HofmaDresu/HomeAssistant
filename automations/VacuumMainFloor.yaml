@@ -32,6 +32,7 @@ action:
         target:
           entity_id: vacuum.roborock_s7_maxv
         data: {}
+      - stop: ""
   - if:
       - condition: time
         weekday:
@@ -51,10 +52,16 @@ action:
         target:
           entity_id: vacuum.roborock_s7_maxv
         data: {}
+      - stop: ""
   - if:
-      - condition: time
-        weekday:
-          - fri
+      - condition: or
+        conditions:
+          - condition: time
+            weekday:
+              - fri
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
     then:
       - service: vacuum.set_fan_speed
         target:
