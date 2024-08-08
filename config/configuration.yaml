@@ -102,7 +102,7 @@ template:
 circadian_lighting:
   max_colortemp: 6500
   min_colortemp: 2500
-  sunset_offset: -01:00:00
+  sunset_offset: -02:00:00
 
 switch:
   - platform: circadian_lighting
