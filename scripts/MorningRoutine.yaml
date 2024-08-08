@@ -89,7 +89,7 @@ sequence:
   - service: alarm_control_panel.alarm_disarm
     metadata: {}
     data:
-      code: ""
+      code: "3971"
     target:
       device_id: 12991409e93a14125e39db65a3b740dc
   - service: input_boolean.turn_off
@@ -138,6 +138,17 @@ sequence:
         device_id: d4b4dce9f0f3fcdf3e769a70ff259468
         entity_id: 89d5346579b899623f4d4f45014c604a
         domain: switch
+      - if:
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
+        then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              area_id: living_room
+        alias: Turn on living room lights if Pet Mode
       - delay:
           hours: 0
           minutes: 0
@@ -178,6 +189,17 @@ sequence:
         device_id: d4b4dce9f0f3fcdf3e769a70ff259468
         entity_id: 89d5346579b899623f4d4f45014c604a
         domain: switch
+      - if:
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
+        then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              area_id: living_room
+        alias: Turn on living room lights if Pet Mode
       - service: media_player.play_media
         target:
           entity_id: media_player.bedroom_speaker
