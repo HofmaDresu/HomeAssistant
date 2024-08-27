@@ -4,7 +4,7 @@ sequence:
     if:
       - condition: numeric_state
         entity_id: sensor.temperature_forecast_next_hour
-        above: 70
+        above: 60
     then:
       - service: climate.set_hvac_mode
         metadata: {}
