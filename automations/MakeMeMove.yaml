@@ -1,0 +1,102 @@
+alias: Make Me Move
+description: ""
+trigger:
+  - platform: time_pattern
+    minutes: "30"
+  - platform: time_pattern
+    minutes: "0"
+condition:
+  - condition: time
+    after: "09:00:00"
+    before: "17:00:00"
+    weekday:
+      - fri
+      - thu
+      - wed
+      - tue
+      - mon
+  - condition: or
+    conditions:
+      - condition: zone
+        entity_id: person.hofmadresu
+        zone: zone.home
+action:
+  - variables:
+      noEquipmentExercises:
+        - name: Pushups
+          unit: reps
+          count: "10"
+        - name: Situps
+          unit: reps
+          count: "10"
+        - name: Leg Lifts
+          unit: reps
+          count: "10"
+        - name: Squats
+          unit: reps
+          count: "10"
+        - name: Planks
+          unit: seconds
+          count: "30"
+        - name: Wall Sits
+          unit: seconds
+          count: "10"
+        - name: Vault Ups
+          unit: reps
+          count: "10"
+        - name: Superman Pushups
+          unit: reps
+          count: "5"
+        - name: Lunges
+          unit: reps
+          count: "5"
+      homeEquipmentExercises:
+        - name: Kettlebell Swings
+          unit: reps
+          count: "10"
+        - name: Kettlebell Deadlifts
+          unit: reps
+          count: "5"
+        - name: Kettlebell Circles
+          unit: reps
+          count: "2"
+        - name: Pullups
+          unit: reps
+          count: "10"
+        - name: Curls
+          unit: reps
+          count: "10"
+        - name: Triceps Lifts
+          unit: reps
+          count: "10"
+        - name: Dumbell Press
+          unit: reps
+          count: "10"
+        - name: Swimmer's Presses
+          unit: reps
+          count: "5"
+        - name: One Footed Swimmer's Presses
+          unit: reps
+          count: "2"
+      exercises: "{{noEquipmentExercises + homeEquipmentExercises}}"
+      randMax: "{{exercises|length}}"
+      exerciseIndex: "{{range(0, randMax)|random}}"
+      repsMessage: >-
+        Do {{exercises[exerciseIndex].count}} reps of
+        {{exercises[exerciseIndex].name}}
+      secondsMessage: >-
+        Do {{exercises[exerciseIndex].name}} for
+        {{exercises[exerciseIndex].count}} seconds
+      message: >-
+        {{repsMessage if exercises[exerciseIndex].unit == 'reps' else
+        secondsMessage}}
+  - service: notify.mobile_app_pixel_8
+    data:
+      title: Time To Move
+      message: "{{message}}"
+      data:
+        channel: Make Me Move Priority
+        priority: high
+        ttl: 0
+        notification_icon: mdi:weight-lifter
+mode: single
