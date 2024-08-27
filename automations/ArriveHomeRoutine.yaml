@@ -1,11 +1,10 @@
 alias: "Arrive home routine "
 description: ""
 trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.hofmadresu_pixel_8_wireless_connected
-    from: "off"
-    to: "on"
+  - platform: zone
+    entity_id: person.hofmadresu
+    zone: zone.home
+    event: enter
 condition:
   - condition: not
     conditions:
