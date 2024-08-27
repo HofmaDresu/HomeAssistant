@@ -89,7 +89,7 @@ sequence:
   - service: alarm_control_panel.alarm_disarm
     metadata: {}
     data:
-      code: "3971"
+      code: ""
     target:
       device_id: 12991409e93a14125e39db65a3b740dc
   - service: input_boolean.turn_off
@@ -99,7 +99,7 @@ sequence:
   - alias: Stop if already awake
     if:
       - condition: state
-        entity_id: sensor.pixel_8_battery_state
+        entity_id: sensor.matt_s_phone_pixel_8_battery_state_2
         state: discharging
     then:
       - stop: Already awake
