@@ -9,18 +9,11 @@ condition:
       - condition: state
         entity_id: input_boolean.vacation_mode_circuitbreaker
         state: "off"
-      - condition: or
+      - condition: not
         conditions:
-          - condition: device
-            device_id: 6dbdf144428b850689a68b1c6b7b19de
-            domain: device_tracker
-            entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
-            type: is_not_home
-          - type: is_not_connected
-            condition: device
-            device_id: 73cf62095f63eb5a9abc0ef8d0494a64
-            entity_id: 25fca37d1879ff89c99e5dace6790ba9
-            domain: binary_sensor
+          - condition: zone
+            entity_id: person.hofmadresu
+            zone: zone.home
 action:
   - service: input_boolean.turn_on
     metadata: {}
