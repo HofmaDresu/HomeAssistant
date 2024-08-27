@@ -3,7 +3,7 @@ description: ""
 trigger:
   - platform: state
     entity_id:
-      - sensor.pixel_8_battery_state
+      - sensor.matt_s_phone_pixel_8_battery_state_2
     to: charging
     from: null
 condition:
@@ -41,18 +41,9 @@ condition:
               - tue
               - mon
               - sun
-      - condition: or
-        conditions:
-          - condition: device
-            device_id: 6dbdf144428b850689a68b1c6b7b19de
-            domain: device_tracker
-            entity_id: d366159c7cf8e5ec7b73b94ca8db9a81
-            type: is_home
-          - type: is_connected
-            condition: device
-            device_id: 73cf62095f63eb5a9abc0ef8d0494a64
-            entity_id: 25fca37d1879ff89c99e5dace6790ba9
-            domain: binary_sensor
+      - condition: zone
+        entity_id: person.hofmadresu
+        zone: zone.home
 action:
   - parallel:
       - if:
