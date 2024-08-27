@@ -99,4 +99,6 @@ action:
         priority: high
         ttl: 0
         notification_icon: mdi:weight-lifter
+        icon_url: "https://raw.githubusercontent.com/HofmaDresu/HomeAssistant/main/icons/MakeMeMoveIcon.png"
+        timeout: "{{30 * 60}}" # 30 minutes
 mode: single
