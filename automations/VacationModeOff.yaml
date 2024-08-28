@@ -18,6 +18,11 @@ trigger:
     entity_id: person.hofmadresu
     zone: zone.us_23_96
     event: enter
+  - platform: state
+    entity_id:
+      - input_boolean.vacation_mode
+    from: "on"
+    to: "off"
 condition:
   - condition: state
     entity_id: input_boolean.vacation_mode
