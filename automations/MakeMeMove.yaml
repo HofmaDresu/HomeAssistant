@@ -20,16 +20,19 @@ condition:
       - condition: zone
         entity_id: person.hofmadresu
         zone: zone.home
+      - condition: zone
+        entity_id: person.hofmadresu
+        zone: zone.aunties
+      - condition: zone
+        entity_id: person.hofmadresu
+        zone: zone.parents
 action:
   - variables:
-      noEquipmentExercises:
+      anywhereExercises:
         - name: Pushups
           unit: reps
           count: "10"
         - name: Situps
-          unit: reps
-          count: "10"
-        - name: Leg Lifts
           unit: reps
           count: "10"
         - name: Squats
@@ -38,16 +41,20 @@ action:
         - name: Planks
           unit: seconds
           count: "30"
+        - name: Lunges
+          unit: reps
+          count: "5"
+      nonOfficeExercises:
         - name: Wall Sits
           unit: seconds
           count: "10"
         - name: Vault Ups
           unit: reps
           count: "10"
-        - name: Superman Pushups
+        - name: Leg Lifts
           unit: reps
-          count: "5"
-        - name: Lunges
+          count: "10"
+        - name: Superman Pushups
           unit: reps
           count: "5"
       homeEquipmentExercises:
@@ -60,6 +67,9 @@ action:
         - name: Kettlebell Circles
           unit: reps
           count: "2"
+        - name: Kettlebell Good Mornings
+          unit: reps
+          count: "5"
         - name: Pullups
           unit: reps
           count: "10"
@@ -78,17 +88,25 @@ action:
         - name: One Footed Swimmer's Presses
           unit: reps
           count: "2"
-      exercises: "{{noEquipmentExercises + homeEquipmentExercises}}"
-      randMax: "{{exercises|length}}"
+      isHome: "{{'person.hofmadresu' in state_attr('zone.home', 'persons')}}"
+      isAtAunties: "{{'person.hofmadresu' in state_attr('zone.aunties', 'persons')}}"
+      isAtParents: "{{'person.hofmadresu' in state_attr('zone.parents', 'persons')}}"
+      availableNonOfficeExercises: "{{nonOfficeExercises if isHome or isAtAunties or isAtParents else []}}"
+      availableHomeEquipmentExercises: "{{homeEquipmentExercises if isHome else []}}"
+      exercises: >-
+        {{anywhereExercises + availableNonOfficeExercises +
+        availableHomeEquipmentExercises}}
+      activeExercises: "{{exercises}}"
+      randMax: "{{activeExercises|length}}"
       exerciseIndex: "{{range(0, randMax)|random}}"
       repsMessage: >-
-        Do {{exercises[exerciseIndex].count}} reps of
-        {{exercises[exerciseIndex].name}}
+        Do {{activeExercises[exerciseIndex].count}}
+        {{activeExercises[exerciseIndex].name}}
       secondsMessage: >-
-        Do {{exercises[exerciseIndex].name}} for
-        {{exercises[exerciseIndex].count}} seconds
+        Do {{activeExercises[exerciseIndex].name}} for
+        {{activeExercises[exerciseIndex].count}} seconds
       message: >-
-        {{repsMessage if exercises[exerciseIndex].unit == 'reps' else
+        {{repsMessage if activeExercises[exerciseIndex].unit == 'reps' else
         secondsMessage}}
   - service: notify.mobile_app_pixel_8
     data:
@@ -99,6 +117,7 @@ action:
         priority: high
         ttl: 0
         notification_icon: mdi:weight-lifter
-        icon_url: "https://raw.githubusercontent.com/HofmaDresu/HomeAssistant/main/icons/MakeMeMoveIcon.png"
-        timeout: "{{30 * 60}}" # 30 minutes
+        icon_url: >-
+          https://raw.githubusercontent.com/HofmaDresu/HomeAssistant/main/icons/MakeMeMoveIcon.png
+        timeout: "{{30 * 60}}"
 mode: single
