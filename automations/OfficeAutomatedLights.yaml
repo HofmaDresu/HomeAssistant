@@ -8,15 +8,20 @@ trigger:
 condition:
   - condition: device
     type: is_off
-    device_id: 53c67fc630ffb53184d225bbfc7c2fa8
-    entity_id: df93ec8a60392af9342a2076858609f2
+    device_id: bad671e7062197c2244063c9ab807b41
+    entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
+    domain: light
+  - condition: device
+    type: is_off
+    device_id: 1155e017f2b58ecdf76d69807001a0b9
+    entity_id: 525207ce60b068d636526e83f993b12a
     domain: light
 action:
-  - service: light.turn_on
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       area_id: office
+    action: light.turn_on
   - wait_for_trigger:
       - platform: state
         entity_id:
@@ -26,9 +31,9 @@ action:
           hours: 0
           minutes: 1
           seconds: 0
-  - service: light.turn_off
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       area_id: office
+    action: light.turn_off
 mode: single
