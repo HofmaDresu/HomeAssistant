@@ -1,5 +1,9 @@
 alias: Leaving Home
 sequence:
+  - device_id: b8e65997f7e92ed22468ec09be72864e
+    domain: lock
+    entity_id: fdc40a92e9d88a64b7716976c4c8755d
+    type: unlock
   - type: turn_off
     device_id: 75926ca61b1c20b4244e6bbb18afb0cb
     entity_id: 12558812288e7e55b69faefb3fec3371
@@ -25,14 +29,18 @@ sequence:
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - service: scene.turn_on
-    target:
+  - device_id: b8e65997f7e92ed22468ec09be72864e
+    domain: lock
+    entity_id: fdc40a92e9d88a64b7716976c4c8755d
+    type: lock
+  - target:
       entity_id: scene.indoor_power_off
     metadata: {}
-  - service: cover.close_cover
-    target:
+    action: scene.turn_on
+  - target:
       entity_id: cover.all_shades
     data: {}
+    action: cover.close_cover
   - alias: Wait until I leave or 5 min pass
     wait_for_trigger:
       - platform: zone
@@ -41,18 +49,18 @@ sequence:
         event: leave
       - type: not_connected
         platform: device
-        device_id: 73cf62095f63eb5a9abc0ef8d0494a64
-        entity_id: 25fca37d1879ff89c99e5dace6790ba9
+        device_id: b2482cd7e929c9aa71f6108b82362aa3
+        entity_id: acaed035412bb4c8d648fb3d7bc72a5e
         domain: binary_sensor
     timeout:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
-  - service: scene.turn_on
-    target:
+  - target:
       entity_id: scene.power_off
     metadata: {}
+    action: scene.turn_on
   - type: turn_on
     device_id: 75926ca61b1c20b4244e6bbb18afb0cb
     entity_id: 12558812288e7e55b69faefb3fec3371
