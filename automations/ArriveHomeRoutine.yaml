@@ -17,11 +17,16 @@ condition:
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: is_armed_away
 action:
+  - metadata: {}
+    data:
+      message: The house is prepped for you
+      title: Welcome home
+    action: notify.mobile_app_pixel_8
   - device_id: 12991409e93a14125e39db65a3b740dc
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
-    code: ""
+    code: "3971"
   - device_id: b8e65997f7e92ed22468ec09be72864e
     domain: lock
     entity_id: fdc40a92e9d88a64b7716976c4c8755d
