@@ -22,3 +22,4 @@ sequence:
             seconds: 10
             milliseconds: 0
 description: ""
+icon: mdi:door-closed-lock
