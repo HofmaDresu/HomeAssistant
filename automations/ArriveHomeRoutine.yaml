@@ -10,6 +10,7 @@ trigger:
     device_id: b2482cd7e929c9aa71f6108b82362aa3
     entity_id: acaed035412bb4c8d648fb3d7bc72a5e
     domain: binary_sensor
+    enabled: false
 condition:
   - condition: device
     device_id: 12991409e93a14125e39db65a3b740dc
@@ -27,10 +28,9 @@ action:
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
     code: "3971"
-  - device_id: b8e65997f7e92ed22468ec09be72864e
-    domain: lock
-    entity_id: fdc40a92e9d88a64b7716976c4c8755d
-    type: unlock
+  - action: script.unlock_doors
+    metadata: {}
+    data: {}
   - alias: Lights on if dark
     if:
       - condition: sun
