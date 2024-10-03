@@ -50,6 +50,9 @@ action:
           - condition: template
             value_template: "{{true}}"
         then:
+          - action: script.lock_doors
+            metadata: {}
+            data: {}
           - device_id: 12991409e93a14125e39db65a3b740dc
             domain: alarm_control_panel
             entity_id: ed8fc83278462fc5ba4f6de76da799ad
@@ -60,10 +63,10 @@ action:
               minutes: 1
               seconds: 0
               milliseconds: 0
-          - service: scene.turn_on
-            target:
+          - target:
               entity_id: scene.power_off
             metadata: {}
-      - service: script.morning_routine
-        data: {}
+            action: scene.turn_on
+      - data: {}
+        action: script.morning_routine
 mode: single
