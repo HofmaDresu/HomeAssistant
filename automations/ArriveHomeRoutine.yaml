@@ -27,10 +27,12 @@ action:
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
-    code: "3971"
-  - action: script.unlock_doors
+    code: ""
+  - action: script.turn_on
     metadata: {}
     data: {}
+    target:
+      entity_id: script.unlock_doors
   - alias: Lights on if dark
     if:
       - condition: sun
