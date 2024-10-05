@@ -1,0 +1,21 @@
+alias: Holiday lights morning
+description: ""
+trigger:
+  - platform: sun
+    event: sunrise
+    offset: "-01:00:00"
+condition: []
+action:
+  - action: script.run_holiday_lights
+    metadata: {}
+    data: {}
+  - wait_for_trigger:
+      - platform: sun
+        event: sunrise
+        offset: "01:00:00"
+  - metadata: {}
+    data: {}
+    target:
+      device_id: 957afb69a90840abaf62c497bf3c4185
+    action: light.turn_off
+mode: single
