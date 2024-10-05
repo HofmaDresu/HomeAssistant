@@ -50,9 +50,11 @@ action:
           - condition: template
             value_template: "{{true}}"
         then:
-          - action: script.lock_doors
+          - action: script.turn_on
             metadata: {}
             data: {}
+            target:
+              entity_id: script.lock_doors
           - device_id: 12991409e93a14125e39db65a3b740dc
             domain: alarm_control_panel
             entity_id: ed8fc83278462fc5ba4f6de76da799ad
