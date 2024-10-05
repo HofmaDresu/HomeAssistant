@@ -29,9 +29,6 @@ sequence:
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - action: script.lock_doors
-    metadata: {}
-    data: {}
   - target:
       entity_id: scene.indoor_power_off
     metadata: {}
@@ -40,6 +37,11 @@ sequence:
       entity_id: cover.all_shades
     data: {}
     action: cover.close_cover
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.lock_doors
   - alias: Wait until I leave or 5 min pass
     wait_for_trigger:
       - platform: zone
