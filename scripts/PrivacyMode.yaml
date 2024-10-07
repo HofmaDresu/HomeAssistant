@@ -5,10 +5,15 @@ sequence:
         domain: alarm_control_panel
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_home
-        code: "3971"
-      - service: cover.close_cover
-        metadata: {}
+        code: "{{!secret alarm_code}}"
+      - metadata: {}
         data: {}
         target:
           entity_id: cover.all_shades
+        action: cover.close_cover
+      - action: script.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: script.lock_doors
 mode: single
