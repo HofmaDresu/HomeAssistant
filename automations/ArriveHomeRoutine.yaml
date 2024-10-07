@@ -67,7 +67,7 @@ action:
     else:
       - if:
           - condition: numeric_state
-            entity_id: sensor.karb_temperature
+            entity_id: sensor.openweathermap_temperature
             above: 10
         then:
           - metadata: {}
