@@ -59,7 +59,7 @@ action:
             domain: alarm_control_panel
             entity_id: ed8fc83278462fc5ba4f6de76da799ad
             type: arm_home
-            code: ""
+            code: "{{!secret alarm_code}}"
           - delay:
               hours: 0
               minutes: 1
