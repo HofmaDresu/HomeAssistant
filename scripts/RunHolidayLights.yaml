@@ -150,10 +150,15 @@ sequence:
             target:
               device_id: 957afb69a90840abaf62c497bf3c4185
             action: light.turn_on
-      - if:
-          - condition: state
-            entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
-            state: "on"
+      - alias: My Halloween on 31st if home
+        if:
+          - condition: and
+            conditions:
+              - condition: template
+                value_template: "{{ now().day == 31 }}"
+              - condition: state
+                entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
+                state: "on"
         then:
           - metadata: {}
             data:
@@ -161,6 +166,5 @@ sequence:
             target:
               device_id: 957afb69a90840abaf62c497bf3c4185
             action: light.turn_on
-        alias: My Halloween on 31st if home
 description: ""
 icon: mdi:string-lights
