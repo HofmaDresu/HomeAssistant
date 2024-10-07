@@ -106,65 +106,66 @@ sequence:
           - condition: template
             value_template: "{{ now().month == 10 }}"
     then:
-      - alias: Halloween on 0/4
-        if:
-          - condition: template
-            value_template: "{{ now().day % 4 == 0 }}"
-        then:
-          - metadata: {}
-            data:
-              effect: Halloween
-            target:
-              device_id: 957afb69a90840abaf62c497bf3c4185
-            action: light.turn_on
-      - alias: Halloween B on 1/4
-        if:
-          - condition: template
-            value_template: "{{ now().day % 4 == 1 }}"
-        then:
-          - metadata: {}
-            data:
-              effect: Halloween B
-            target:
-              device_id: 957afb69a90840abaf62c497bf3c4185
-            action: light.turn_on
-      - alias: Halloween C on 2/4
-        if:
-          - condition: template
-            value_template: "{{ now().day % 4 == 2 }}"
-        then:
-          - metadata: {}
-            data:
-              effect: Halloween C
-            target:
-              device_id: 957afb69a90840abaf62c497bf3c4185
-            action: light.turn_on
-      - alias: Halloween D on 3/4
-        if:
-          - condition: template
-            value_template: "{{ now().day % 4 == 3 }}"
-        then:
-          - metadata: {}
-            data:
-              effect: Halloween D
-            target:
-              device_id: 957afb69a90840abaf62c497bf3c4185
-            action: light.turn_on
-      - alias: My Halloween on 31st if home
-        if:
-          - condition: and
-            conditions:
+      - choose:
+          - conditions:
               - condition: template
                 value_template: "{{ now().day == 31 }}"
-              - condition: state
-                entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
-                state: "on"
-        then:
-          - metadata: {}
-            data:
-              effect: My Halloween
-            target:
-              device_id: 957afb69a90840abaf62c497bf3c4185
-            action: light.turn_on
+            sequence:
+              - if:
+                  - condition: state
+                    entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
+                    state: "on"
+                then:
+                  - metadata: {}
+                    data:
+                      effect: My Halloween
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+            alias: Halloween on 31st if home
+          - conditions:
+              - condition: template
+                value_template: "{{ now().day % 4 == 0 }}"
+            sequence:
+              - metadata: {}
+                data:
+                  effect: Halloween
+                target:
+                  device_id: 957afb69a90840abaf62c497bf3c4185
+                action: light.turn_on
+            alias: Halloween on 0/4
+          - conditions:
+              - condition: template
+                value_template: "{{ now().day % 4 == 1 }}"
+            sequence:
+              - metadata: {}
+                data:
+                  effect: Halloween B
+                target:
+                  device_id: 957afb69a90840abaf62c497bf3c4185
+                action: light.turn_on
+            alias: Halloween B on 1/4
+          - conditions:
+              - condition: template
+                value_template: "{{ now().day % 4 == 2 }}"
+            sequence:
+              - metadata: {}
+                data:
+                  effect: Halloween C
+                target:
+                  device_id: 957afb69a90840abaf62c497bf3c4185
+                action: light.turn_on
+            alias: Halloween C on 2/4
+          - conditions:
+              - condition: template
+                value_template: "{{ now().day % 4 == 3 }}"
+            sequence:
+              - metadata: {}
+                data:
+                  effect: Halloween D
+                target:
+                  device_id: 957afb69a90840abaf62c497bf3c4185
+                action: light.turn_on
+            alias: Halloween D on 3/4
 description: ""
 icon: mdi:string-lights
