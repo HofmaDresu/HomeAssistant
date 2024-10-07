@@ -27,7 +27,7 @@ action:
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
-    code: ""
+    code: "{{!secret alarm_code}}"
   - action: script.turn_on
     metadata: {}
     data: {}
