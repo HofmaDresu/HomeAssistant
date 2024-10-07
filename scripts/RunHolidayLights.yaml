@@ -1,172 +1,173 @@
 alias: Run holiday lights
 sequence:
-  - alias: turn on murica if US-type holiday
-    if:
-      - condition: or
-        conditions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.today_has_birthdays
+            state: "on"
+        sequence:
+          - metadata: {}
+            data:
+              effect: Birthday
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Birthday
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: sensor.today_s_events
+                state: Beerfest
+        sequence:
+          - metadata: {}
+            data:
+              effect: Party
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Party
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: sensor.today_s_holiday
+                state: Independence Day
+              - condition: state
+                entity_id: sensor.today_s_holiday
+                state: Memorial Day
+              - condition: state
+                entity_id: sensor.today_s_holiday
+                state: Labor Day
+              - condition: state
+                entity_id: sensor.today_s_holiday
+                state: Veterans Day
+        sequence:
+          - metadata: {}
+            data:
+              effect: murica
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: "'Murica"
+      - conditions:
           - condition: state
             entity_id: sensor.today_s_holiday
-            state: Independence Day
-          - condition: state
-            entity_id: sensor.today_s_holiday
-            state: Memorial Day
-          - condition: state
-            entity_id: sensor.today_s_holiday
-            state: Labor Day
-          - condition: state
-            entity_id: sensor.today_s_holiday
-            state: Veterans Day
-    then:
-      - metadata: {}
-        data:
-          effect: murica
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
-        action: light.turn_on
-  - alias: Juneteenth
-    if:
-      - condition: state
-        entity_id: sensor.today_s_holiday
-        state: Juneteenth National Independence Day
-    then:
-      - metadata: {}
-        data:
-          effect: Juneteenth
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
-        action: light.turn_on
-  - alias: Christmas
-    if:
-      - condition: template
-        value_template: "{{ now().month == 12 and now().day != 12 }}"
-    then:
-      - choose:
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 3 == 0 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Christmas
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Christmas on 0/3
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 3 == 1 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Christmas Gift
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Christmas Gift on 1/3
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 3 == 2 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Christmas Tree
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Christmas Tree on 2/3
-  - alias: Party
-    if:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: sensor.today_s_events
-            state: Beerfest
-    then:
-      - metadata: {}
-        data:
-          effect: Party
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
-        action: light.turn_on
-  - alias: Halloween
-    if:
-      - condition: and
-        conditions:
+            state: Juneteenth National Independence Day
+        sequence:
+          - metadata: {}
+            data:
+              effect: Juneteenth
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Juneteenth
+      - conditions:
           - condition: template
-            value_template: "{{ now().month == 10 }}"
-    then:
-      - choose:
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day == 31 }}"
-            sequence:
-              - if:
-                  - condition: state
-                    entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
-                    state: "on"
-                then:
+            value_template: "{{ now().month == 12 }}"
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 3 == 0 }}"
+                sequence:
                   - metadata: {}
                     data:
-                      effect: My Halloween
+                      effect: Christmas
                     target:
                       device_id: 957afb69a90840abaf62c497bf3c4185
                     action: light.turn_on
-            alias: Halloween on 31st if home
-          - conditions:
+                alias: Christmas on 0/3
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 3 == 1 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Christmas Gift
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Christmas Gift on 1/3
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 3 == 2 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Christmas Tree
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Christmas Tree on 2/3
+        alias: Christmas
+      - conditions:
+          - condition: and
+            conditions:
               - condition: template
-                value_template: "{{ now().day % 4 == 0 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Halloween
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Halloween on 0/4
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 4 == 1 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Halloween B
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Halloween B on 1/4
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 4 == 2 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Halloween C
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Halloween C on 2/4
-          - conditions:
-              - condition: template
-                value_template: "{{ now().day % 4 == 3 }}"
-            sequence:
-              - metadata: {}
-                data:
-                  effect: Halloween D
-                target:
-                  device_id: 957afb69a90840abaf62c497bf3c4185
-                action: light.turn_on
-            alias: Halloween D on 3/4
-  - alias: Birthday
-    if:
-      - condition: state
-        entity_id: binary_sensor.today_has_birthdays
-        state: "on"
-    then:
-      - metadata: {}
-        data:
-          effect: Birthday
-        target:
-          device_id: 957afb69a90840abaf62c497bf3c4185
-        action: light.turn_on
+                value_template: "{{ now().month == 10 }}"
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day == 31 }}"
+                sequence:
+                  - if:
+                      - condition: state
+                        entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
+                        state: "on"
+                    then:
+                      - metadata: {}
+                        data:
+                          effect: My Halloween
+                        target:
+                          device_id: 957afb69a90840abaf62c497bf3c4185
+                        action: light.turn_on
+                alias: Halloween on 31st if home
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 4 == 0 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Halloween
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Halloween on 0/4
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 4 == 1 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Halloween B
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Halloween B on 1/4
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 4 == 2 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Halloween C
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Halloween C on 2/4
+              - conditions:
+                  - condition: template
+                    value_template: "{{ now().day % 4 == 3 }}"
+                sequence:
+                  - metadata: {}
+                    data:
+                      effect: Halloween D
+                    target:
+                      device_id: 957afb69a90840abaf62c497bf3c4185
+                    action: light.turn_on
+                alias: Halloween D on 3/4
+        alias: Halloween
 description: ""
 icon: mdi:string-lights
