@@ -3,19 +3,11 @@ description: ""
 trigger:
   - platform: numeric_state
     entity_id:
-      - sensor.karb_heat_index
+      - sensor.openweathermap_feels_like_temperature
     above: 89
   - platform: numeric_state
     entity_id:
-      - sensor.temperature_forecast_next_hour
-    above: 89
-  - platform: numeric_state
-    entity_id:
-      - sensor.family_room_temperature
-    above: 89
-  - platform: numeric_state
-    entity_id:
-      - sensor.awair_element_3403_temperature
+      - sensor.openweathermap_temperature
     above: 89
 condition:
   - condition: and
@@ -43,30 +35,30 @@ action:
             entity_id: cover.south_shades
             state: open
     then:
-      - service: tts.cloud_say
-        metadata: {}
+      - metadata: {}
         data:
           cache: false
           entity_id: media_player.living_room_home
           message: >-
             Heat index is very high, you should close windows. South shades will
             close in 5 minutes
-      - service: notify.mobile_app_pixel_8
-        data:
+        action: tts.cloud_say
+      - data:
           title: Extreme high temperature
           message: >-
             Heat index is very high, you should close windows. South shades will
             close in 5 minutes
+        action: notify.mobile_app_pixel_8
       - delay:
           hours: 0
           minutes: 5
           seconds: 0
           milliseconds: 0
-      - service: cover.close_cover
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
           entity_id: cover.south_shades
+        action: cover.close_cover
   - alias: If only shades open
     if:
       - condition: and
@@ -81,11 +73,11 @@ action:
                 state: "on"
             alias: Windows not open
     then:
-      - service: cover.close_cover
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
           entity_id: cover.south_shades
+        action: cover.close_cover
   - alias: If only windows open
     if:
       - condition: and
@@ -100,15 +92,15 @@ action:
                 entity_id: cover.south_shades
                 state: open
     then:
-      - service: notify.persistent_notification
-        metadata: {}
+      - metadata: {}
         data:
           title: Extreme high temperature
           message: Heat index is very high, you should close windows
-      - service: tts.cloud_say
-        metadata: {}
+        action: notify.persistent_notification
+      - metadata: {}
         data:
           cache: false
           entity_id: media_player.living_room_home
           message: Heat index is very high, you should close windows
+        action: tts.cloud_say
 mode: single
