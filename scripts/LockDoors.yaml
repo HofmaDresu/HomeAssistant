@@ -1,39 +1,51 @@
-alias: Lock doors
-sequence:
-  - repeat:
-      count: 4
-      sequence:
-        - parallel:
-            - if:
-                - condition: device
-                  device_id: b8e65997f7e92ed22468ec09be72864e
-                  domain: lock
-                  entity_id: fdc40a92e9d88a64b7716976c4c8755d
-                  type: is_unlocked
-              then:
-                - device_id: b8e65997f7e92ed22468ec09be72864e
-                  continue_on_error: true
-                  domain: lock
-                  entity_id: fdc40a92e9d88a64b7716976c4c8755d
-                  type: lock
-              alias: Lock back door if needed
-            - alias: Lock front door if needed
-              if:
-                - condition: device
-                  device_id: 8599d43198c31f8039e60c9720057d93
-                  domain: lock
-                  entity_id: d246fa82b68b4b1e67313b7e646f6b56
-                  type: is_unlocked
-              then:
-                - device_id: 8599d43198c31f8039e60c9720057d93
-                  continue_on_error: true
-                  domain: lock
-                  entity_id: d246fa82b68b4b1e67313b7e646f6b56
-                  type: lock
-        - delay:
-            hours: 0
-            minutes: 0
-            seconds: 10
-            milliseconds: 0
-description: ""
-icon: mdi:door-closed-lock
+repeat:
+  count: 4
+  sequence:
+    - parallel:
+        - if:
+            - condition: device
+              device_id: b8e65997f7e92ed22468ec09be72864e
+              domain: lock
+              entity_id: fdc40a92e9d88a64b7716976c4c8755d
+              type: is_unlocked
+          then:
+            - device_id: b8e65997f7e92ed22468ec09be72864e
+              continue_on_error: true
+              domain: lock
+              entity_id: fdc40a92e9d88a64b7716976c4c8755d
+              type: lock
+          alias: Lock back door if needed
+        - alias: Lock front door if needed
+          if:
+            - condition: device
+              device_id: 8599d43198c31f8039e60c9720057d93
+              domain: lock
+              entity_id: d246fa82b68b4b1e67313b7e646f6b56
+              type: is_unlocked
+          then:
+            - device_id: 8599d43198c31f8039e60c9720057d93
+              continue_on_error: true
+              domain: lock
+              entity_id: d246fa82b68b4b1e67313b7e646f6b56
+              type: lock
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 10
+        milliseconds: 0
+    - if:
+        - condition: and
+          conditions:
+            - condition: device
+              device_id: b8e65997f7e92ed22468ec09be72864e
+              domain: lock
+              entity_id: fdc40a92e9d88a64b7716976c4c8755d
+              type: is_locked
+            - condition: device
+              device_id: 8599d43198c31f8039e60c9720057d93
+              domain: lock
+              entity_id: d246fa82b68b4b1e67313b7e646f6b56
+              type: is_locked
+      then:
+        - stop: All doors locked
+      alias: Stop loop if locked
