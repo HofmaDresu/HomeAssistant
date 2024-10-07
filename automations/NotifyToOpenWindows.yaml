@@ -3,7 +3,7 @@ description: ""
 trigger:
   - platform: numeric_state
     entity_id:
-      - sensor.karb_temperature
+      - sensor.openweathermap_temperature
     above: 60
     below: 80
 condition:
@@ -17,9 +17,9 @@ condition:
     entity_id: binary_sensor.bedroom_window_open_state
     state: "off"
 action:
-  - service: notify.mobile_app_pixel_8
-    metadata: {}
+  - metadata: {}
     data:
       message: Temp good to open windows
       title: Open Windows
+    action: notify.mobile_app_pixel_8
 mode: single
