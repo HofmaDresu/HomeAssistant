@@ -64,6 +64,17 @@ sequence:
         alias: Juneteenth
       - conditions:
           - condition: template
+            value_template: "{{ now().month == 12 and now().day == 31 }}"
+        sequence:
+          - metadata: {}
+            data:
+              effect: New Year's
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: New Years
+      - conditions:
+          - condition: template
             value_template: "{{ now().month == 12 }}"
         sequence:
           - choose:
@@ -102,10 +113,8 @@ sequence:
                 alias: Christmas Tree on 2/3
         alias: Christmas
       - conditions:
-          - condition: and
-            conditions:
-              - condition: template
-                value_template: "{{ now().month == 10 }}"
+          - condition: template
+            value_template: "{{ now().month == 10 }}"
         sequence:
           - choose:
               - conditions:
@@ -130,44 +139,78 @@ sequence:
                 sequence:
                   - metadata: {}
                     data:
-                      effect: Halloween
+                      effect: Mars
                     target:
                       device_id: 957afb69a90840abaf62c497bf3c4185
                     action: light.turn_on
-                alias: Halloween on 0/4
+                alias: Mars on 0/4
               - conditions:
                   - condition: template
                     value_template: "{{ now().day % 4 == 1 }}"
                 sequence:
                   - metadata: {}
                     data:
-                      effect: Halloween B
+                      effect: Cornfield
                     target:
                       device_id: 957afb69a90840abaf62c497bf3c4185
                     action: light.turn_on
-                alias: Halloween B on 1/4
+                alias: Cornfield on 1/4
               - conditions:
                   - condition: template
                     value_template: "{{ now().day % 4 == 2 }}"
                 sequence:
                   - metadata: {}
                     data:
-                      effect: Halloween C
+                      effect: Fire
                     target:
                       device_id: 957afb69a90840abaf62c497bf3c4185
                     action: light.turn_on
-                alias: Halloween C on 2/4
+                alias: Fire on 2/4
               - conditions:
                   - condition: template
                     value_template: "{{ now().day % 4 == 3 }}"
                 sequence:
                   - metadata: {}
                     data:
-                      effect: Halloween D
+                      effect: Fall
                     target:
                       device_id: 957afb69a90840abaf62c497bf3c4185
                     action: light.turn_on
-                alias: Halloween D on 3/4
+                alias: Fall on 3/4
         alias: Halloween
+      - conditions:
+          - condition: state
+            entity_id: sensor.today_s_holiday
+            state: Thanksgiving
+        sequence:
+          - metadata: {}
+            data:
+              effect: Thanksgiving
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Thanksgiving
+      - conditions:
+          - condition: template
+            value_template: "{{ now().month == 2 and now().day == 14 }}"
+        sequence:
+          - metadata: {}
+            data:
+              effect: Valentine's Day
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Valentine's Day
+      - conditions:
+          - condition: template
+            value_template: "{{ now().month == 3 and now().day == 17 }}"
+        sequence:
+          - metadata: {}
+            data:
+              effect: Saint Patrick's Day
+            target:
+              device_id: 957afb69a90840abaf62c497bf3c4185
+            action: light.turn_on
+        alias: Saint Patrick's Day
 description: ""
 icon: mdi:string-lights
