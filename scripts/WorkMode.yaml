@@ -1,15 +1,20 @@
 alias: Work Mode
 sequence:
-  - service: light.turn_on
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       area_id: office
-  - service: cover.open_cover
-    metadata: {}
-    data: {}
-    target:
-      area_id:
-        - bedroom
-        - living_room
+    action: light.turn_on
+  - if:
+      - condition: sun
+        before: sunset
+        after: sunrise
+    then:
+      - metadata: {}
+        data: {}
+        target:
+          area_id:
+            - bedroom
+            - living_room
+        action: cover.open_cover
 mode: single
