@@ -79,24 +79,6 @@ template:
         unique_id: todays_events_3487926
         state: |-
           {{ agenda['calendar.events'].events[0].summary if agenda['calendar.events'].events else 'none' }}
-  - trigger:
-      - platform: time_pattern
-        hours: /1
-      - platform: homeassistant
-        event: start
-    action:
-      - service: weather.get_forecasts
-        data:
-          type: hourly
-        target:
-          entity_id: weather.karb_daynight
-        response_variable: hourly
-    sensor:
-      - name: Temperature forecast next hour
-        unique_id: temperature_forecast_next_hour
-        state: |-
-          {{ hourly['weather.karb_daynight'].forecast[0].temperature }}
-        unit_of_measurement: °F
 
 # https://github.com/claytonjn/hass-circadian_lighting
 circadian_lighting:
