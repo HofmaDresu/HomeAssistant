@@ -21,6 +21,7 @@ mqtt:
       state_topic: "event/metering/instantaneous_demand"
       unit_of_measurement: "W"
       value_template: "{{ value_json.demand | int }}"
+      state_class: measurement
 
 template:
   - trigger:
