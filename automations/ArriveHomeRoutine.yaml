@@ -1,28 +1,34 @@
 alias: "Arrive home routine "
 description: ""
-trigger:
-  - platform: zone
-    entity_id: person.hofmadresu
+triggers:
+  - entity_id: person.hofmadresu
     zone: zone.home
     event: enter
+    trigger: zone
   - type: connected
-    platform: device
     device_id: b2482cd7e929c9aa71f6108b82362aa3
     entity_id: acaed035412bb4c8d648fb3d7bc72a5e
     domain: binary_sensor
     enabled: false
-condition:
+    trigger: device
+conditions:
   - condition: device
     device_id: 12991409e93a14125e39db65a3b740dc
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: is_armed_away
-action:
-  - metadata: {}
-    data:
-      message: The house is prepped for you
-      title: Welcome home
-    action: notify.mobile_app_pixel_8
+actions:
+  - if:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: "on"
+    then:
+      - action: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.vacation_mode
+    alias: Turn off vacation mode
   - device_id: 12991409e93a14125e39db65a3b740dc
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
@@ -70,18 +76,33 @@ action:
             entity_id: sensor.openweathermap_temperature
             above: 10
         then:
-          - metadata: {}
-            data: {}
-            action: script.zarathustra
-            enabled: false
-  - if:
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: "on"
-    then:
-      - action: input_boolean.turn_off
-        metadata: {}
-        data: {}
-        target:
-          entity_id: input_boolean.vacation_mode
+          - variables:
+              action_open_blinds: "{{ 'OPEN_BLINDS_' ~ context.id }}"
+          - alias: Ask to open the blinds
+            action: notify.mobile_app_pixel_8
+            data:
+              message: Open the blinds?
+              data:
+                actions:
+                  - action: "{{ action_open_blinds }}"
+                    title: Do it!
+          - alias: Wait for a response
+            wait_for_trigger:
+              - event_type: mobile_app_notification_action
+                event_data:
+                  action: "{{ action_open_blinds }}"
+                trigger: event
+            timeout:
+              hours: 0
+              minutes: 2
+              seconds: 0
+              milliseconds: 0
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ wait.trigger.event.data.action == action_open_blinds }}"
+                sequence:
+                  - data: {}
+                    action: script.zarathustra
+                    enabled: true
 mode: single
