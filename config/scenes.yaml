@@ -7,7 +7,6 @@
       min_mireds: 200
       max_mireds: 370
       supported_color_modes:
-      - brightness
       - color_temp
       color_mode:
       brightness:
@@ -25,7 +24,6 @@
       min_mireds: 200
       max_mireds: 370
       supported_color_modes:
-      - brightness
       - color_temp
       color_mode:
       brightness:
@@ -46,62 +44,16 @@
       min_mireds: 111
       max_mireds: 400
       supported_color_modes:
-      - brightness
       - color_temp
       - hs
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
       friendly_name: Entryway
       supported_features: 32
-      state: 'off'
+      state: unavailable
     switch.garage_light:
       friendly_name: Garage light
       state: 'off'
     switch.kitchen_1:
       friendly_name: Kitchen 1
-      state: 'off'
-    light.living_1:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
-      supported_color_modes:
-      - brightness
-      - color_temp
-      - hs
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      friendly_name: Living 1
-      supported_features: 32
-      state: 'off'
-    light.living_2:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
-      supported_color_modes:
-      - brightness
-      - color_temp
-      - hs
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      friendly_name: Living 2
-      supported_features: 32
       state: 'off'
     light.office_1:
       min_color_temp_kelvin: 2700
@@ -109,7 +61,6 @@
       min_mireds: 153
       max_mireds: 370
       supported_color_modes:
-      - brightness
       - color_temp
       color_mode:
       brightness:
@@ -127,7 +78,6 @@
       min_mireds: 153
       max_mireds: 370
       supported_color_modes:
-      - brightness
       - color_temp
       color_mode:
       brightness:
@@ -145,7 +95,6 @@
       min_mireds: 153
       max_mireds: 370
       supported_color_modes:
-      - brightness
       - color_temp
       color_mode:
       brightness:
@@ -160,6 +109,52 @@
     media_player.tv:
       friendly_name: TV
       supported_features: 152461
+      state: 'off'
+    light.living_room_corner_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 254
+      friendly_name: Living Room Corner Light
+      supported_features: 44
+      state: 'off'
+    light.living_room_overhead_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 254
+      friendly_name: Living Room Overhead Light
+      supported_features: 44
       state: 'off'
   metadata: {}
 - id: '1702911831464'
@@ -207,7 +202,7 @@
     switch.kitchen_1:
       friendly_name: Kitchen 1
       state: 'off'
-    light.living_1:
+    light.living_room_overhead_light:
       min_color_temp_kelvin: 2500
       max_color_temp_kelvin: 9000
       min_mireds: 111
@@ -226,7 +221,7 @@
       friendly_name: Living 1
       supported_features: 32
       state: 'off'
-    light.living_2:
+    light.living_room_corner_light:
       min_color_temp_kelvin: 2500
       max_color_temp_kelvin: 9000
       min_mireds: 111
@@ -307,55 +302,65 @@
 - id: '1704864744838'
   name: living room concentrate
   entities:
-    light.living_1:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
+    light.living_room_overhead_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      effect:
       color_mode: color_temp
-      brightness: 255
-      color_temp_kelvin: 5847
-      color_temp: 171
+      brightness: 254
+      color_temp_kelvin: 6535
+      color_temp: 153
       hs_color:
-      - 29.496
-      - 8.81
+      - 54.768
+      - 1.6
       rgb_color:
       - 255
-      - 243
-      - 232
+      - 254
+      - 250
       xy_color:
-      - 0.344
-      - 0.339
-      friendly_name: Living 1
-      supported_features: 32
+      - 0.326
+      - 0.333
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Living Room Overhead Light
+      supported_features: 44
       state: 'on'
-    light.living_2:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
+    light.living_room_corner_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      effect:
       color_mode: color_temp
-      brightness: 255
-      color_temp_kelvin: 5714
-      color_temp: 175
+      brightness: 254
+      color_temp_kelvin: 6535
+      color_temp: 153
       hs_color:
-      - 28.745
-      - 10.321
+      - 54.768
+      - 1.6
       rgb_color:
       - 255
-      - 241
-      - 228
+      - 254
+      - 250
       xy_color:
-      - 0.348
-      - 0.341
-      friendly_name: Living 2
-      supported_features: 32
+      - 0.326
+      - 0.333
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Living Room Corner Light
+      supported_features: 44
       state: 'on'
     switch.circadian_lighting_whole_house_circadian_switch:
       hs_color:
@@ -370,30 +375,35 @@
 - id: '1714093232734'
   name: TV mode
   entities:
-    light.living_1:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
+    light.living_room_overhead_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      color_mode: hs
-      brightness: 41
+      - xy
+      effect:
+      color_mode: xy
+      brightness: 26
       color_temp_kelvin:
       color_temp:
       hs_color:
-      - 0
-      - 100
+      - 25.959
+      - 96.078
       rgb_color:
       - 255
-      - 0
-      - 0
+      - 116
+      - 10
       xy_color:
-      - 0.701
-      - 0.299
-      friendly_name: Living 1
-      supported_features: 32
+      - 0.627
+      - 0.36
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Living Room Overhead Light
+      supported_features: 44
       state: 'on'
     switch.kitchen_1:
       friendly_name: Kitchen 1
@@ -460,33 +470,47 @@
       friendly_name: All Shades
       supported_features: 15
       state: closed
-    light.living_2:
-      min_color_temp_kelvin: 2500
-      max_color_temp_kelvin: 9000
-      min_mireds: 111
-      max_mireds: 400
+    light.living_room_corner_light:
+      min_color_temp_kelvin: 1801
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 555
+      effect_list:
+      - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      effect:
       color_mode: color_temp
-      brightness: 8
-      color_temp_kelvin: 2500
-      color_temp: 400
+      brightness: 38
+      color_temp_kelvin: 5181
+      color_temp: 193
       hs_color:
-      - 28.874
-      - 72.522
+      - 27.232
+      - 16.839
       rgb_color:
       - 255
-      - 159
-      - 70
+      - 231
+      - 212
       xy_color:
-      - 0.546
-      - 0.389
-      friendly_name: Living 2
-      supported_features: 32
+      - 0.365
+      - 0.347
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Living Room Corner Light
+      supported_features: 44
       state: 'on'
+    switch.circadian_lighting_whole_house_circadian_switch:
+      hs_color:
+      brightness:
+      colortemp: 2500
+      icon: mdi:theme-light-dark
+      friendly_name: Whole House Circadian Switch
+      state: 'off'
   metadata:
     cover.all_shades:
+      entity_only: true
+    switch.circadian_lighting_whole_house_circadian_switch:
       entity_only: true
 - id: '1717551891701'
   name: Evening Shades
@@ -533,7 +557,7 @@
       icon: mdi:theme-light-dark
       friendly_name: Whole House Circadian Switch
       state: 'off'
-    light.living_1:
+    light.living_room_overhead_light:
       min_color_temp_kelvin: 2500
       max_color_temp_kelvin: 9000
       min_mireds: 111
@@ -558,7 +582,7 @@
       friendly_name: Living 1
       supported_features: 32
       state: 'on'
-    light.living_2:
+    light.living_room_corner_light:
       min_color_temp_kelvin: 2500
       max_color_temp_kelvin: 9000
       min_mireds: 111
@@ -652,9 +676,9 @@
   metadata:
     switch.circadian_lighting_whole_house_circadian_switch:
       entity_only: true
-    light.living_1:
+    light.living_room_overhead_light:
       entity_only: true
-    light.living_2:
+    light.living_room_corner_light:
       entity_only: true
     light.office_1:
       entity_only: true
