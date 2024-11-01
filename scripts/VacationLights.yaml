@@ -2,8 +2,8 @@ alias: Vacation lights
 sequence:
   - alias: Wait until 07:01
     wait_for_trigger:
-      - platform: time
-        at: "07:01:00"
+      - at: "07:01:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -17,8 +17,8 @@ sequence:
     domain: switch
   - alias: Wait until 07:07
     wait_for_trigger:
-      - platform: time
-        at: "07:07:00"
+      - at: "07:07:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -27,17 +27,17 @@ sequence:
       - stop: ""
     alias: Stop if vacation mode off
   - type: turn_on
-    device_id: 3760e1833184baf271de63cb70927def
-    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+    entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
     domain: light
   - type: turn_on
-    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
-    entity_id: b5d123c0b7fd2748264a524c8082d027
+    device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+    entity_id: 4f504f129d920af05dbfed66e23bcf8f
     domain: light
   - alias: Wait until 07:23
     wait_for_trigger:
-      - platform: time
-        at: "07:23:00"
+      - at: "07:23:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -51,8 +51,8 @@ sequence:
     domain: switch
   - alias: Wait until 07:24
     wait_for_trigger:
-      - platform: time
-        at: "07:24:00"
+      - at: "07:24:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -66,8 +66,8 @@ sequence:
     domain: switch
   - alias: Wait until 07:59
     wait_for_trigger:
-      - platform: time
-        at: "07:59:00"
+      - at: "07:59:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -81,8 +81,8 @@ sequence:
     domain: switch
   - alias: Wait until 08:01
     wait_for_trigger:
-      - platform: time
-        at: "08:01:00"
+      - at: "08:01:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -96,8 +96,8 @@ sequence:
     domain: light
   - alias: Wait until 08:21
     wait_for_trigger:
-      - platform: time
-        at: "08:21:00"
+      - at: "08:21:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -106,17 +106,17 @@ sequence:
       - stop: ""
     alias: Stop if vacation mode off
   - type: turn_off
-    device_id: 3760e1833184baf271de63cb70927def
-    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+    entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
     domain: light
   - type: turn_off
-    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
-    entity_id: b5d123c0b7fd2748264a524c8082d027
+    device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+    entity_id: 4f504f129d920af05dbfed66e23bcf8f
     domain: light
   - alias: Wait until 15:23
     wait_for_trigger:
-      - platform: time
-        at: "15:23:00"
+      - at: "15:23:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -130,8 +130,8 @@ sequence:
     domain: light
   - alias: Wait until 15:25
     wait_for_trigger:
-      - platform: time
-        at: "15:25:00"
+      - at: "15:25:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -145,8 +145,8 @@ sequence:
     domain: light
   - alias: Wait until 16:32
     wait_for_trigger:
-      - platform: time
-        at: "16:32:00"
+      - at: "16:32:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -155,17 +155,17 @@ sequence:
       - stop: ""
     alias: Stop if vacation mode off
   - type: turn_on
-    device_id: 3760e1833184baf271de63cb70927def
-    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+    entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
     domain: light
   - type: turn_on
-    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
-    entity_id: b5d123c0b7fd2748264a524c8082d027
+    device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+    entity_id: 4f504f129d920af05dbfed66e23bcf8f
     domain: light
   - alias: Wait until 17:03
     wait_for_trigger:
-      - platform: time
-        at: "17:03:00"
+      - at: "17:03:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -179,8 +179,8 @@ sequence:
     domain: switch
   - alias: Wait until 18:05
     wait_for_trigger:
-      - platform: time
-        at: "18:05:00"
+      - at: "18:05:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -193,8 +193,8 @@ sequence:
     entity_id: f2899e19720f9c1b0f0c164f3eea4069
     domain: switch
   - wait_for_trigger:
-      - platform: time
-        at: "22:07:00"
+      - at: "22:07:00"
+        trigger: time
     alias: Wait until 22:07
   - if:
       - condition: state
@@ -208,8 +208,8 @@ sequence:
     entity_id: 525207ce60b068d636526e83f993b12a
     domain: light
   - wait_for_trigger:
-      - platform: time
-        at: "22:57:00"
+      - at: "22:57:00"
+        trigger: time
     timeout:
       hours: 0
       minutes: 0
@@ -229,8 +229,8 @@ sequence:
     domain: switch
   - alias: Wait until 23:22
     wait_for_trigger:
-      - platform: time
-        at: "23:22:00"
+      - at: "23:22:00"
+        trigger: time
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -238,8 +238,8 @@ sequence:
     then:
       - stop: ""
     alias: Stop if vacation mode off
-  - service: scene.turn_on
-    target:
+  - target:
       entity_id: scene.power_off
     metadata: {}
+    action: scene.turn_on
 mode: restart
