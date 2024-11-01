@@ -1,28 +1,28 @@
 alias: Living room lights off on shades opened
 description: ""
-trigger:
-  - platform: template
-    value_template: "  {{state_attr('cover.living_room_short_shades', 'current_position') | int == 100 }}"
+mode: single
+triggers:
+  - value_template: "  {{state_attr('cover.living_room_short_shades', 'current_position') | int == 100 }}"
     for:
       hours: 0
       minutes: 0
       seconds: 30
-  - platform: template
-    value_template: "  {{state_attr('cover.living_room_long_shades', 'current_position') | int == 100 }}"
+    trigger: template
+  - value_template: "  {{state_attr('cover.living_room_long_shades', 'current_position') | int == 100 }}"
     for:
       hours: 0
       minutes: 0
       seconds: 30
-condition:
+    trigger: template
+conditions:
   - condition: sun
     before: sunset
-action:
+actions:
   - type: turn_off
-    device_id: 3760e1833184baf271de63cb70927def
-    entity_id: 2142caaf7a8101bbb6902e44d162f416
+    device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+    entity_id: 4f504f129d920af05dbfed66e23bcf8f
     domain: light
   - type: turn_off
-    device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
-    entity_id: b5d123c0b7fd2748264a524c8082d027
+    device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+    entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
     domain: light
-mode: single
