@@ -94,7 +94,7 @@ switch:
       - light.office_1
       - light.office_2
       - light.office_backlight
-      - light.living_1
-      - light.living_2
+      - light.living_room_overhead_light
+      - light.living_room_corner_light
       - light.basement_light_1
       - light.basement_light_2
