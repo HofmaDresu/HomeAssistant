@@ -54,12 +54,12 @@ actions:
         entity_id: f2899e19720f9c1b0f0c164f3eea4069
         domain: switch
       - type: turn_on
-        device_id: 3760e1833184baf271de63cb70927def
-        entity_id: 2142caaf7a8101bbb6902e44d162f416
+        device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+        entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
         domain: light
-      - type: turn_on
-        device_id: c7fbc0c3b546ce9fac5df8edcdc3731f
-        entity_id: b5d123c0b7fd2748264a524c8082d027
+      - type: turn_off
+        device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+        entity_id: 4f504f129d920af05dbfed66e23bcf8f
         domain: light
       - delay:
           hours: 0
