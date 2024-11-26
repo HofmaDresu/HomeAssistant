@@ -1,11 +1,11 @@
 alias: Make Me Move
 description: ""
-trigger:
-  - platform: time_pattern
-    minutes: "30"
-  - platform: time_pattern
-    minutes: "0"
-condition:
+triggers:
+  - minutes: "30"
+    trigger: time_pattern
+  - minutes: "0"
+    trigger: time_pattern
+conditions:
   - condition: time
     after: "09:00:00"
     before: "17:00:00"
@@ -26,7 +26,10 @@ condition:
       - condition: zone
         entity_id: person.hofmadresu
         zone: zone.parents
-action:
+  - condition: state
+    entity_id: input_boolean.sick_mode
+    state: "off"
+actions:
   - variables:
       anywhereExercises:
         - name: Pushups
@@ -47,7 +50,7 @@ action:
       nonOfficeExercises:
         - name: Wall Sits
           unit: seconds
-          count: "10"
+          count: "30"
         - name: Vault Ups
           unit: reps
           count: "10"
@@ -61,10 +64,7 @@ action:
         - name: Kettlebell Swings
           unit: reps
           count: "10"
-        - name: Kettlebell Deadlifts
-          unit: reps
-          count: "5"
-        - name: Kettlebell Circles
+        - name: Kettlebell Halos
           unit: reps
           count: "2"
         - name: Kettlebell Good Mornings
@@ -108,8 +108,7 @@ action:
       message: >-
         {{repsMessage if activeExercises[exerciseIndex].unit == 'reps' else
         secondsMessage}}
-  - service: notify.mobile_app_pixel_8
-    data:
+  - data:
       title: Time To Move
       message: "{{message}}"
       data:
@@ -120,4 +119,5 @@ action:
         icon_url: >-
           https://raw.githubusercontent.com/HofmaDresu/HomeAssistant/main/icons/MakeMeMoveIcon.png
         timeout: "{{30 * 60}}"
+    action: notify.mobile_app_pixel_8
 mode: single
