@@ -1,0 +1,22 @@
+alias: Water Leak Notification
+sequence:
+  - action: persistent_notification.create
+    metadata: {}
+    data:
+      title: Leak Detected
+      message: Water leak detected in {{location}}
+  - action: notify.mobile_app_pixel_8
+    metadata: {}
+    data:
+      title: Leak Detected
+      message: Water leak detected in {{location}}
+      data:
+        notification_icon: mdi:water-alert
+  - data:
+      cache: false
+      entity_id: media_player.living_room_home
+      message: Water leak detected in {{location}}
+    enabled: true
+    action: tts.cloud_say
+description: ""
+icon: mdi:water-alert
