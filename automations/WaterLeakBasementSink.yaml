@@ -1,0 +1,15 @@
+alias: "Water leak: basement sink"
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.basement_sink_leak_detector_moisture
+    from: null
+    to: "on"
+conditions: []
+actions:
+  - action: script.water_leak_notification
+    metadata: {}
+    data:
+      location: basement sink
+mode: single
