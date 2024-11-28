@@ -1,13 +1,15 @@
 alias: Set temp based on mode
 sequence:
-  - service: script.set_thermostat_mode_based_on_outdoor_temp
-    metadata: {}
+  - metadata: {}
     data: {}
+    action: script.set_thermostat_mode_based_on_outdoor_temp
+    enabled: true
   - delay:
       hours: 0
       minutes: 1
       seconds: 0
       milliseconds: 0
+    enabled: true
   - variables:
       temps:
         heat:
@@ -34,17 +36,41 @@ sequence:
       heatCoolMode: "{{states('climate.family_room')}}"
       tempMode: "{{petMode or sickMode or 'normal'}}"
       targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
-  - service: climate.set_temperature
+  - action: input_number.set_value
+    metadata: {}
+    data:
+      value: "{{targetTemp}}"
     target:
+      entity_id: input_number.thermostat_target_temp
+  - if:
+      - condition: not
+        conditions:
+          - condition: or
+            conditions:
+              - condition: numeric_state
+                entity_id: climate.family_room
+                attribute: temperature
+                above: input_number.thermostat_target_temp
+              - condition: numeric_state
+                entity_id: climate.family_room
+                attribute: temperature
+                below: input_number.thermostat_target_temp
+    then:
+      - stop: Temp already at expected
+  - target:
       entity_id: climate.family_room
     data:
       temperature: "{{targetTemp}}"
+    action: climate.set_temperature
+    enabled: true
   - delay:
       hours: 0
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - service: script.set_thermostat_mode_based_on_outdoor_temp
-    metadata: {}
+    enabled: true
+  - metadata: {}
     data: {}
+    action: script.set_thermostat_mode_based_on_outdoor_temp
+    enabled: true
 mode: single
