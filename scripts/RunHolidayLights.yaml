@@ -122,9 +122,9 @@ sequence:
                     value_template: "{{ now().day == 31 }}"
                 sequence:
                   - if:
-                      - condition: state
-                        entity_id: binary_sensor.hofmadresu_pixel_8_wireless_connected
-                        state: "on"
+                      - condition: zone
+                        entity_id: person.hofmadresu
+                        zone: zone.home
                     then:
                       - metadata: {}
                         data:
