@@ -1,9 +1,10 @@
 alias: Leaving Home
 sequence:
-  - device_id: b8e65997f7e92ed22468ec09be72864e
-    domain: lock
-    entity_id: fdc40a92e9d88a64b7716976c4c8755d
-    type: unlock
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.unlock_doors
   - type: turn_off
     device_id: 75926ca61b1c20b4244e6bbb18afb0cb
     entity_id: 12558812288e7e55b69faefb3fec3371
@@ -44,15 +45,15 @@ sequence:
       entity_id: script.lock_doors
   - alias: Wait until I leave or 5 min pass
     wait_for_trigger:
-      - platform: zone
-        entity_id: person.hofmadresu
+      - entity_id: person.hofmadresu
         zone: zone.home
         event: leave
+        trigger: zone
       - type: not_connected
-        platform: device
         device_id: b2482cd7e929c9aa71f6108b82362aa3
         entity_id: acaed035412bb4c8d648fb3d7bc72a5e
         domain: binary_sensor
+        trigger: device
     timeout:
       hours: 0
       minutes: 5
