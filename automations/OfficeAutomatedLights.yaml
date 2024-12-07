@@ -1,11 +1,11 @@
 alias: Office automatic lights
 description: ""
-trigger:
-  - platform: state
-    entity_id:
+triggers:
+  - entity_id:
       - binary_sensor.office_motion_sensor_motion
     to: "on"
-condition:
+    trigger: state
+conditions:
   - condition: device
     type: is_off
     device_id: bad671e7062197c2244063c9ab807b41
@@ -16,21 +16,24 @@ condition:
     device_id: 1155e017f2b58ecdf76d69807001a0b9
     entity_id: 525207ce60b068d636526e83f993b12a
     domain: light
-action:
+  - condition: state
+    entity_id: input_boolean.pet_mode
+    state: "off"
+actions:
   - metadata: {}
     data: {}
     target:
       area_id: office
     action: light.turn_on
   - wait_for_trigger:
-      - platform: state
-        entity_id:
+      - entity_id:
           - binary_sensor.office_motion_sensor_motion
         from: "on"
         for:
           hours: 0
           minutes: 1
           seconds: 0
+        trigger: state
   - metadata: {}
     data: {}
     target:
