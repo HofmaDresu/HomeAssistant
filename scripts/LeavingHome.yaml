@@ -49,11 +49,6 @@ sequence:
         zone: zone.home
         event: leave
         trigger: zone
-      - type: not_connected
-        device_id: b2482cd7e929c9aa71f6108b82362aa3
-        entity_id: acaed035412bb4c8d648fb3d7bc72a5e
-        domain: binary_sensor
-        trigger: device
     timeout:
       hours: 0
       minutes: 5
