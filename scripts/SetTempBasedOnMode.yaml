@@ -15,7 +15,7 @@ sequence:
         heat:
           day:
             normal: 65
-            pet: 68
+            pet: 70
             sick: 68
           night:
             normal: 60
