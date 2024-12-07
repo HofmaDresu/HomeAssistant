@@ -5,12 +5,6 @@ triggers:
     zone: zone.home
     event: enter
     trigger: zone
-  - type: connected
-    device_id: b2482cd7e929c9aa71f6108b82362aa3
-    entity_id: acaed035412bb4c8d648fb3d7bc72a5e
-    domain: binary_sensor
-    enabled: false
-    trigger: device
 conditions:
   - condition: device
     device_id: 12991409e93a14125e39db65a3b740dc
