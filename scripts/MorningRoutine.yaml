@@ -88,7 +88,7 @@ sequence:
     enabled: true
   - metadata: {}
     data:
-      code: "{{!secret alarm_code}}"
+      code: "3971"
     target:
       device_id: 12991409e93a14125e39db65a3b740dc
     action: alarm_control_panel.alarm_disarm
@@ -225,4 +225,7 @@ sequence:
         data:
           volume_level: 0.3
         action: media_player.volume_set
+  - action: script.morning_report
+    metadata: {}
+    data: {}
 mode: single
