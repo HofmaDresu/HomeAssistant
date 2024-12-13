@@ -1,0 +1,71 @@
+alias: Morning Report
+sequence:
+  - action: weather.get_forecasts
+    metadata: {}
+    data:
+      type: daily
+    target:
+      device_id: 9bdacd0d05f68f09cc87f284a7e4811c
+    response_variable: weather
+  - action: calendar.get_events
+    metadata: {}
+    data:
+      duration:
+        hours: 24
+        minutes: 0
+        seconds: 0
+      start_date_time: "{{ today_at().strftime('%Y-%m-%d %H:%M') }}"
+    target:
+      entity_id: calendar.hofma_dresu
+    response_variable: events
+  - action: ha_text_ai.clear_history
+    metadata: {}
+    data:
+      instance: sensor.ha_text_ai_openai_llm
+  - variables:
+      question: >
+        *Weather*
+          High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
+        Low: {{weather['weather.openweathermap'].forecast[1].templow}} F
+
+        Condition: {{weather['weather.openweathermap'].forecast[1].condition}}
+
+        Precipitation:
+        {{weather['weather.openweathermap'].forecast[1].precipitation}}
+
+        Precipitation Chance:
+        {{weather['weather.openweathermap'].forecast[1].precipitation_probability}}
+
+        *Calendar*  {% for ev in events['calendar.hofma_dresu'].events -%}
+          {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
+          {{'\n'}}
+        {%- endfor %}
+  - action: ha_text_ai.ask_question
+    metadata: {}
+    data:
+      temperature: 0.7
+      max_tokens: 1000
+      instance: sensor.ha_text_ai_openai_llm
+      question: "{{question}}"
+      system_prompt: |-
+        You are a radio reporter from the 1920s
+        You summarize the information you're given in the style of a news report
+        You state times in 24 hour format
+    enabled: true
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+    enabled: true
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      media_player_entity_id: media_player.living_room_home
+      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
+    target:
+      entity_id: tts.home_assistant_cloud
+    enabled: true
+description: ""
+icon: mdi:radio-tower
