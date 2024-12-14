@@ -26,15 +26,15 @@ sequence:
       question: >
         *Weather*
           High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
-        Low: {{weather['weather.openweathermap'].forecast[1].templow}} F
+        Low: {{weather['weather.openweathermap'].forecast[0].templow}} F
 
-        Condition: {{weather['weather.openweathermap'].forecast[1].condition}}
+        Condition: {{weather['weather.openweathermap'].forecast[0].condition}}
 
         Precipitation:
-        {{weather['weather.openweathermap'].forecast[1].precipitation}}
+        {{weather['weather.openweathermap'].forecast[0].precipitation}}
 
         Precipitation Chance:
-        {{weather['weather.openweathermap'].forecast[1].precipitation_probability}}
+        {{weather['weather.openweathermap'].forecast[0].precipitation_probability}}
 
         *Calendar*  {% for ev in events['calendar.hofma_dresu'].events -%}
           {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
