@@ -36,10 +36,19 @@ sequence:
         Precipitation Chance:
         {{weather['weather.openweathermap'].forecast[0].precipitation_probability}}
 
-        *Calendar*  {% for ev in events['calendar.hofma_dresu'].events -%}
+        *Calendar*   {% for ev in events['calendar.hofma_dresu'].events -%}
           {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
           {{'\n'}}
         {%- endfor %}
+
+        {%- if now().weekday == 1 or true %}
+          *Chores*
+          {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
+            take out trash, recycling, and yard waste
+          {% else %}
+            take out trash
+          {% endif -%}
+        {% endif -%}
   - action: ha_text_ai.ask_question
     metadata: {}
     data:
@@ -67,5 +76,15 @@ sequence:
     target:
       entity_id: tts.home_assistant_cloud
     enabled: true
+  - if:
+      - condition: time
+        weekday:
+          - tue
+    then:
+      - action: input_boolean.toggle
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.recycling_at_next_trash
 description: ""
 icon: mdi:radio-tower
