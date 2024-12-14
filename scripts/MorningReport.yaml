@@ -41,7 +41,7 @@ sequence:
           {{'\n'}}
         {%- endfor %}
 
-        {%- if now().weekday == 1 or true %}
+        {%- if now().weekday == 1 %}
           *Chores*
           {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
             take out trash, recycling, and yard waste
