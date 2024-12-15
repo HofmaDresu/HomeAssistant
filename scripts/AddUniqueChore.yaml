@@ -1,0 +1,28 @@
+alias: Add unique chore
+sequence:
+  - action: todo.get_items
+    metadata: {}
+    data:
+      status: needs_action
+    response_variable: chore_list
+    target:
+      entity_id: todo.chores
+  - variables:
+      chores: "{{chore_list['todo.chores']}}"
+      test: "{{chore}}"
+      item_exists: >-
+        {{
+        chore_list['todo.chores']['items']|selectattr('summary','search',chore)|list|count
+        > 0}}
+  - if:
+      - condition: template
+        value_template: "{{ not item_exists }}"
+    then:
+      - action: todo.add_item
+        metadata: {}
+        data:
+          item: "{{chore}}"
+        target:
+          entity_id: todo.chores
+description: ""
+fields: {}
