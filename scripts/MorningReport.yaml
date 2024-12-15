@@ -1,5 +1,12 @@
 alias: Morning Report
 sequence:
+  - action: todo.get_items
+    metadata: {}
+    data:
+      status: needs_action
+    response_variable: chore_list
+    target:
+      entity_id: todo.chores
   - action: weather.get_forecasts
     metadata: {}
     data:
@@ -36,19 +43,31 @@ sequence:
         Precipitation Chance:
         {{weather['weather.openweathermap'].forecast[0].precipitation_probability}}
 
-        *Calendar*   {% for ev in events['calendar.hofma_dresu'].events -%}
+        *Calendar* {{'\n'}} {% for ev in events['calendar.hofma_dresu'].events
+        -%}
           {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
           {{'\n'}}
         {%- endfor %}
 
-        {%- if now().weekday == 1 %}
+        {% set chorelist_items = chore_list['todo.chores']['items'] | list %}
+
+        {%- if now().weekday == 1 or chorelist_items | count > 0 %}
           *Chores*
-          {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
-            take out trash, recycling, and yard waste
-          {% else %}
-            take out trash
+          {{'\n'}}
+          {%- if now().weekday == 1 %}
+            {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
+              take out trash, recycling, and yard waste
+            {% else %}
+              take out trash
+            {% endif -%}
           {% endif -%}
+          {% for chore in chorelist_items -%}
+            {{chore.summary}}
+            {{'\n'}}
+          {%- endfor %}
         {% endif -%}
+  - stop: testing
+    enabled: false
   - action: ha_text_ai.ask_question
     metadata: {}
     data:
