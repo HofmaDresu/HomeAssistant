@@ -1,0 +1,39 @@
+alias: Create chores
+description: ""
+triggers:
+  - trigger: time
+    at: "05:00:00"
+conditions: []
+actions:
+  - action: todo.remove_completed_items
+    metadata: {}
+    data: {}
+    target:
+      entity_id: todo.chores
+  - action: todo.get_items
+    metadata: {}
+    data:
+      status: needs_action
+    response_variable: chores
+    target:
+      entity_id: todo.chores
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ now().day < 8 and now().weekday() == 5 }}"
+        sequence:
+          - action: script.add_unique_chore
+            metadata: {}
+            data:
+              chore: Clean basement bathroom
+        alias: Basement Bathroom Cleaning
+      - conditions:
+          - condition: template
+            value_template: "{{ now().day == 3 and now().month == 1 }}"
+        sequence:
+          - action: script.add_unique_chore
+            metadata: {}
+            data:
+              chore: Refill emergency water
+        alias: Refill emergency water
+mode: single
