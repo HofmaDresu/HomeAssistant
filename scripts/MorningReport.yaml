@@ -31,7 +31,9 @@ sequence:
       instance: sensor.ha_text_ai_openai_llm
   - variables:
       question: >
-        *Date/Time* {{now()}} *Weather*
+        *Date/Time* {{now()}} 
+
+        *Weather*
           High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
         Low: {{weather['weather.openweathermap'].forecast[0].templow}} F
 
