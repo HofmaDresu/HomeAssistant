@@ -31,7 +31,7 @@ sequence:
       instance: sensor.ha_text_ai_openai_llm
   - variables:
       question: >
-        *Weather*
+        *Date/Time* {{now()}} *Weather*
           High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
         Low: {{weather['weather.openweathermap'].forecast[0].templow}} F
 
@@ -79,6 +79,7 @@ sequence:
         You are a radio reporter from the 1920s
         You summarize the information you're given in the style of a news report
         You state times in 24 hour format
+        You state temperatures in fahrenheit
     enabled: true
   - delay:
       hours: 0
