@@ -1,5 +1,12 @@
 alias: Lock doors
 sequence:
+  - action: weather.get_forecasts
+    metadata: {}
+    data:
+      type: daily
+    target:
+      device_id: 9bdacd0d05f68f09cc87f284a7e4811c
+    response_variable: weather
   - repeat:
       count: 4
       sequence:
@@ -16,6 +23,12 @@ sequence:
                     - condition: numeric_state
                       entity_id: sensor.openweathermap_temperature
                       above: 40
+                      enabled: true
+                    - condition: template
+                      value_template: >-
+                        {{weather['weather.openweathermap'].forecast[0].templow
+                        > 40}}
+                      alias: Low temp is above 40
               then:
                 - device_id: b8e65997f7e92ed22468ec09be72864e
                   continue_on_error: true
