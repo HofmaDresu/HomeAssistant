@@ -1,0 +1,16 @@
+alias: Toggle recycling boolean
+description: ""
+triggers:
+  - trigger: time
+    at: "11:00:00"
+conditions:
+  - condition: time
+    weekday:
+      - tue
+actions:
+  - action: input_boolean.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.recycling_at_next_trash
+mode: single
