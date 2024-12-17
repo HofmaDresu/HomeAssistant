@@ -106,16 +106,17 @@ sequence:
       message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
     target:
       entity_id: tts.home_assistant_cloud
+    enabled: false
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      media_player_entity_id: media_player.living_room_home
+      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
+      options:
+        voice: ttLooivY93OUNiBcvW5R
+    target:
+      entity_id: tts.elevenlabs
     enabled: true
-  - if:
-      - condition: time
-        weekday:
-          - tue
-    then:
-      - action: input_boolean.toggle
-        metadata: {}
-        data: {}
-        target:
-          entity_id: input_boolean.recycling_at_next_trash
 description: ""
 icon: mdi:radio-tower
