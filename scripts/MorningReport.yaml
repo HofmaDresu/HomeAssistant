@@ -59,9 +59,12 @@ sequence:
           {{'\n'}}
         {%- endfor %}
 
-        {% set chorelist_items = chore_list['todo.chores']['items'] | list %}
+        {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
 
-        {%- if now().weekday() == 1 or chorelist_items | count > 0 %}
+        {% set shoud_show_weekend_chores = chorelist_items | count > 0 and
+        (now().weekday() == 5 or now().weekday() == 6) %}
+
+        {%- if now().weekday() == 1 or shoud_show_weekend_chores %}
           *Chores*
           {{'\n'}}
           {%- if now().weekday() == 1 %}
@@ -98,25 +101,34 @@ sequence:
       seconds: 5
       milliseconds: 0
     enabled: true
-  - action: tts.speak
-    metadata: {}
-    data:
-      cache: true
-      media_player_entity_id: media_player.living_room_home
-      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
-    target:
-      entity_id: tts.home_assistant_cloud
-    enabled: false
-  - action: tts.speak
-    metadata: {}
-    data:
-      cache: true
-      media_player_entity_id: media_player.living_room_home
-      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
-      options:
-        voice: ttLooivY93OUNiBcvW5R
-    target:
-      entity_id: tts.elevenlabs
-    enabled: true
+  - alias: TTS Speak
+    if:
+      - condition: template
+        value_template: >-
+          {{ state_attr('sensor.ha_text_ai_openai_llm', 'response').split(' ') |
+          length < states.sensor.eleven_labs_remaining_character_count.state  |
+          int}}
+    then:
+      - action: tts.speak
+        metadata: {}
+        data:
+          cache: true
+          media_player_entity_id: media_player.living_room_home
+          message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
+          options:
+            voice: ttLooivY93OUNiBcvW5R
+        target:
+          entity_id: tts.elevenlabs
+        enabled: true
+    else:
+      - action: tts.speak
+        metadata: {}
+        data:
+          cache: true
+          media_player_entity_id: media_player.living_room_home
+          message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
+        target:
+          entity_id: tts.home_assistant_cloud
+        enabled: true
 description: ""
 icon: mdi:radio-tower
