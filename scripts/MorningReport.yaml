@@ -61,10 +61,10 @@ sequence:
 
         {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
 
-        {% set shoud_show_weekend_chores = chorelist_items | count > 0 and
+        {% set should_show_weekend_chores = chorelist_items | count > 0 and
         (now().weekday() == 5 or now().weekday() == 6) %}
 
-        {%- if now().weekday() == 1 or shoud_show_weekend_chores %}
+        {%- if now().weekday() == 1 or should_show_weekend_chores %}
           *Chores*
           {{'\n'}}
           {%- if now().weekday() == 1 %}
@@ -74,10 +74,12 @@ sequence:
               take out trash
             {% endif -%}
           {% endif -%}
-          {% for chore in chorelist_items -%}
-            {{chore.summary}}
-            {{'\n'}}
-          {%- endfor %}
+          {%- if should_show_weekend_chores %}
+            {% for chore in chorelist_items -%}
+              {{chore.summary}}
+              {{'\n'}}
+            {%- endfor %}
+          {% endif -%}
         {% endif -%}
   - stop: testing
     enabled: false
