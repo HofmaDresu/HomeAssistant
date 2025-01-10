@@ -17,23 +17,52 @@ actions:
     response_variable: chores
     target:
       entity_id: todo.chores
-  - choose:
-      - conditions:
-          - condition: template
-            value_template: "{{ now().day < 8 and now().weekday() == 5 }}"
-        sequence:
-          - action: script.add_unique_chore
-            metadata: {}
-            data:
-              chore: Clean basement bathroom
-        alias: Basement Bathroom Cleaning
-      - conditions:
-          - condition: template
-            value_template: "{{ now().day == 3 and now().month == 1 }}"
-        sequence:
-          - action: script.add_unique_chore
-            metadata: {}
-            data:
-              chore: Refill emergency water
-        alias: Refill emergency water
+  - if:
+      - condition: template
+        value_template: "{{ now().day < 8 and now().weekday() == 5 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean basement bathroom
+    alias: "Add chore: basement bathroom cleaning"
+  - if:
+      - condition: template
+        value_template: "{{ now().day == 3 and now().month == 1 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Refill emergency water
+    alias: "Add chore: refill emergency water"
+  - if:
+      - condition: or
+        conditions:
+          - condition: numeric_state
+            entity_id: sensor.let_s_go_tire_pressure_front_left
+            below: 39
+          - condition: numeric_state
+            entity_id: sensor.let_s_go_tire_pressure_front_right
+            below: 39
+          - condition: numeric_state
+            entity_id: sensor.let_s_go_tire_pressure_rear_left
+            below: 39
+          - condition: numeric_state
+            entity_id: sensor.let_s_go_tire_pressure_rear_right
+            below: 39
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Pump Let's Go's tires
+    alias: "Add chore: refill Let's Go's tires"
+  - alias: "Add chore: water and feed plant"
+    if:
+      - condition: template
+        value_template: "{{ now().day == 1 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Water and feed plant
 mode: single
