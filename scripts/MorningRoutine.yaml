@@ -13,6 +13,8 @@ sequence:
         weekday: "{{(now() + timedelta(days=1)).weekday()}}"
       target: "{{tomorrow if now().hour >= 7 else today}}"
       targetIsToday: "{{today.day == target.day}}"
+      targetSixAmString: "{{target.year}}:{{target.month}}:{{target.day}}:6"
+      targetSixAm: "{{strptime(targetSixAmString, '%Y:%m:%d:%H')}}"
       targetSevenAmString: "{{target.year}}:{{target.month}}:{{target.day}}:7"
       targetSevenAm: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H')}}"
       targetSevenAmTimestamp: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H').timestamp()}}"
@@ -35,25 +37,27 @@ sequence:
       targetIsTuesday: "{{target.weekday == 1}}"
       isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
   - variables:
-      baseFireAlarmAt: "{{weekendFireAlarmAt if targetIsWeekend else weekdayFireAlarmAt}}"
-      calculatedFireAlarmAt: "{{targetSevenAm if targetIsTuesday or isPetMode else baseFireAlarmAt}}"
-      isOverrideActive: "{{states('input_boolean.alarm_override_active') == 'on'}}"
-      fireAlarmAt: "{{overrideAt if isOverrideActive else calculatedFireAlarmAt}}"
+      fireAlarmAt: >-
+        {% if isOverrideActive %}  {{overrideAt}}  {% elif targetIsTuesday %}
+        {{targetSixAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
+        targetIsWeekend %} {{weekendFireAlarmAt}} {% else %}
+        {{weekdayFireAlarmAt}} {% endif %}
       fireAlarmIn: >-
         {{strptime(fireAlarmAt, '%Y-%m-%d %H:%M:%S').timestamp() -
         now().timestamp()}}
     enabled: true
-  - if: []
+  - alias: Test logging (halts)
+    if: []
     then:
       - data:
           cache: false
           entity_id: media_player.living_room_home
           message: >-
-            Goodnight Matt. {{overrideString}} Your alarm is set to {{'today' if
-            targetIsToday else 'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
+            Goodnight Matt. Your alarm is set to {{'today' if targetIsToday else
+            'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
             %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
             %H:%M:%S').minute}}
-        enabled: false
+        enabled: true
         action: tts.cloud_say
       - metadata: {}
         data:
@@ -65,7 +69,6 @@ sequence:
             %H:%M:%S').minute}}"
         action: logbook.log
       - stop: ""
-    alias: Test logging (halts)
     enabled: false
   - data:
       cache: false
