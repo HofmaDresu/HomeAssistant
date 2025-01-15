@@ -37,6 +37,7 @@ sequence:
       targetIsTuesday: "{{target.weekday == 1}}"
       isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
   - variables:
+      isOverrideActive: "{{states('input_boolean.alarm_override_active') == 'on'}}"
       fireAlarmAt: >-
         {% if isOverrideActive %}  {{overrideAt}}  {% elif targetIsTuesday %}
         {{targetSixAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
