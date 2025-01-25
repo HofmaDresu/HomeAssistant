@@ -1,0 +1,13 @@
+alias: Deluminate
+description: ""
+triggers:
+  - trigger: conversation
+    command: Deluminate
+conditions: []
+actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.power_off
+mode: single
