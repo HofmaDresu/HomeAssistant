@@ -1,15 +1,16 @@
 alias: Protect from heat
 description: ""
-trigger:
-  - platform: numeric_state
-    entity_id:
+mode: single
+triggers:
+  - entity_id:
       - sensor.openweathermap_feels_like_temperature
     above: 89
-  - platform: numeric_state
-    entity_id:
+    trigger: numeric_state
+  - entity_id:
       - sensor.openweathermap_temperature
     above: 89
-condition:
+    trigger: numeric_state
+conditions:
   - condition: and
     conditions:
       - condition: or
@@ -23,7 +24,7 @@ condition:
       - condition: state
         entity_id: person.hofmadresu
         state: home
-action:
+actions:
   - alias: If shades and windows both open
     if:
       - condition: and
@@ -38,7 +39,7 @@ action:
       - metadata: {}
         data:
           cache: false
-          entity_id: media_player.living_room_home
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
           message: >-
             Heat index is very high, you should close windows. South shades will
             close in 5 minutes
@@ -100,7 +101,6 @@ action:
       - metadata: {}
         data:
           cache: false
-          entity_id: media_player.living_room_home
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
           message: Heat index is very high, you should close windows
         action: tts.cloud_say
-mode: single
