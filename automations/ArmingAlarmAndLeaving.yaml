@@ -1,8 +1,7 @@
 alias: Arming alarm and leaving
 description: ""
-trigger:
-  - platform: device
-    device_id: 12991409e93a14125e39db65a3b740dc
+triggers:
+  - device_id: 12991409e93a14125e39db65a3b740dc
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: arming
@@ -10,8 +9,12 @@ trigger:
       hours: 0
       minutes: 0
       seconds: 10
-condition: []
-action:
-  - service: script.leaving_home
-    data: {}
+    trigger: device
+  - trigger: conversation
+    command: I'm Leaving
+conditions: []
+actions:
+  - set_conversation_response: ""
+  - data: {}
+    action: script.leaving_home
 mode: single
