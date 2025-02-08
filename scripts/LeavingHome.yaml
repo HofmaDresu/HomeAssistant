@@ -1,50 +1,38 @@
 alias: Leaving Home
 sequence:
-  - alias: Unlock back door if needed and temp > 40
+  - set_conversation_response: ""
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: Goodbye
+      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+    target:
+      entity_id: tts.home_assistant_cloud
+  - alias: arm alarm if needed
     if:
-      - condition: and
-        conditions:
-          - condition: device
-            device_id: b8e65997f7e92ed22468ec09be72864e
-            domain: lock
-            entity_id: fdc40a92e9d88a64b7716976c4c8755d
-            type: is_locked
-          - condition: numeric_state
-            entity_id: sensor.openweathermap_temperature
-            above: 40
-          - type: is_plugged_in
-            condition: device
-            device_id: ed7b9f44ffc98852eea9b0c0969fd836
-            entity_id: a5bb6cb73ab470aa4d8736886f5f12af
-            domain: binary_sensor
+      - condition: device
+        device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: is_disarmed
     then:
-      - device_id: b8e65997f7e92ed22468ec09be72864e
-        continue_on_error: true
-        domain: lock
-        entity_id: fdc40a92e9d88a64b7716976c4c8755d
-        type: unlock
-  - alias: Unlock front door if needed
-    if:
-      - condition: and
-        conditions:
-          - condition: device
-            device_id: 8599d43198c31f8039e60c9720057d93
-            domain: lock
-            entity_id: d246fa82b68b4b1e67313b7e646f6b56
-            type: is_locked
-          - condition: not
-            conditions:
-              - type: is_plugged_in
-                condition: device
-                device_id: ed7b9f44ffc98852eea9b0c0969fd836
-                entity_id: a5bb6cb73ab470aa4d8736886f5f12af
-                domain: binary_sensor
-    then:
-      - device_id: 8599d43198c31f8039e60c9720057d93
-        continue_on_error: true
-        domain: lock
-        entity_id: d246fa82b68b4b1e67313b7e646f6b56
-        type: unlock
+      - if:
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "off"
+        then:
+          - device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: arm_away
+            code: "{{!secret alarm_code}}"
+        else:
+          - device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: arm_home
+            code: "{{!secret alarm_code}}"
   - type: turn_off
     device_id: 75926ca61b1c20b4244e6bbb18afb0cb
     entity_id: 12558812288e7e55b69faefb3fec3371
@@ -69,6 +57,7 @@ sequence:
         device_id: 0f1815f6576728547da6fbc3a3b69277
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
+    alias: Turn on garage light if needed
   - delay:
       hours: 0
       minutes: 1
@@ -100,30 +89,6 @@ sequence:
     data: {}
     target:
       entity_id: script.lock_doors
-  - alias: arm alarm if needed
-    if:
-      - condition: device
-        device_id: 12991409e93a14125e39db65a3b740dc
-        domain: alarm_control_panel
-        entity_id: ed8fc83278462fc5ba4f6de76da799ad
-        type: is_disarmed
-    then:
-      - if:
-          - condition: state
-            entity_id: input_boolean.pet_mode
-            state: "off"
-        then:
-          - device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: arm_away
-            code: "{{!secret alarm_code}}"
-        else:
-          - device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: arm_home
-            code: "{{!secret alarm_code}}"
   - alias: Wait until I leave or 5 min pass
     wait_for_trigger:
       - entity_id: person.hofmadresu
