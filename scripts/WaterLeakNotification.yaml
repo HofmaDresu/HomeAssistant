@@ -14,7 +14,7 @@ sequence:
         notification_icon: mdi:water-alert
   - data:
       cache: false
-      entity_id: media_player.living_room_home
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
       message: Water leak detected in {{location}}
     enabled: true
     action: tts.cloud_say
