@@ -1,239 +1,159 @@
-alias: Morning Routine
+alias: Morning Report
 sequence:
-  - variables:
-      today:
-        year: "{{now().year}}"
-        month: "{{now().month}}"
-        day: "{{now().day}}"
-        weekday: "{{now().weekday()}}"
-      tomorrow:
-        year: "{{(now() + timedelta(days=1)).year}}"
-        month: "{{(now() + timedelta(days=1)).month}}"
-        day: "{{(now() + timedelta(days=1)).day}}"
-        weekday: "{{(now() + timedelta(days=1)).weekday()}}"
-      target: "{{tomorrow if now().hour >= 7 else today}}"
-      targetIsToday: "{{today.day == target.day}}"
-      targetSixAmString: "{{target.year}}:{{target.month}}:{{target.day}}:6"
-      targetSixAm: "{{strptime(targetSixAmString, '%Y:%m:%d:%H')}}"
-      targetSevenAmString: "{{target.year}}:{{target.month}}:{{target.day}}:7"
-      targetSevenAm: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H')}}"
-      targetSevenAmTimestamp: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H').timestamp()}}"
-      targetEightAmString: "{{target.year}}:{{target.month}}:{{target.day}}:8"
-      targetEightAm: "{{strptime(targetEightAmString, '%Y:%m:%d:%H')}}"
-      targetEightAmTimestamp: "{{strptime(targetEightAmString, '%Y:%m:%d:%H').timestamp()}}"
-      targetNineAmString: "{{target.year}}:{{target.month}}:{{target.day}}:9"
-      targetNineAm: "{{strptime(targetNineAmString, '%Y:%m:%d:%H')}}"
-      overrideString: >-
-        {{target.year}}:{{target.month}}:{{target.day}}:{{strptime(states('input_datetime.alarm_override_time'),
-        '%H:%M:%S').hour}}:{{strptime(states('input_datetime.alarm_override_time'),
-        '%H:%M:%S').minute}}
-      overrideAt: "{{strptime(overrideString, '%Y:%m:%d:%H:%M')}}"
-      eightHours: "{{8 * 60 * 60}}"
-      timeToSevenAm: "{{targetSevenAmTimestamp - now().timestamp()}}"
-      timeToEightAm: "{{targetEightAmTimestamp - now().timestamp()}}"
-      weekdayFireAlarmAt: "{{targetSevenAm if timeToSevenAm >= eightHours else targetEightAm}}"
-      weekendFireAlarmAt: "{{targetEightAm if timeToEightAm >= eightHours else targetNineAm}}"
-      targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
-      targetIsTuesday: "{{target.weekday == 1}}"
-      isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
-  - variables:
-      isOverrideActive: "{{states('input_boolean.alarm_override_active') == 'on'}}"
-      fireAlarmAt: >-
-        {% if isOverrideActive %}  {{overrideAt}}  {% elif targetIsTuesday %}
-        {{targetSixAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
-        targetIsWeekend %} {{weekendFireAlarmAt}} {% else %}
-        {{weekdayFireAlarmAt}} {% endif %}
-      fireAlarmIn: >-
-        {{strptime(fireAlarmAt, '%Y-%m-%d %H:%M:%S').timestamp() -
-        now().timestamp()}}
-    enabled: true
-  - alias: Test logging (halts)
-    if: []
-    then:
-      - data:
-          cache: false
-          entity_id: media_player.living_room_home
-          message: >-
-            Goodnight Matt. Your alarm is set to {{'today' if targetIsToday else
-            'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
-            %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
-            %H:%M:%S').minute}}
-        enabled: true
-        action: tts.cloud_say
-      - metadata: {}
-        data:
-          name: morning_routine_testing
-          message: >-
-            "Goodnight Matt. Your alarm is set to {{'today' if targetIsToday
-            else     'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d    
-            %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
-            %H:%M:%S').minute}}"
-        action: logbook.log
-      - stop: ""
-    enabled: false
-  - data:
-      cache: false
-      entity_id: media_player.home_assistant_bedroom_media_player
-      message: >-
-        Goodnight Matt. Your alarm is set to {{'today' if targetIsToday else
-        'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
-        %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d %H:%M:%S').minute}}
-    enabled: true
-    action: tts.cloud_say
-  - delay: "{{fireAlarmIn}}"
-    enabled: true
-  - alias: Stop if circuitbreaker
-    if:
-      - condition: state
-        entity_id: input_boolean.alarm_circuitbreaker
-        state: "on"
-    then:
-      - stop: Circuit Breaker
-    enabled: true
-  - metadata: {}
-    data:
-      code: "3971"
-    target:
-      device_id: 12991409e93a14125e39db65a3b740dc
-    action: alarm_control_panel.alarm_disarm
-  - target:
-      entity_id: input_boolean.alarm_override_active
-    data: {}
-    action: input_boolean.turn_off
-  - alias: Stop if already awake
-    if:
-      - condition: state
-        entity_id: sensor.matt_s_phone_pixel_8_battery_state_2
-        state: discharging
-    then:
-      - stop: Already awake
-    enabled: true
-  - alias: Trigger Alarm
-    if:
-      - condition: template
-        value_template: "{{targetIsWeekend}}"
-    then:
-      - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
-        data:
-          volume_level: 0.75
-        action: media_player.volume_set
-      - target:
-          entity_id: media_player.home_assistant_bedroom_media_player
-        data:
-          media_content_id: media-source://media_source/local/25 Salvation is Created.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 25 Salvation is Created.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-        action: media_player.play_media
-      - delay:
-          hours: 0
-          minutes: 1
-          seconds: 54
-          milliseconds: 250
-      - type: turn_on
-        device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-        entity_id: 89d5346579b899623f4d4f45014c604a
-        domain: switch
-      - if:
-          - condition: state
-            entity_id: input_boolean.pet_mode
-            state: "on"
-        then:
-          - metadata: {}
-            data: {}
-            target:
-              area_id: living_room
-            action: light.turn_on
-        alias: Turn on living room lights if Pet Mode
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 58
-          milliseconds: 0
-      - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
-        data:
-          volume_level: 0.3
-        action: media_player.volume_set
-    else:
-      - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
-        data:
-          volume_level: 0.75
-        action: media_player.volume_set
-      - target:
-          entity_id: media_player.home_assistant_bedroom_media_player
-        data:
-          media_content_id: media-source://media_source/local/01 Entry Cadence.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 01 Entry Cadence.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-        action: media_player.play_media
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 42
-          milliseconds: 0
-      - type: turn_on
-        device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-        entity_id: 89d5346579b899623f4d4f45014c604a
-        domain: switch
-      - if:
-          - condition: state
-            entity_id: input_boolean.pet_mode
-            state: "on"
-        then:
-          - metadata: {}
-            data: {}
-            target:
-              area_id: living_room
-            action: light.turn_on
-        alias: Turn on living room lights if Pet Mode
-      - target:
-          entity_id: media_player.home_assistant_bedroom_media_player
-        data:
-          media_content_id: media-source://media_source/local/02 M Fanfare.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 02 M Fanfare.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-        action: media_player.play_media
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 54
-          milliseconds: 0
-      - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
-        data:
-          volume_level: 0.3
-        action: media_player.volume_set
-  - action: script.morning_report
+  - action: todo.get_items
     metadata: {}
-    data: {}
-mode: single
+    data:
+      status: needs_action
+    response_variable: chore_list
+    target:
+      entity_id: todo.chores
+  - action: weather.get_forecasts
+    metadata: {}
+    data:
+      type: daily
+    target:
+      device_id: 9bdacd0d05f68f09cc87f284a7e4811c
+    response_variable: weather
+  - action: calendar.get_events
+    metadata: {}
+    data:
+      duration:
+        hours: 24
+        minutes: 0
+        seconds: 0
+      start_date_time: "{{ today_at().strftime('%Y-%m-%d %H:%M') }}"
+    target:
+      entity_id: calendar.hofma_dresu
+    response_variable: events
+  - action: ha_text_ai.clear_history
+    metadata: {}
+    data:
+      instance: sensor.ha_text_ai_openai_llm
+  - variables:
+      question: >
+        *Time of day*  {%- if now().hour < 12 %}
+          morning
+        {% elif now().hour < 16 %}
+          afternoon
+        {% elif now().hour < 20 %}
+          evening
+        {% else %}
+          night
+        {%- endif %}
+
+        *Weather*
+          High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
+        Low: {{weather['weather.openweathermap'].forecast[0].templow}} F
+
+        Condition: {{weather['weather.openweathermap'].forecast[0].condition}}
+
+        Precipitation:
+        {{weather['weather.openweathermap'].forecast[0].precipitation}}
+
+        Precipitation Chance:
+        {{weather['weather.openweathermap'].forecast[0].precipitation_probability}}
+
+        *Calendar* {{'\n'}} {% for ev in events['calendar.hofma_dresu'].events
+        -%}
+          {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
+          {{'\n'}}
+        {%- endfor %}
+
+        {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
+
+        {% set should_show_weekend_chores = chorelist_items | count > 0 and
+        (now().weekday() == 5 or now().weekday() == 6) %}
+
+        {%- if now().weekday() == 1 or should_show_weekend_chores %}
+          *Chores*
+          {{'\n'}}
+          {%- if now().weekday() == 1 %}
+            {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
+              take out trash, recycling, and yard waste
+            {% else %}
+              take out trash
+            {% endif -%}
+          {% endif -%}
+          {%- if should_show_weekend_chores %}
+            {% for chore in chorelist_items -%}
+              {{chore.summary}}
+              {{'\n'}}
+            {%- endfor %}
+          {% endif -%}
+        {% endif -%}
+  - stop: testing
+    enabled: false
+  - action: ha_text_ai.ask_question
+    metadata: {}
+    data:
+      temperature: 0.7
+      max_tokens: 1000
+      instance: sensor.ha_text_ai_openai_llm
+      question: "{{question}}"
+      system_prompt: |-
+        You are a radio reporter from the 1920s
+        You summarize the information you're given in the style of a news report
+        You state times in 24 hour format
+        You state temperatures in fahrenheit
+        You use old-timey coloquialisms
+    enabled: true
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+    enabled: true
+  - variables:
+      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
+      messageArray: |-
+        {{message.split('
+        ')}}
+  - repeat:
+      sequence:
+        - variables:
+            isEmpty: "{{repeat.item == ''}}"
+            isNotEmpty: "{{repeat.item != ''}}"
+        - if:
+            - condition: template
+              value_template: "{{ isNotEmpty }}"
+          then:
+            - alias: TTS Speak
+              if:
+                - condition: template
+                  value_template: >-
+                    {{ repeat.item.split(' ') | length <
+                    states.sensor.eleven_labs_remaining_character_count.state  |
+                    int}}
+              then:
+                - action: tts.speak
+                  metadata: {}
+                  data:
+                    cache: true
+                    media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                    message: "{{ repeat.item }}"
+                    options:
+                      voice: ttLooivY93OUNiBcvW5R
+                  target:
+                    entity_id: tts.elevenlabs
+                  enabled: true
+              else:
+                - action: tts.speak
+                  metadata: {}
+                  data:
+                    cache: true
+                    media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                    message: "{{ repeat.item }}"
+                  target:
+                    entity_id: tts.home_assistant_cloud
+                  enabled: true
+            - wait_template: >-
+                {{is_state('media_player.home_assistant_voice_091b0c_media_player',
+                'playing')}}
+              continue_on_timeout: false
+            - wait_template: >-
+                {{is_state('media_player.home_assistant_voice_091b0c_media_player',
+                'idle')}}
+              continue_on_timeout: false
+      for_each: "{{messageArray}}"
+description: ""
+icon: mdi:radio-tower
