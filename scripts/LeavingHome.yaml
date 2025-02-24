@@ -1,6 +1,5 @@
 alias: Leaving Home
 sequence:
-  - set_conversation_response: ""
   - action: tts.speak
     metadata: {}
     data:
@@ -9,30 +8,24 @@ sequence:
       media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
     target:
       entity_id: tts.home_assistant_cloud
-  - alias: arm alarm if needed
+  - alias: arm alarm if needed and petmode off
     if:
-      - condition: device
-        device_id: 12991409e93a14125e39db65a3b740dc
-        domain: alarm_control_panel
-        entity_id: ed8fc83278462fc5ba4f6de76da799ad
-        type: is_disarmed
-    then:
-      - if:
+      - condition: and
+        conditions:
+          - condition: device
+            device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: is_disarmed
           - condition: state
             entity_id: input_boolean.pet_mode
             state: "off"
-        then:
-          - device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: arm_away
-            code: "{{!secret alarm_code}}"
-        else:
-          - device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: arm_home
-            code: "{{!secret alarm_code}}"
+    then:
+      - device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: arm_away
+        code: "{{!secret alarm_code}}"
   - type: turn_off
     device_id: 75926ca61b1c20b4244e6bbb18afb0cb
     entity_id: 12558812288e7e55b69faefb3fec3371
@@ -112,4 +105,22 @@ sequence:
     device_id: d335cbfa6df50be26984873aca876e52
     entity_id: a2bac3d5f31f428c4dc2174c59c7ff94
     domain: switch
+  - alias: arm alarm if needed and petmode on
+    if:
+      - condition: and
+        conditions:
+          - condition: device
+            device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: is_disarmed
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
+    then:
+      - device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: arm_home
+        code: "{{!secret alarm_code}}"
 mode: single
