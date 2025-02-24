@@ -1,0 +1,30 @@
+alias: Coffee timer
+description: ""
+triggers:
+  - trigger: conversation
+    command: Coffee Timer
+conditions: []
+actions:
+  - set_conversation_response: ""
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: Activating coffee timer
+      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+    target:
+      entity_id: tts.home_assistant_cloud
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 30
+      milliseconds: 0
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      message: Your coffee is done steeping, plunge away!
+      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+    target:
+      entity_id: tts.home_assistant_cloud
+mode: single
