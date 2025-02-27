@@ -65,4 +65,23 @@ actions:
         metadata: {}
         data:
           chore: Water and feed plant
+  - alias: "Add chore: set up next month's meals on wheels"
+    if:
+      - condition: template
+        value_template: "{{ now().day == 1 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Set up next month's meals on wheels
+  - alias: "Add chore: clean washer"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.washer_tub_clean_counter
+        above: 29
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean washer
 mode: single
