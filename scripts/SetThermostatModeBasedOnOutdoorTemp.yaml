@@ -13,21 +13,17 @@ sequence:
                   - condition: numeric_state
                     entity_id: sensor.openweathermap_temperature
                     above: 60
-                  - condition: not
-                    conditions:
-                      - condition: state
-                        entity_id: climate.family_room
-                        state: heat
+                  - condition: state
+                    entity_id: climate.family_room
+                    state: cool
               - condition: and
                 conditions:
                   - condition: numeric_state
                     entity_id: sensor.openweathermap_temperature
                     below: 60
-                  - condition: not
-                    conditions:
-                      - condition: state
-                        entity_id: climate.family_room
-                        state: cool
+                  - condition: state
+                    entity_id: climate.family_room
+                    state: heat
     then:
       - alias: Turn on thermostat
         if:
