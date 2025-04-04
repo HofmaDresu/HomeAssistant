@@ -35,27 +35,6 @@ actions:
         data:
           chore: Refill emergency water
     alias: "Add chore: refill emergency water"
-  - if:
-      - condition: or
-        conditions:
-          - condition: numeric_state
-            entity_id: sensor.let_s_go_tire_pressure_front_left
-            below: 39
-          - condition: numeric_state
-            entity_id: sensor.let_s_go_tire_pressure_front_right
-            below: 39
-          - condition: numeric_state
-            entity_id: sensor.let_s_go_tire_pressure_rear_left
-            below: 39
-          - condition: numeric_state
-            entity_id: sensor.let_s_go_tire_pressure_rear_right
-            below: 39
-    then:
-      - action: script.add_unique_chore
-        metadata: {}
-        data:
-          chore: Pump Let's Go's tires
-    alias: "Add chore: refill Let's Go's tires"
   - alias: "Add chore: water and feed plant"
     if:
       - condition: template
