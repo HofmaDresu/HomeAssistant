@@ -1,0 +1,36 @@
+alias: Activate circadian overnight
+description: ""
+triggers:
+  - trigger: time
+    at: "04:00:00"
+conditions:
+  - condition: and
+    conditions:
+      - condition: device
+        type: is_off
+        device_id: 7a00544c97f80dfcc3ba0fab5f0f2b06
+        entity_id: 6aad29377c9d331661aefb7d3aa9bf6c
+        domain: light
+      - condition: device
+        type: is_off
+        device_id: 0eec206f3ae8307023fe6e831b9dc8c2
+        entity_id: 4f504f129d920af05dbfed66e23bcf8f
+        domain: light
+      - condition: device
+        type: is_off
+        device_id: bad671e7062197c2244063c9ab807b41
+        entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
+        domain: light
+      - condition: device
+        type: is_off
+        device_id: 1155e017f2b58ecdf76d69807001a0b9
+        entity_id: 525207ce60b068d636526e83f993b12a
+        domain: light
+    alias: Main lights are off
+actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.circadian_lighting_whole_house_circadian_switch
+mode: single
