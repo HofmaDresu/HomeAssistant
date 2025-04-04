@@ -1,0 +1,52 @@
+alias: Set alarm on command
+description: ""
+triggers:
+  - trigger: conversation
+    command:
+      - Goodnight
+      - Good night
+conditions: []
+actions:
+  - set_conversation_response: ""
+  - parallel:
+      - if:
+          - condition: template
+            value_template: "{{true}}"
+        then:
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 10
+              milliseconds: 0
+          - device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: arm_home
+            code: "{{!secret alarm_code}}"
+          - action: script.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: script.lock_doors
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 50
+              milliseconds: 0
+          - target:
+              entity_id: scene.power_off
+            metadata: {}
+            action: scene.turn_on
+            data: {}
+      - alias: Run morning routine if CB off
+        if:
+          - condition: state
+            entity_id: input_boolean.alarm_circuitbreaker
+            state: "off"
+        then:
+          - action: script.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: script.morning_routine
+mode: single
