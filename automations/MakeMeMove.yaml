@@ -67,9 +67,6 @@ actions:
         - name: Kettlebell Halos
           unit: reps
           count: "2"
-        - name: Kettlebell Good Mornings
-          unit: reps
-          count: "5"
         - name: Pullups
           unit: reps
           count: "10"
@@ -77,9 +74,6 @@ actions:
           unit: reps
           count: "10"
         - name: Triceps Lifts
-          unit: reps
-          count: "10"
-        - name: Dumbell Press
           unit: reps
           count: "10"
         - name: Swimmer's Presses
