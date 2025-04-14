@@ -40,7 +40,7 @@ sequence:
       isOverrideActive: "{{states('input_boolean.alarm_override_active') == 'on'}}"
       fireAlarmAt: >-
         {% if isOverrideActive %}  {{overrideAt}}  {% elif targetIsTuesday %}
-        {{targetSixAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
+        {{targetSevenAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
         targetIsWeekend %} {{weekendFireAlarmAt}} {% else %}
         {{weekdayFireAlarmAt}} {% endif %}
       fireAlarmIn: >-
@@ -163,7 +163,7 @@ sequence:
           device_id:
             - 9ad052cef9da6d789eb359a4ff2ee0f9
         data:
-          volume_level: 0.3
+          volume_level: 0.4
         action: media_player.volume_set
     else:
       - target:
@@ -231,7 +231,7 @@ sequence:
           device_id:
             - 9ad052cef9da6d789eb359a4ff2ee0f9
         data:
-          volume_level: 0.3
+          volume_level: 0.4
         action: media_player.volume_set
   - action: script.turn_on
     metadata: {}
