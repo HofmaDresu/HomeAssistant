@@ -19,6 +19,10 @@ conditions:
   - condition: state
     entity_id: input_boolean.pet_mode
     state: "off"
+  - condition: numeric_state
+    entity_id: cover.office_shades
+    attribute: current_position
+    below: 50
 actions:
   - metadata: {}
     data: {}
