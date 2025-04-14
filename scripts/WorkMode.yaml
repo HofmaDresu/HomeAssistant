@@ -17,4 +17,9 @@ sequence:
             - bedroom
             - living_room
         action: cover.open_cover
+  - action: cover.close_cover
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
 mode: single
