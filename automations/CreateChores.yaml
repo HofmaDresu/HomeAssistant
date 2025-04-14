@@ -5,6 +5,28 @@ triggers:
     at: "05:00:00"
 conditions: []
 actions:
+  - alias: Get completed chores
+    action: todo.get_items
+    metadata: {}
+    data:
+      status:
+        - completed
+    response_variable: completedChores
+    target:
+      entity_id: todo.chores
+  - if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Replace furnace filter')|list|count
+              > 0}}
+    then:
+      - alias: "Add chore: Clean used furnace filter"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean used furnace filter
+    alias: Clean filter if replacement complete
   - action: todo.remove_completed_items
     metadata: {}
     data: {}
@@ -19,15 +41,6 @@ actions:
       entity_id: todo.chores
   - if:
       - condition: template
-        value_template: "{{ now().day < 8 and now().weekday() == 5 }}"
-    then:
-      - action: script.add_unique_chore
-        metadata: {}
-        data:
-          chore: Clean basement bathroom
-    alias: "Add chore: basement bathroom cleaning"
-  - if:
-      - condition: template
         value_template: "{{ now().day == 3 and now().month == 1 }}"
     then:
       - action: script.add_unique_chore
@@ -35,16 +48,7 @@ actions:
         data:
           chore: Refill emergency water
     alias: "Add chore: refill emergency water"
-  - alias: "Add chore: water and feed plant"
-    if:
-      - condition: template
-        value_template: "{{ now().day == 1 }}"
-    then:
-      - action: script.add_unique_chore
-        metadata: {}
-        data:
-          chore: Water and feed plant
-  - alias: "Add chore: set up next month's meals on wheels"
+  - alias: Add monthy chores
     if:
       - condition: template
         value_template: "{{ now().day == 1 }}"
@@ -53,6 +57,22 @@ actions:
         metadata: {}
         data:
           chore: Set up next month's meals on wheels
+        alias: "Add chore: Set up next month's meals on wheels"
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Water and feed plant
+        alias: "Add chore: Water and feed plant"
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean basement bathroom
+        alias: "Add chore: Clean basement bathroom"
+      - alias: "Add chore: Pay bills"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Pay bills
   - alias: "Add chore: clean washer"
     if:
       - condition: numeric_state
@@ -63,4 +83,14 @@ actions:
         metadata: {}
         data:
           chore: Clean washer
+  - if:
+      - condition: template
+        value_template: "{{ now().day == 1 and now().month % 3 == 1}}"
+    then:
+      - alias: "Add chore: Pay bills"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Replace furnace filter
+    alias: "Add chore: Replace furnace filter"
 mode: single
