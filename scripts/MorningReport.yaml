@@ -1,6 +1,5 @@
 alias: Morning Report
 sequence:
-  - set_conversation_response: ""
   - action: todo.get_items
     metadata: {}
     data:
@@ -62,10 +61,9 @@ sequence:
 
         {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
 
-        {% set should_show_weekend_chores = chorelist_items | count > 0 and
-        (now().weekday() == 5 or now().weekday() == 6) %}
+        {% set should_show_chores = chorelist_items | count > 0 %}
 
-        {%- if now().weekday() == 1 or should_show_weekend_chores %}
+        {%- if now().weekday() == 1 or should_show_chores %}
           *Chores*
           {{'\n'}}
           {%- if now().weekday() == 1 %}
