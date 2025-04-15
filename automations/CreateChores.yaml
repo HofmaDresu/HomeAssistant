@@ -83,14 +83,31 @@ actions:
         metadata: {}
         data:
           chore: Clean washer
-  - if:
+  - alias: "Add chore: Replace furnace filter"
+    if:
       - condition: template
         value_template: "{{ now().day == 1 and now().month % 3 == 1}}"
     then:
-      - alias: "Add chore: Pay bills"
+      - alias: "Add chore: Replace furnace filter"
         action: script.add_unique_chore
         metadata: {}
         data:
           chore: Replace furnace filter
-    alias: "Add chore: Replace furnace filter"
+  - if:
+      - condition: and
+        conditions:
+          - condition: time
+            weekday:
+              - mon
+              - thu
+              - sat
+          - condition: state
+            entity_id: input_boolean.hummingbird_feeder_out
+            state: "on"
+    then:
+      - alias: "Add chore: Refresh hummingbird liquid"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Refresh hummingbird liquid
 mode: single
