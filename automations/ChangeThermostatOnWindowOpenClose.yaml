@@ -1,8 +1,7 @@
 alias: Change thermostat on window open/close
 description: ""
-trigger:
-  - platform: state
-    entity_id:
+triggers:
+  - entity_id:
       - binary_sensor.bedroom_window_open_state
     from: null
     to: null
@@ -10,8 +9,9 @@ trigger:
       hours: 0
       minutes: 1
       seconds: 0
-condition: []
-action:
+    trigger: state
+conditions: []
+actions:
   - if:
       - alias: Bedroom window is open
         condition: state
@@ -22,14 +22,20 @@ action:
           minutes: 0
           seconds: 0
     then:
-      - service: climate.set_hvac_mode
+      - action: climate.set_fan_mode
         metadata: {}
+        data:
+          fan_mode: "off"
+        target:
+          device_id: 695ac42995783206896bb51e715e03e1
+      - metadata: {}
         data:
           hvac_mode: "off"
         target:
           entity_id: climate.family_room
         alias: Turn off thermostat
+        action: climate.set_hvac_mode
     else:
-      - service: script.set_temp_based_on_mode
-        data: {}
+      - data: {}
+        action: script.set_temp_based_on_mode
 mode: single
