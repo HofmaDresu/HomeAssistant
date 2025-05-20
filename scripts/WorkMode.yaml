@@ -16,6 +16,7 @@ sequence:
           area_id:
             - bedroom
             - living_room
+            - kitchen
         action: cover.open_cover
   - action: cover.close_cover
     metadata: {}
