@@ -73,7 +73,7 @@ sequence:
               take out trash
             {% endif -%}
           {% endif -%}
-          {%- if should_show_weekend_chores %}
+          {%- if should_show_chores %}
             {% for chore in chorelist_items -%}
               {{chore.summary}}
               {{'\n'}}
