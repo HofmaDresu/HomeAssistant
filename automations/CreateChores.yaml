@@ -110,4 +110,5 @@ actions:
         metadata: {}
         data:
           chore: Refresh hummingbird liquid
+    alias: "Add chore: Refresh hummingbird liquid"
 mode: single
