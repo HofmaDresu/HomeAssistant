@@ -27,11 +27,68 @@ actions:
         data:
           chore: Clean used furnace filter
     alias: Clean filter if replacement complete
+  - if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Clean vacuum sensor')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.roborock_s7_maxv_reset_sensor_consumable
+    alias: "Vacuum: Reset sensor count if complete"
+  - alias: "Vacuum: Reset filter count if complete"
+    if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Replace vacuum filter')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.roborock_s7_maxv_reset_air_filter_consumable
+  - alias: "Vacuum: Reset main brush count if complete"
+    if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Replace vacuum main brush')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.roborock_s7_maxv_reset_main_brush_consumable
+  - alias: "Vacuum: Reset side brush count if complete"
+    if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Replace vacuum side brush')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.roborock_s7_maxv_reset_side_brush_consumable
   - action: todo.remove_completed_items
     metadata: {}
     data: {}
     target:
       entity_id: todo.chores
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
   - action: todo.get_items
     metadata: {}
     data:
@@ -111,4 +168,69 @@ actions:
         data:
           chore: Refresh hummingbird liquid
     alias: "Add chore: Refresh hummingbird liquid"
+  - alias: "Add chore: Vacuum dock error"
+    if:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: sensor.roborock_s7_maxv_dock_error
+            state: ok
+          - condition: state
+            entity_id: sensor.roborock_s7_maxv_dock_error
+            state: unavailable
+          - condition: state
+            entity_id: sensor.roborock_s7_maxv_dock_error
+            state: unknown
+    then:
+      - alias: "Add chore: Vacuum dock error"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: >-
+            vacuum dock error:
+            {{states.sensor.roborock_s7_maxv_dock_error.state}}
+  - alias: "Add chore: Clean vacuum sensor"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.roborock_s7_maxv_sensor_time_left
+        below: 0
+    then:
+      - alias: "Add chore: Clean vacuum sensor"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean vacuum sensor
+  - if:
+      - condition: numeric_state
+        entity_id: sensor.roborock_s7_maxv_filter_time_left
+        below: 0
+    then:
+      - alias: "Add chore: Replace vacuum filter"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Replace vacuum filter
+    alias: "Add chore: Replace vacuum filter"
+  - alias: "Add chore: Replace vacuum main brush"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.roborock_s7_maxv_main_brush_time_left
+        below: 0
+    then:
+      - alias: "Add chore: Replace vacuum main brush"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Replace vacuum main brush
+  - alias: "Add chore: Replace vacuum side brush"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.roborock_s7_maxv_side_brush_time_left
+        below: 0
+    then:
+      - alias: "Add chore: Replace vacuum side brush"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Replace vacuum side brush
 mode: single
