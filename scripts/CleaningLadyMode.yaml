@@ -1,0 +1,27 @@
+sequence:
+  - action: cover.open_cover
+    metadata: {}
+    data: {}
+    target:
+      entity_id: cover.all_shades
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+        - living_room
+        - office
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+        - switch.kitchen_1
+        - switch.bedroom
+alias: Cleaning lady mode
+description: ""
