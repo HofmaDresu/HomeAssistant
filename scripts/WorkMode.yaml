@@ -6,9 +6,14 @@ sequence:
       area_id: office
     action: light.turn_on
   - if:
-      - condition: sun
-        before: sunset
-        after: sunrise
+      - condition: and
+        conditions:
+          - condition: sun
+            before: sunset
+            after: sunrise
+          - condition: numeric_state
+            entity_id: sensor.openweathermap_temperature
+            above: 10
     then:
       - metadata: {}
         data: {}
