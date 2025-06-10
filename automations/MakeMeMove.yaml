@@ -67,12 +67,18 @@ actions:
         - name: Kettlebell Halos
           unit: reps
           count: "2"
+        - name: Turkish Get Ups
+          unit: reps
+          count: "2"
         - name: Pullups
           unit: reps
           count: "10"
         - name: Curls
           unit: reps
           count: "10"
+        - name: Stair Climbs
+          unit: reps
+          count: "16"
         - name: Triceps Lifts
           unit: reps
           count: "10"
