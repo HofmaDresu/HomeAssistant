@@ -120,11 +120,6 @@ actions:
         data:
           chore: Water and feed plant
         alias: "Add chore: Water and feed plant"
-      - action: script.add_unique_chore
-        metadata: {}
-        data:
-          chore: Clean basement bathroom
-        alias: "Add chore: Clean basement bathroom"
       - alias: "Add chore: Pay bills"
         action: script.add_unique_chore
         metadata: {}
@@ -233,4 +228,14 @@ actions:
         metadata: {}
         data:
           chore: Replace vacuum side brush
+  - alias: "Add chore: Clean basement bathroom"
+    if:
+      - condition: template
+        value_template: "{{ now().day == 1 and now().month % 3 == 1}}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean basement bathroom
+        alias: "Add chore: Clean basement bathroom"
 mode: single
