@@ -1,0 +1,9 @@
+alias: What's the AQI
+description: ""
+triggers:
+  - trigger: conversation
+    command: What's the AQI
+conditions: []
+actions:
+  - set_conversation_response: "{{states.sensor.ypsilanti_michigan_usa_air_quality_index.state}}"
+mode: single
