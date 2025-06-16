@@ -1,0 +1,34 @@
+alias: Water driveway garden
+description: ""
+triggers:
+  - trigger: sun
+    event: sunset
+    offset: "-01:00:00"
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.openweathermap_temperature
+    above: 50
+  - condition: state
+    entity_id: sensor.openweathermap_precipitation_kind
+    state: None
+    for:
+      hours: 12
+      minutes: 0
+      seconds: 0
+actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id: 1dd1aabd76c1d3600d697e2071897d7a
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 1dd1aabd76c1d3600d697e2071897d7a
+mode: single
