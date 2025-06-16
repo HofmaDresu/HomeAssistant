@@ -1,0 +1,18 @@
+alias: "On Startup: shut off driveway garden watering"
+description: ""
+triggers:
+  - trigger: homeassistant
+    event: start
+conditions:
+  - condition: device
+    type: is_on
+    device_id: 1dd1aabd76c1d3600d697e2071897d7a
+    entity_id: f823727348b8efe0357b3e46bcf0329e
+    domain: switch
+actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 1dd1aabd76c1d3600d697e2071897d7a
+mode: single
