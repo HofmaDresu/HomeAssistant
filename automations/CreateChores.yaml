@@ -125,6 +125,11 @@ actions:
         metadata: {}
         data:
           chore: Pay bills
+      - alias: "Add chore: Check blood pressure"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Check blood pressure
   - alias: "Add chore: clean washer"
     if:
       - condition: numeric_state
