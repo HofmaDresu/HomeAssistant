@@ -1,0 +1,18 @@
+alias: Notify close windows on high AQI
+description: ""
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.ypsilanti_michigan_usa_air_quality_index
+    above: 100
+conditions:
+  - condition: state
+    entity_id: binary_sensor.bedroom_window_open_state
+    state: "on"
+actions:
+  - action: notify.mobile_app_pixel_8
+    metadata: {}
+    data:
+      message: High AQI
+      title: Close windows
+mode: single
