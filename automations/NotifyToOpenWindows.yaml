@@ -1,12 +1,12 @@
 alias: Notify to open windows
 description: ""
-trigger:
-  - platform: numeric_state
-    entity_id:
+triggers:
+  - entity_id:
       - sensor.openweathermap_temperature
     above: 60
     below: 80
-condition:
+    trigger: numeric_state
+conditions:
   - condition: state
     entity_id: person.hofmadresu
     state: home
@@ -16,7 +16,17 @@ condition:
   - condition: state
     entity_id: binary_sensor.bedroom_window_open_state
     state: "off"
-action:
+  - condition: numeric_state
+    entity_id: sensor.ypsilanti_michigan_usa_air_quality_index
+    below: 100
+  - condition: state
+    entity_id: sensor.openweathermap_precipitation_kind
+    state: None
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+actions:
   - metadata: {}
     data:
       message: Temp good to open windows
