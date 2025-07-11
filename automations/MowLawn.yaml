@@ -1,0 +1,143 @@
+alias: Mow lawn
+description: ""
+triggers:
+  - trigger: time
+    at: "10:00:00"
+conditions: []
+actions:
+  - action: input_number.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_number.days_since_last_mow
+  - alias: Mow if needed
+    if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.openweathermap_precipitation_kind
+            state: None
+            for:
+              hours: 1
+              minutes: 0
+              seconds: 0
+            enabled: false
+          - condition: numeric_state
+            entity_id: input_number.days_since_last_mow
+            above: 2
+    then:
+      - action: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+            - switch.mo99_area_driveway_edge
+            - switch.mo99_area_main_lawn
+            - switch.mo99_rain_detection_mower_on_off
+            - switch.mo99_rain_detection_during_mow_on_off
+      - if:
+          - condition: zone
+            entity_id: person.hofmadresu
+            zone: zone.home
+        then:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.mo99_area_easement
+        else:
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.mo99_area_easement
+        alias: Tunr on easement if home
+      - action: number.set_value
+        metadata: {}
+        data:
+          value: "3.5"
+        target:
+          entity_id: number.mo99_blade_height_inches
+      - action: number.set_value
+        metadata: {}
+        data:
+          value: "88.9"
+        target:
+          entity_id: number.mo99_blade_height
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: random_angle
+        target:
+          entity_id: select.mo99_cutting_path_angle_mode
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: single_grid
+        target:
+          entity_id: select.mo99_cutting_path_mode
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: border_first
+        target:
+          entity_id: select.mo99_mow_order
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: one
+        target:
+          entity_id: select.mo99_no_go_zone_mowing_laps
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: no_touch
+        target:
+          entity_id: select.mo99_obstacle_avoidance_mode
+      - action: number.set_value
+        metadata: {}
+        data:
+          value: "12"
+        target:
+          entity_id: number.mo99_path_spacing
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: three
+        target:
+          entity_id: select.mo99_perimeter_mowing_laps
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: direct
+        target:
+          entity_id: select.mo99_traversal_mode
+      - action: select.select_option
+        metadata: {}
+        data:
+          option: multipoint
+        target:
+          entity_id: select.mo99_turnaround_mode
+      - action: number.set_value
+        metadata: {}
+        data:
+          value: ".3"
+        target:
+          entity_id: number.mo99_working_speed
+      - action: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.mo99_side_led_on_off
+      - action: lawn_mower.start_mowing
+        metadata: {}
+        data: {}
+        target:
+          area_id: yard
+      - action: input_number.set_value
+        metadata: {}
+        data:
+          value: 0
+        target:
+          entity_id: input_number.days_since_last_mow
+mode: single
