@@ -1,0 +1,23 @@
+alias: "Mower: power off for off days"
+description: ""
+triggers:
+  - trigger: time
+    at: "11:00:00"
+conditions:
+  - condition: numeric_state
+    entity_id: input_number.days_since_last_mow
+    below: 2
+actions:
+  - if:
+      - condition: state
+        entity_id: switch.mower_outlet
+        state: "on"
+    then:
+      - action: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+            - switch.mower_outlet
+            - switch.mo99_turn_updates_on_off
+mode: single
