@@ -1,0 +1,15 @@
+alias: Office lights off when computer shut down
+description: ""
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.computer_plug_top_power
+    below: 10
+conditions: []
+actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
+mode: single
