@@ -84,4 +84,13 @@ actions:
           value: 0
         target:
           entity_id: input_number.days_since_last_mow
+      - data:
+          title: Mo
+          message: Mowing has started
+          data:
+            channel: Mo automation
+            priority: high
+            ttl: 0
+            notification_icon: mdi:robot-mower
+        action: notify.mobile_app_pixel_8
 mode: single
