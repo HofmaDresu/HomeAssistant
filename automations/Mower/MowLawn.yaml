@@ -1,0 +1,87 @@
+alias: "Mower: Mow lawn"
+description: ""
+triggers:
+  - trigger: time
+    at: "10:00:00"
+conditions: []
+actions:
+  - action: input_number.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_number.days_since_last_mow
+  - alias: Mow if needed
+    if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.openweathermap_precipitation_kind
+            state: None
+            for:
+              hours: 4
+              minutes: 0
+              seconds: 0
+            enabled: true
+          - condition: numeric_state
+            entity_id: input_number.days_since_last_mow
+            above: 2
+    then:
+      - alias: Mow target sections
+        if:
+          - condition: zone
+            entity_id: person.hofmadresu
+            zone: zone.home
+        then:
+          - alias: Mowe entire lawn
+            action: mammotion.start_mow
+            metadata: {}
+            data:
+              is_mow: true
+              is_dump: false
+              border_mode: 0
+              speed: 0.3
+              ultra_wave: 10
+              channel_mode: 0
+              channel_width: 12
+              rain_tactics: 1
+              toward_mode: 2
+              mowing_laps: 3
+              obstacle_laps: 1
+              start_progress: 0
+              blade_height: 88.9
+              areas:
+                - switch.mo99_area_driveway_edge
+                - switch.mo99_area_easement
+                - switch.mo99_area_main_lawn_2
+            target:
+              entity_id: lawn_mower.mo99
+        else:
+          - alias: Mowe all except easement
+            action: mammotion.start_mow
+            metadata: {}
+            data:
+              is_mow: true
+              is_dump: false
+              border_mode: 0
+              speed: 0.3
+              ultra_wave: 10
+              channel_mode: 0
+              channel_width: 12
+              rain_tactics: 1
+              toward_mode: 2
+              mowing_laps: 3
+              obstacle_laps: 1
+              start_progress: 0
+              blade_height: 88.9
+              areas:
+                - switch.mo99_area_driveway_edge
+                - switch.mo99_area_main_lawn_2
+            target:
+              entity_id: lawn_mower.mo99
+      - action: input_number.set_value
+        metadata: {}
+        data:
+          value: 0
+        target:
+          entity_id: input_number.days_since_last_mow
+mode: single
