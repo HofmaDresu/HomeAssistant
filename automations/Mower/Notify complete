@@ -1,0 +1,20 @@
+alias: "Mower: Notify complete"
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - sensor.mo99_activity_mode
+    from: null
+    to: MODE_READY
+conditions: []
+actions:
+  - data:
+      title: Mo
+      message: Mowing has finished
+      data:
+        channel: Mo automation
+        priority: high
+        ttl: 0
+        notification_icon: mdi:robot-mower
+    action: notify.mobile_app_pixel_8
+mode: single
