@@ -88,6 +88,9 @@ actions:
         - name: One Footed Swimmer's Presses
           unit: reps
           count: "2"
+        - name: Rope Jumps
+          unit: reps
+          count: 20
       isHome: "{{'person.hofmadresu' in state_attr('zone.home', 'persons')}}"
       isAtAunties: "{{'person.hofmadresu' in state_attr('zone.aunties', 'persons')}}"
       isAtParents: "{{'person.hofmadresu' in state_attr('zone.parents', 'persons')}}"
