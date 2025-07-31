@@ -68,7 +68,7 @@ actions:
               channel_mode: 0
               channel_width: 12
               rain_tactics: 1
-              toward_mode: 2
+              toward_mode: 0
               mowing_laps: 3
               obstacle_laps: 1
               start_progress: 0
