@@ -1,0 +1,51 @@
+alias: "Mower: power control"
+description: ""
+triggers:
+  - trigger: time
+    at: "01:00:00"
+conditions: []
+actions:
+  - alias: Power on/off as needed
+    if:
+      - condition: numeric_state
+        entity_id: input_number.days_since_last_mow
+        above: 2
+    then:
+      - action: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+            - switch.mower_outlet
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - action: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.mo99_turn_updates_on_off
+    else:
+      - if:
+          - condition: state
+            entity_id: switch.mower_outlet
+            state: "on"
+        then:
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.mo99_turn_updates_on_off
+          - delay:
+              hours: 0
+              minutes: 5
+              seconds: 0
+              milliseconds: 0
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.mower_outlet
+mode: single
