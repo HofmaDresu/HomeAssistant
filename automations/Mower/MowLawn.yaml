@@ -50,8 +50,8 @@ actions:
               start_progress: 0
               blade_height: 88.9
               areas:
-                - switch.mo99_area_driveway_edge
                 - switch.mo99_area_easement
+                - switch.mo99_area_driveway_edge
                 - switch.mo99_area_main_lawn_2
             target:
               entity_id: lawn_mower.mo99
