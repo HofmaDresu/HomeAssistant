@@ -9,7 +9,7 @@ actions:
     if:
       - condition: numeric_state
         entity_id: input_number.days_since_last_mow
-        above: 2
+        above: 1
     then:
       - action: switch.turn_on
         metadata: {}
