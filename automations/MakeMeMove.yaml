@@ -51,9 +51,6 @@ actions:
         - name: Wall Sits
           unit: seconds
           count: "30"
-        - name: Vault Ups
-          unit: reps
-          count: "10"
         - name: Leg Lifts
           unit: reps
           count: "10"
