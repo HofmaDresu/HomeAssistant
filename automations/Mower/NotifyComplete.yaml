@@ -4,8 +4,13 @@ triggers:
   - trigger: state
     entity_id:
       - sensor.mo99_activity_mode
-    from: null
     to: MODE_READY
+    enabled: false
+    from: MODE_RETURNING
+  - trigger: numeric_state
+    entity_id:
+      - sensor.mo99_progress
+    above: 99
 conditions: []
 actions:
   - data:
