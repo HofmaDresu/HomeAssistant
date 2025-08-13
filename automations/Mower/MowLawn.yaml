@@ -5,11 +5,6 @@ triggers:
     at: "10:00:00"
 conditions: []
 actions:
-  - action: input_number.increment
-    metadata: {}
-    data: {}
-    target:
-      entity_id: input_number.days_since_last_mow
   - alias: Mow if needed
     if:
       - condition: and
@@ -22,9 +17,9 @@ actions:
               minutes: 0
               seconds: 0
             enabled: true
-          - condition: numeric_state
-            entity_id: input_number.days_since_last_mow
-            above: 2
+          - condition: state
+            entity_id: binary_sensor.today_is_mow_day
+            state: "on"
     then:
       - alias: Mow target sections
         if:
@@ -74,8 +69,8 @@ actions:
               start_progress: 0
               blade_height: 88.9
               areas:
-                - switch.mo99_area_driveway_edge
                 - switch.mo99_area_main_lawn_2
+                - switch.mo99_area_driveway_edge
             target:
               entity_id: lawn_mower.mo99
       - action: input_number.set_value
@@ -93,4 +88,10 @@ actions:
             ttl: 0
             notification_icon: mdi:robot-mower
         action: notify.mobile_app_pixel_8
+    else:
+      - action: input_number.increment
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_number.days_since_last_mow
 mode: single
