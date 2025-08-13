@@ -7,9 +7,9 @@ conditions: []
 actions:
   - alias: Power on/off as needed
     if:
-      - condition: numeric_state
-        entity_id: input_number.days_since_last_mow
-        above: 1
+      - condition: state
+        entity_id: binary_sensor.today_is_mow_day
+        state: "on"
     then:
       - action: switch.turn_on
         metadata: {}
