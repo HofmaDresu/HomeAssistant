@@ -1,6 +1,5 @@
 alias: Terrible air notification
 description: ""
-mode: single
 triggers:
   - type: carbon_dioxide
     device_id: d276e61bffda959e361f8b8683b8afd6
@@ -8,6 +7,10 @@ triggers:
     domain: sensor
     above: 1000
     trigger: device
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
   - type: carbon_dioxide
     device_id: d276e61bffda959e361f8b8683b8afd6
     entity_id: 070616c02a3b9688b3a97f4023c0b515
@@ -35,3 +38,4 @@ actions:
       title: Terrible air, maybe you should open a window
       message: CO2 is very high
     action: notify.mobile_app_pixel_8
+mode: single
