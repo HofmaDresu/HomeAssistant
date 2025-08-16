@@ -1,12 +1,6 @@
 alias: "Mower: Notify complete"
 description: ""
 triggers:
-  - trigger: state
-    entity_id:
-      - sensor.mo99_activity_mode
-    to: MODE_READY
-    enabled: false
-    from: MODE_RETURNING
   - trigger: numeric_state
     entity_id:
       - sensor.mo99_progress
@@ -22,4 +16,10 @@ actions:
         ttl: 0
         notification_icon: mdi:robot-mower
     action: notify.mobile_app_pixel_8
+  - action: input_number.set_value
+    metadata: {}
+    data:
+      value: 0
+    target:
+      entity_id: input_number.days_since_last_mow
 mode: single
