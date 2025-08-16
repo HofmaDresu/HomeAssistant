@@ -20,6 +20,9 @@ actions:
           - condition: state
             entity_id: binary_sensor.today_is_mow_day
             state: "on"
+          - condition: numeric_state
+            entity_id: sensor.openweathermap_temperature
+            above: 40
     then:
       - alias: Mow target sections
         if:
@@ -27,7 +30,7 @@ actions:
             entity_id: person.hofmadresu
             zone: zone.home
         then:
-          - alias: Mowe entire lawn
+          - alias: Mow entire lawn
             action: mammotion.start_mow
             metadata: {}
             data:
@@ -45,13 +48,13 @@ actions:
               start_progress: 0
               blade_height: 88.9
               areas:
-                - switch.mo99_area_easement
+                - switch.mo99_area_8647782149318140073
                 - switch.mo99_area_driveway_edge
-                - switch.mo99_area_main_lawn_2
+                - switch.mo99_area_3365964821918555184
             target:
               entity_id: lawn_mower.mo99
         else:
-          - alias: Mowe all except easement
+          - alias: Mow just main lawn
             action: mammotion.start_mow
             metadata: {}
             data:
@@ -69,8 +72,7 @@ actions:
               start_progress: 0
               blade_height: 88.9
               areas:
-                - switch.mo99_area_main_lawn_2
-                - switch.mo99_area_driveway_edge
+                - switch.mo99_area_3365964821918555184
             target:
               entity_id: lawn_mower.mo99
       - data:
