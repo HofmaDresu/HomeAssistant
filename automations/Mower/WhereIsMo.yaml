@@ -1,0 +1,19 @@
+alias: "Mower: Where is Mo"
+description: ""
+triggers:
+  - trigger: conversation
+    command:
+      - Where is mo
+      - Where is moe
+      - Where is mow
+conditions: []
+actions:
+  - if:
+      - condition: state
+        entity_id: binary_sensor.mo99_charging
+        state: "on"
+    then:
+      - set_conversation_response: Moe is charging
+    else:
+      - set_conversation_response: Moe is mowing the {{states.sensor.mo99_work_area.state}}
+mode: single
