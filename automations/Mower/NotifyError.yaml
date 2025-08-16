@@ -3,18 +3,55 @@ description: ""
 triggers:
   - trigger: state
     entity_id:
-      - sensor.mo99_activity_mode
-    from: MODE_WORKING
-    to: MODE_PAUSE
-conditions: []
+      - sensor.mo99_last_error_code
+conditions:
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
+        state: "1005"
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
+        state: "2701"
 actions:
-  - data:
-      title: Mo
-      message: An error has occured, check if Mo is stuck
-      data:
-        channel: Mo automation
-        priority: high
-        ttl: 0
-        notification_icon: mdi:robot-mower
-    action: notify.mobile_app_pixel_8
+  - if:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: "1105"
+        alias: Resumable error
+    then:
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - action: lawn_mower.start_mowing
+        metadata: {}
+        data: {}
+        target:
+          device_id: c1a6fce56e3605c6ec1e00d22321e2f2
+      - data:
+          title: Mo
+          message: Auto-resume attempted, check if it worked
+          data:
+            channel: Mo automation
+            priority: high
+            ttl: 0
+            notification_icon: mdi:robot-mower
+        action: notify.mobile_app_pixel_8
+    else:
+      - data:
+          title: Mo
+          message: >-
+            An error has occured ({{states.sensor.mo99_last_error_code.state}}),
+            check if Mo is stuck 
+          data:
+            channel: Mo automation
+            priority: high
+            ttl: 0
+            notification_icon: mdi:robot-mower
+        action: notify.mobile_app_pixel_8
+    alias: Retry or notify on error
 mode: single
