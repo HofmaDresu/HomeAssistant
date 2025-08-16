@@ -13,6 +13,15 @@ conditions:
       - condition: state
         entity_id: sensor.mo99_last_error_code
         state: "2701"
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
+        state: "1108"
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
+        state: unavailable
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
+        state: unknown
 actions:
   - if:
       - condition: and
