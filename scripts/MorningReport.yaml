@@ -63,7 +63,10 @@ sequence:
 
         {% set should_show_chores = chorelist_items | count > 0 %}
 
-        {%- if now().weekday() == 1 or should_show_chores %}
+        {% set today_is_mow_day = states.binary_sensor.today_is_mow_day.state ==
+        'on' %}
+
+        {%- if now().weekday() == 1 or should_show_chores or today_is_mow_day %}
           *Chores*
           {{'\n'}}
           {%- if now().weekday() == 1 %}
@@ -72,6 +75,9 @@ sequence:
             {% else %}
               take out trash
             {% endif -%}
+          {% endif -%}
+          {%- if today_is_mow_day %}
+            pick up sticks in lawn
           {% endif -%}
           {%- if should_show_chores %}
             {% for chore in chorelist_items -%}
