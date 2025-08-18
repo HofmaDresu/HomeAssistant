@@ -7,6 +7,9 @@ triggers:
 conditions:
   - condition: not
     conditions:
+      - condition: time
+        after: "00:00:00"
+        before: "09:00:00"
       - condition: state
         entity_id: sensor.mo99_last_error_code
         state: "1005"
