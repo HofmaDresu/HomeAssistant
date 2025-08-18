@@ -24,8 +24,8 @@ sequence:
         cool:
           day:
             normal: 80
-            pet: 75
-            sick: 75
+            pet: 77
+            sick: 77
           night:
             normal: 75
             pet: 75
