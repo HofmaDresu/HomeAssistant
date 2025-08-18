@@ -1,0 +1,57 @@
+alias: "Fun: Intruder alert"
+description: ""
+triggers:
+  - trigger: conversation
+    command: Intruder alert
+conditions: []
+actions:
+  - set_conversation_response: ""
+  - action: tts.speak
+    metadata: {}
+    data:
+      cache: true
+      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+      message: So you have chosen death!
+      options:
+        voice: dfjkpJrfkVrmbTFL2WxZ
+    target:
+      entity_id: tts.elevenlabs
+  - wait_template: >-
+      {{is_state('media_player.home_assistant_voice_091b0c_media_player',
+      'playing')}}
+    continue_on_timeout: true
+  - wait_template: >-
+      {{is_state('media_player.home_assistant_voice_091b0c_media_player',
+      'idle')}}
+    continue_on_timeout: true
+  - target:
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
+    data:
+      media_content_id: media-source://media_source/local/doom eternal 22 intro.mp3
+      media_content_type: audio/mpeg
+    metadata:
+      title: doom eternal 22 intro.mp3
+      thumbnail: null
+      media_class: music
+      children_media_class: null
+      navigateIds:
+        - {}
+        - media_content_type: app
+          media_content_id: media-source://media_source
+    action: media_player.play_media
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.indoor_power_off
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.lock_doors
+  - action: cover.close_cover
+    metadata: {}
+    data: {}
+    target:
+      entity_id: cover.all_shades
+mode: single
