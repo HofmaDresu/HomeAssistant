@@ -26,34 +26,62 @@ conditions:
         entity_id: sensor.mo99_last_error_code
         state: unknown
 actions:
-  - if:
-      - condition: and
-        conditions:
+  - choose:
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: sensor.mo99_last_error_code
+                state: "1105"
+            alias: Is resumable error
+        sequence:
+          - delay:
+              hours: 0
+              minutes: 1
+              seconds: 0
+              milliseconds: 0
+          - action: lawn_mower.start_mowing
+            metadata: {}
+            data: {}
+            target:
+              device_id: c1a6fce56e3605c6ec1e00d22321e2f2
+          - data:
+              title: Mo
+              message: Auto-resume attempted, check if it worked
+              data:
+                channel: Mo automation
+                priority: high
+                ttl: 0
+                notification_icon: mdi:robot-mower
+            action: notify.mobile_app_pixel_8
+      - conditions:
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "1105"
-        alias: Resumable error
-    then:
-      - delay:
-          hours: 0
-          minutes: 1
-          seconds: 0
-          milliseconds: 0
-      - action: lawn_mower.start_mowing
-        metadata: {}
-        data: {}
-        target:
-          device_id: c1a6fce56e3605c6ec1e00d22321e2f2
-      - data:
-          title: Mo
-          message: Auto-resume attempted, check if it worked
-          data:
-            channel: Mo automation
-            priority: high
-            ttl: 0
-            notification_icon: mdi:robot-mower
-        action: notify.mobile_app_pixel_8
-    else:
+            state: "1300"
+        sequence:
+          - delay:
+              hours: 0
+              minutes: 15
+              seconds: 0
+              milliseconds: 0
+          - if:
+              - condition: state
+                entity_id: sensor.mo99_activity_mode
+                state: MODE_PAUSE
+            then:
+              - data:
+                  title: Mo
+                  message: >-
+                    Mo has had weak satellite connection for 15 minutes, check
+                    its position
+                  data:
+                    channel: Mo automation
+                    priority: high
+                    ttl: 0
+                    notification_icon: mdi:robot-mower
+                action: notify.mobile_app_pixel_8
+        alias: Last error code is 1300 (Poor positioning status)
+    default:
       - data:
           title: Mo
           message: >-
@@ -65,5 +93,4 @@ actions:
             ttl: 0
             notification_icon: mdi:robot-mower
         action: notify.mobile_app_pixel_8
-    alias: Retry or notify on error
 mode: single
