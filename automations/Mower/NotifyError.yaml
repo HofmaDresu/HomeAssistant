@@ -81,6 +81,17 @@ actions:
                     notification_icon: mdi:robot-mower
                 action: notify.mobile_app_pixel_8
         alias: Last error code is 1300 (Poor positioning status)
+      - conditions:
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: "1068"
+        sequence:
+          - alias: "Add chore: Clean Mo's camera"
+            action: script.add_unique_chore
+            metadata: {}
+            data:
+              chore: Clean Mo's camera
+        alias: Last error code is 1068 (Clean camera)
     default:
       - data:
           title: Mo
