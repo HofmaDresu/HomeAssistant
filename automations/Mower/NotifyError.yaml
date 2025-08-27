@@ -94,10 +94,10 @@ actions:
         alias: Last error code is 1068 (Clean camera)
     default:
       - data:
-          title: Mo
+          title: Mo encountered an error
           message: >-
-            An error has occured ({{states.sensor.mo99_last_error_code.state}}),
-            check if Mo is stuck 
+            {{states.sensor.mo99_last_error_code.state}}:
+            {{states.sensor.mo99_last_error.state}}
           data:
             channel: Mo automation
             priority: high
