@@ -248,4 +248,49 @@ actions:
         data:
           chore: Clean basement bathroom
         alias: "Add chore: Clean basement bathroom"
+  - alias: "Add chore: Clean Shelfy filter"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.daysuntilfiltercleanrequired74_4d_bd_e8_2e_44_filter
+        below: 1
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean Shelfy filter
+  - alias: "Add chore: Clean fridge"
+    if:
+      - condition: numeric_state
+        entity_id: sensor.daysuntilfridgecleanrequired74_4d_bd_e8_2e_44_fridge
+        below: 1
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean fridge
+  - alias: Low battery chores
+    sequence:
+      - variables:
+          lowPowerBatteries: >-
+            {% set batteryList = states.sensor | selectattr('name', 'match',
+            '.*[Bb]attery.*') | rejectattr('name', 'match', '.*[Pp]hone.*') |
+            rejectattr('name', 'match', '.*Roborock .*') | rejectattr('name',
+            'match', '.*Mo99.*') | rejectattr('name', 'match', 'Front Door
+            Motion Sensor Battery') %} {% set emptyBatteryList = batteryList |
+            selectattr('state', 'eq', 'unavailable') %} {% set lowBatteryList =
+            batteryList | rejectattr('state', 'eq', 'unavailable') %} {% set
+            data = namespace(batteryData=[]) %} {%- for lb in emptyBatteryList
+            %} {% set data.batteryData = data.batteryData + [{"name": lb.name,
+            "batteryLevel": 0}] %} {% endfor -%} {%- for lb in lowBatteryList %}
+            {% set data.batteryData = data.batteryData + [{"name": lb.name,
+            "batteryLevel": lb.state|float}] %} {% endfor -%} {{
+            data.batteryData | rejectattr('batteryLevel', 'gt', 80) |
+            map(attribute='name') | list }}
+      - repeat:
+          sequence:
+            - action: script.add_unique_chore
+              metadata: {}
+              data:
+                chore: Replace {{repeat.item}}
+          for_each: "{{lowPowerBatteries}}"
 mode: single
