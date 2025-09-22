@@ -13,7 +13,7 @@ actions:
             entity_id: sensor.openweathermap_precipitation_kind
             state: None
             for:
-              hours: 4
+              hours: 2
               minutes: 0
               seconds: 0
             enabled: true
