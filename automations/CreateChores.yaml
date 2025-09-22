@@ -79,6 +79,32 @@ actions:
         data: {}
         target:
           entity_id: button.roborock_s7_maxv_reset_side_brush_consumable
+  - alias: "Shelfy: Reset filter count if complete"
+    if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Clean Shelfy filter')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.vitesy_shelfy_i_already_washed_the_filter
+  - alias: "Shelfy: Reset filter count if complete"
+    if:
+      - condition: template
+        value_template: |-
+          {{
+              completedChores['todo.chores']['items']|selectattr('summary','search','Clean fridge')|list|count
+              > 0}}
+    then:
+      - action: button.press
+        metadata: {}
+        data: {}
+        target:
+          entity_id: button.vitesy_shelfy_i_already_cleaned_my_fridge
   - action: todo.remove_completed_items
     metadata: {}
     data: {}
@@ -251,7 +277,7 @@ actions:
   - alias: "Add chore: Clean Shelfy filter"
     if:
       - condition: numeric_state
-        entity_id: sensor.daysuntilfiltercleanrequired74_4d_bd_e8_2e_44_filter
+        entity_id: sensor.vitesy_shelfy_remaining_filter_cleaning_days
         below: 1
     then:
       - action: script.add_unique_chore
@@ -261,7 +287,7 @@ actions:
   - alias: "Add chore: Clean fridge"
     if:
       - condition: numeric_state
-        entity_id: sensor.daysuntilfridgecleanrequired74_4d_bd_e8_2e_44_fridge
+        entity_id: sensor.vitesy_shelfy_remaining_fridge_cleaning_days
         below: 1
     then:
       - action: script.add_unique_chore
