@@ -13,19 +13,19 @@ actions:
     data:
       is_mow: true
       is_dump: false
-      border_mode: 0
+      border_mode: "0"
       speed: 0.3
-      ultra_wave: 10
-      channel_mode: 0
+      ultra_wave: "10"
+      channel_mode: "0"
       channel_width: 12
-      rain_tactics: 1
-      toward_mode: 2
-      mowing_laps: 3
-      obstacle_laps: 1
+      rain_tactics: "1"
+      toward_mode: "2"
+      mowing_laps: "3"
+      obstacle_laps: "1"
       start_progress: 0
       blade_height: 88.9
       areas:
-        - switch.mo99_area_easement
+        - switch.mo99_area_8647782149318140073
     target:
       entity_id: lawn_mower.mo99
 mode: single
