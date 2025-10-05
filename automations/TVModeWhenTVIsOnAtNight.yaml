@@ -1,0 +1,29 @@
+alias: TV Mode when TV is on at night
+description: ""
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.tv_outlet_power
+    above: 80
+conditions:
+  - condition: sun
+    before: sunset
+    after: sunset
+    after_offset: "-1:00"
+actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.tv_lighting
+  - wait_for_trigger:
+      - trigger: numeric_state
+        entity_id:
+          - sensor.tv_outlet_power
+        below: 50
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.normal_lighting
+mode: single
