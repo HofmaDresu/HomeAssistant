@@ -319,4 +319,29 @@ actions:
               data:
                 chore: Replace {{repeat.item}}
           for_each: "{{lowPowerBatteries}}"
+    enabled: true
+  - alias: "Add chore: Winterize Mo"
+    if:
+      - alias: Should winterize Mo
+        condition: template
+        value_template: >-
+          {{now().month == states.input_number.mower_maximum_month.state | float
+          + 1 and now().day == 1}}
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Winterize Mo
+  - alias: "Add chore: Activate Mo"
+    if:
+      - alias: Should activate Mo
+        condition: template
+        value_template: >-
+          {{now().month == states.input_number.mower_minimum_month.state | float
+          + 1 and now().day == 1}}
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Activate Mo
 mode: single
