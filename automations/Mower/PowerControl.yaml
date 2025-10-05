@@ -3,7 +3,10 @@ description: ""
 triggers:
   - trigger: time
     at: "01:00:00"
-conditions: []
+conditions:
+  - condition: state
+    entity_id: binary_sensor.mower_is_mowable_month
+    state: "on"
 actions:
   - alias: Power on/off as needed
     if:
