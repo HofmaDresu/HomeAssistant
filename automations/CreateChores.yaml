@@ -303,11 +303,14 @@ actions:
             rejectattr('name', 'match', '.*Roborock .*') | rejectattr('name',
             'match', '.*Mo99.*') | rejectattr('name', 'match', 'Front Door
             Motion Sensor Battery' | rejectattr('name', 'match', 'Backyard
-            Battery')) %} {% set emptyBatteryList = batteryList |
-            selectattr('state', 'eq', 'unavailable') %} {% set lowBatteryList =
-            batteryList | rejectattr('state', 'eq', 'unavailable') %} {% set
-            data = namespace(batteryData=[]) %} {%- for lb in emptyBatteryList
-            %} {% set data.batteryData = data.batteryData + [{"name": lb.name,
+            Battery')) %} {%- if states.binary_sensor.garden_is_waterable_month
+            != "on" %}   {% set batteryList = batteryList | rejectattr('name',
+            'match', 'SONOFF SWV Battery') %} {% endif -%} {% set
+            emptyBatteryList = batteryList | selectattr('state', 'eq',
+            'unavailable') %} {% set lowBatteryList = batteryList |
+            rejectattr('state', 'eq', 'unavailable') %} {% set data =
+            namespace(batteryData=[]) %} {%- for lb in emptyBatteryList %} {%
+            set data.batteryData = data.batteryData + [{"name": lb.name,
             "batteryLevel": 0}] %} {% endfor -%} {%- for lb in lowBatteryList %}
             {% set data.batteryData = data.batteryData + [{"name": lb.name,
             "batteryLevel": lb.state|float}] %} {% endfor -%} {{
@@ -345,4 +348,13 @@ actions:
         metadata: {}
         data:
           chore: Activate Mo
+  - alias: "Add chore: unhook garden hose"
+    if:
+      - condition: template
+        value_template: "{{ now().day == 1 and now().month == 10 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Unhook garden hose
 mode: single
