@@ -15,6 +15,17 @@ conditions:
       hours: 12
       minutes: 0
       seconds: 0
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{now().day % 2 == 0}}"
+        alias: Day number is even
+      - condition: numeric_state
+        entity_id: sensor.openweathermap_temperature
+        above: 70
+  - condition: state
+    entity_id: binary_sensor.garden_is_waterable_month
+    state: "on"
 actions:
   - action: switch.turn_on
     metadata: {}
