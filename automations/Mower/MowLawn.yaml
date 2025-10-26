@@ -46,7 +46,7 @@ actions:
               mowing_laps: "3"
               obstacle_laps: "1"
               start_progress: 0
-              blade_height: 88.9
+              blade_height: 100
               areas:
                 - switch.mo99_area_8647782149318140073
                 - switch.mo99_area_driveway_edge
@@ -70,7 +70,7 @@ actions:
               mowing_laps: "3"
               obstacle_laps: "1"
               start_progress: 0
-              blade_height: 88.9
+              blade_height: 100
               areas:
                 - switch.mo99_area_3365964821918555184
             target:
