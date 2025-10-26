@@ -1,0 +1,23 @@
+alias: "Command: vacuum the house"
+description: ""
+triggers:
+  - trigger: conversation
+    command: Vacuum the house
+conditions: []
+actions:
+  - action: vacuum.set_fan_speed
+    metadata: {}
+    data:
+      fan_speed: max
+    target:
+      entity_id: vacuum.roborock_s7_maxv
+  - device_id: 76db24d3a176285f3be6d972ee76b37a
+    domain: select
+    entity_id: dfbe856fbf9eebc63d793e257ef12970
+    type: select_option
+    option: "off"
+  - target:
+      entity_id: vacuum.roborock_s7_maxv
+    data: {}
+    action: vacuum.start
+mode: single
