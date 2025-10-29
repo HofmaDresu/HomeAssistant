@@ -11,6 +11,7 @@ sequence:
           - condition: sun
             before: sunset
             after: sunrise
+            before_offset: "-1:00"
           - condition: numeric_state
             entity_id: sensor.openweathermap_temperature
             above: 10
