@@ -1,0 +1,16 @@
+alias: Furnace light on when door opens
+description: ""
+triggers:
+  - type: opened
+    device_id: a510705bfe79b9d03cd8abdd0691261d
+    entity_id: efa64b8a628e01a0ff02695b11d75ec7
+    domain: binary_sensor
+    trigger: device
+conditions: []
+actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.furnace_room_light
+mode: single
