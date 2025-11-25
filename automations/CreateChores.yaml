@@ -298,23 +298,33 @@ actions:
     sequence:
       - variables:
           lowPowerBatteries: >-
-            {% set batteryList = states.sensor  | selectattr('name', 'match',
-            '.*[Bb]attery.*')  | rejectattr('name', 'match', '.*[Pp]hone.*')  |
-            rejectattr('name', 'match', '.*Roborock .*')  | rejectattr('name',
-            'match', '.*Mo99.*')  | rejectattr('name', 'match', 'Front Door
-            Motion Sensor Battery') | rejectattr('name', 'match', 'Backyard
-            Battery') %} {%- if states.binary_sensor.garden_is_waterable_month
-            != "on" %}   {% set batteryList = batteryList | rejectattr('name',
-            'match', 'SONOFF SWV Battery') %} {% endif -%} {% set
-            emptyBatteryList = batteryList | selectattr('state', 'eq',
-            'unavailable') %} {% set lowBatteryList = batteryList |
-            rejectattr('state', 'eq', 'unavailable') %} {% set data =
-            namespace(batteryData=[]) %} {%- for lb in emptyBatteryList %} {%
-            set data.batteryData = data.batteryData + [{"name": lb.name,
-            "batteryLevel": 0}] %} {% endfor -%} {%- for lb in lowBatteryList %}
-            {% set data.batteryData = data.batteryData + [{"name": lb.name,
-            "batteryLevel": lb.state|float}] %} {% endfor -%} {{
-            data.batteryData | rejectattr('batteryLevel', 'gt', 80) |
+            {% set batteryList = states.sensor | selectattr('name', 'match',
+            '.*[Bb]attery.*')        | rejectattr('name', 'match',
+            '.*[Pp]hone.*')        | rejectattr('name', 'match', '.*Roborock
+            .*')        | rejectattr('name', 'match', '.*Mo99.*')        |
+            rejectattr('name', 'match', 'Front Door Motion Sensor
+            Battery')        | rejectattr('name', 'match', 'Backyard Battery')%}
+            {%- if states.binary_sensor.garden_is_waterable_month != "on" %}  {%
+            set batteryList = batteryList | rejectattr('name', 'match', 'SONOFF
+            SWV Battery') %}{% endif -%}{% set batteryList = states.sensor     |
+            selectattr('name', 'match', '.*[Bb]attery.*')     |
+            rejectattr('name', 'match', '.*[Pp]hone.*')     | rejectattr('name',
+            'match', '.*Roborock .*')     | rejectattr('name', 'match',
+            '.*Mo99.*')     | rejectattr('name', 'match', 'Front Door Motion
+            Sensor Battery')    | rejectattr('name', 'match', 'Backyard
+            Battery') | list %}{%- if
+            states.binary_sensor.garden_is_waterable_month != "on" %}      {%
+            set batteryList = batteryList | rejectattr('name', 'match', 'SONOFF
+            SWV Battery') | list %} {% endif -%} {% set emptyBatteryList =
+            batteryList | selectattr('state', 'eq', 'unavailable') %} {% set
+            lowBatteryList = batteryList | rejectattr('state', 'eq',
+            'unavailable') %}{% set data = namespace(batteryData=[]) %}{%- for
+            lb in emptyBatteryList %}     {% set    data.batteryData =
+            data.batteryData + [{"name": lb.name, "batteryLevel": 0}]   %} {%
+            endfor -%} {%- for lb in lowBatteryList %}     {% set
+            data.batteryData =    data.batteryData + [{"name": lb.name,
+            "batteryLevel": lb.state|float}] %} {%endfor -%}    {{
+            data.batteryData | rejectattr('batteryLevel', 'gt', 20) |   
             map(attribute='name') | list }}
       - repeat:
           sequence:
