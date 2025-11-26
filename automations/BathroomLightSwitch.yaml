@@ -1,0 +1,16 @@
+alias: Bathroom light switch
+description: ""
+triggers:
+  - device_id: 02611920616d7de266afb025b5859908
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+conditions: []
+actions:
+  - action: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      area_id: bathroom
+mode: single
