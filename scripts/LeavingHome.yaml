@@ -27,12 +27,12 @@ sequence:
         type: arm_away
         code: "{{!secret alarm_code}}"
   - type: turn_off
-    device_id: 75926ca61b1c20b4244e6bbb18afb0cb
-    entity_id: 12558812288e7e55b69faefb3fec3371
+    device_id: 26b86cb27513279a9260f6ab9e46ffac
+    entity_id: 67f7dd492134ea17716ddb0069dad07a
     domain: switch
   - type: turn_off
-    device_id: d335cbfa6df50be26984873aca876e52
-    entity_id: a2bac3d5f31f428c4dc2174c59c7ff94
+    device_id: f1a451d00e600cabf0bc652eeb472934
+    entity_id: ea8b9a63f74a169a360aa8ad3b1a1dd7
     domain: switch
   - if:
       - condition: and
@@ -98,12 +98,12 @@ sequence:
     entity_id: d7144b619bd94371cb9c1e6459036229
     domain: switch
   - type: turn_on
-    device_id: 75926ca61b1c20b4244e6bbb18afb0cb
-    entity_id: 12558812288e7e55b69faefb3fec3371
+    device_id: 26b86cb27513279a9260f6ab9e46ffac
+    entity_id: 67f7dd492134ea17716ddb0069dad07a
     domain: switch
   - type: turn_on
-    device_id: d335cbfa6df50be26984873aca876e52
-    entity_id: a2bac3d5f31f428c4dc2174c59c7ff94
+    device_id: f1a451d00e600cabf0bc652eeb472934
+    entity_id: ea8b9a63f74a169a360aa8ad3b1a1dd7
     domain: switch
   - alias: arm alarm if needed and petmode on
     if:
