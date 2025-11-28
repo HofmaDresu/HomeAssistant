@@ -1,12 +1,17 @@
 alias: Entryway on for motion
 description: ""
-trigger:
+triggers:
   - type: motion
-    platform: device
     device_id: f1a451d00e600cabf0bc652eeb472934
     entity_id: 7d28ef5d2c38a911fdaed396414d3e47
     domain: binary_sensor
-condition:
+    trigger: device
+  - type: motion
+    device_id: d335cbfa6df50be26984873aca876e52
+    entity_id: 0966c0d2ed8d5fde86311cefe3b49da8
+    domain: binary_sensor
+    trigger: device
+conditions:
   - condition: and
     conditions:
       - condition: sun
@@ -17,7 +22,7 @@ condition:
         device_id: 5bb08e144b56c7704e730b5423bbd866
         entity_id: e61c2892bd3b7db050d5212b10ed5230
         domain: light
-action:
+actions:
   - type: turn_on
     device_id: 5bb08e144b56c7704e730b5423bbd866
     entity_id: e61c2892bd3b7db050d5212b10ed5230
