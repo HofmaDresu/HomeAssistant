@@ -122,27 +122,29 @@ sequence:
       - target:
           entity_id: media_player.home_assistant_bedroom_media_player
         data:
-          media_content_id: media-source://media_source/local/25 Salvation is Created.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 25 Salvation is Created.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
+          media:
+            media_content_id: media-source://media_source/local/25 Salvation is Created.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 25 Salvation is Created.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
         action: media_player.play_media
       - delay:
           hours: 0
           minutes: 1
           seconds: 54
           milliseconds: 250
-      - type: turn_on
-        device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-        entity_id: 89d5346579b899623f4d4f45014c604a
-        domain: switch
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          area_id: bedroom
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
@@ -175,27 +177,29 @@ sequence:
       - target:
           entity_id: media_player.home_assistant_bedroom_media_player
         data:
-          media_content_id: media-source://media_source/local/01 Entry Cadence.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 01 Entry Cadence.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
+          media:
+            media_content_id: media-source://media_source/local/01 Entry Cadence.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 01 Entry Cadence.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
         action: media_player.play_media
       - delay:
           hours: 0
           minutes: 0
           seconds: 42
           milliseconds: 0
-      - type: turn_on
-        device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-        entity_id: 89d5346579b899623f4d4f45014c604a
-        domain: switch
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          area_id: bedroom
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
@@ -210,17 +214,18 @@ sequence:
       - target:
           entity_id: media_player.home_assistant_bedroom_media_player
         data:
-          media_content_id: media-source://media_source/local/02 M Fanfare.mp3
-          media_content_type: audio/mpeg
-        metadata:
-          title: 02 M Fanfare.mp3
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
+          media:
+            media_content_id: media-source://media_source/local/02 M Fanfare.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 02 M Fanfare.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
         action: media_player.play_media
       - delay:
           hours: 0
@@ -233,9 +238,4 @@ sequence:
         data:
           volume_level: 0.4
         action: media_player.volume_set
-  - action: script.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: script.morning_report
 mode: single
