@@ -23,6 +23,15 @@ mqtt:
       value_template: "{{ value_json.demand | int }}"
       state_class: measurement
 
+sensor:
+  - platform: rest
+    name: Eleven Labs Remaining Character Count
+    resource: https://api.elevenlabs.io/v1/user/subscription
+    headers:
+      xi-api-key: !secret eleven_labs_api_key
+    value_template: "{{ value_json.character_limit - value_json.character_count }}"
+    scan_interval: 3600
+
 template:
   - trigger:
       - platform: time
@@ -85,7 +94,7 @@ template:
 circadian_lighting:
   max_colortemp: 6500
   min_colortemp: 2500
-  sunset_offset: -02:00:00
+  sunset_offset: -03:00:00
 
 switch:
   - platform: circadian_lighting
@@ -98,3 +107,10 @@ switch:
       - light.living_room_corner_light
       - light.basement_light_1
       - light.basement_light_2
+      - light.bathroom_light_1
+      - light.bathroom_light_2
+      - light.bathroom_light_3
+      - light.bathroom_light_4
+      - light.furnace_room_light
+      - light.bedroom_light_1
+      - light.bedroom_light_2
