@@ -35,9 +35,6 @@
       friendly_name: Basement light 2
       supported_features: 32
       state: 'off'
-    switch.bedroom:
-      friendly_name: Bedroom
-      state: 'off'
     light.entryway:
       min_color_temp_kelvin: 2500
       max_color_temp_kelvin: 9000
@@ -137,7 +134,7 @@
       rgb_color:
       xy_color:
       off_with_transition: false
-      off_brightness: 3
+      off_brightness: 112
       friendly_name: Living Room Corner Light
       supported_features: 44
       state: 'off'
@@ -161,7 +158,7 @@
       rgb_color:
       xy_color:
       off_with_transition: false
-      off_brightness: 26
+      off_brightness: 112
       friendly_name: Living Room Overhead Light
       supported_features: 44
       state: 'off'
@@ -193,8 +190,52 @@
       friendly_name: Bathroom lights
       supported_features: 44
       state: 'off'
+    light.bedroom_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 112
+      friendly_name: Bedroom light 1
+      supported_features: 40
+      state: 'off'
+    light.bedroom_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 112
+      friendly_name: Bedroom light 2
+      supported_features: 40
+      state: 'off'
   metadata:
     light.bathroom_lights:
+      entity_only: true
+    light.bedroom_light_1:
+      entity_only: true
+    light.bedroom_light_2:
       entity_only: true
 - id: '1702911831464'
   name: Indoor Power Off
@@ -233,9 +274,6 @@
       friendly_name: Basement light 2
       supported_features: 32
       state: 'off'
-    switch.bedroom:
-      friendly_name: Bedroom
-      state: 'off'
     switch.kitchen_1:
       friendly_name: Kitchen 1
       state: 'off'
@@ -259,7 +297,7 @@
       rgb_color:
       xy_color:
       off_with_transition: false
-      off_brightness: 26
+      off_brightness: 112
       friendly_name: Living Room Overhead Light
       supported_features: 44
       state: 'off'
@@ -283,7 +321,7 @@
       rgb_color:
       xy_color:
       off_with_transition: false
-      off_brightness: 3
+      off_brightness: 112
       friendly_name: Living Room Corner Light
       supported_features: 44
       state: 'off'
@@ -294,16 +332,23 @@
       max_mireds: 370
       supported_color_modes:
       - color_temp
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
+      color_mode: color_temp
+      brightness: 112
+      color_temp_kelvin: 2700
+      color_temp: 370
       hs_color:
+      - 28.395
+      - 65.723
       rgb_color:
+      - 255
+      - 167
+      - 87
       xy_color:
+      - 0.525
+      - 0.388
       friendly_name: office 1
       supported_features: 32
-      state: 'off'
+      state: 'on'
     light.office_2:
       min_color_temp_kelvin: 2700
       max_color_temp_kelvin: 6500
@@ -311,16 +356,23 @@
       max_mireds: 370
       supported_color_modes:
       - color_temp
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
+      color_mode: color_temp
+      brightness: 112
+      color_temp_kelvin: 2700
+      color_temp: 370
       hs_color:
+      - 28.395
+      - 65.723
       rgb_color:
+      - 255
+      - 167
+      - 87
       xy_color:
+      - 0.525
+      - 0.388
       friendly_name: office 2
       supported_features: 32
-      state: 'off'
+      state: 'on'
     light.office_backlight:
       min_color_temp_kelvin: 2700
       max_color_temp_kelvin: 6500
@@ -328,16 +380,23 @@
       max_mireds: 370
       supported_color_modes:
       - color_temp
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
+      color_mode: color_temp
+      brightness: 112
+      color_temp_kelvin: 2700
+      color_temp: 370
       hs_color:
+      - 28.395
+      - 65.723
       rgb_color:
+      - 255
+      - 167
+      - 87
       xy_color:
+      - 0.525
+      - 0.388
       friendly_name: Office Backlight
       supported_features: 32
-      state: 'off'
+      state: 'on'
     media_player.tv:
       friendly_name: TV
       supported_features: 152461
@@ -370,8 +429,52 @@
       friendly_name: Bathroom lights
       supported_features: 44
       state: 'off'
+    light.bedroom_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 112
+      friendly_name: Bedroom light 1
+      supported_features: 40
+      state: 'off'
+    light.bedroom_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 112
+      friendly_name: Bedroom light 2
+      supported_features: 40
+      state: 'off'
   metadata:
     light.bathroom_lights:
+      entity_only: true
+    light.bedroom_light_1:
+      entity_only: true
+    light.bedroom_light_2:
       entity_only: true
 - id: '1704864744838'
   name: living room concentrate
@@ -534,9 +637,6 @@
       friendly_name: Office Backlight
       supported_features: 32
       state: 'off'
-    switch.bedroom:
-      friendly_name: Bedroom
-      state: 'off'
     cover.all_shades:
       current_position: 0
       entity_id:
@@ -580,7 +680,9 @@
       state: 'on'
     switch.circadian_lighting_whole_house_circadian_switch:
       hs_color:
-      brightness:
+      - 28.681
+      - 71.373
+      brightness: 43.39448408265949
       colortemp: 2500
       icon: mdi:theme-light-dark
       friendly_name: Whole House Circadian Switch
@@ -596,21 +698,14 @@
       supported_color_modes:
       - color_temp
       - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 13
-      color_temp_kelvin: 1798
-      color_temp: 556
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
       hs_color:
-      - 29.712
-      - 100
       rgb_color:
-      - 255
-      - 126
-      - 0
       xy_color:
-      - 0.614
-      - 0.373
       entity_id:
       - light.bathroom_light_1
       - light.bathroom_light_2
@@ -619,13 +714,57 @@
       icon: mdi:lightbulb-group
       friendly_name: Bathroom lights
       supported_features: 44
-      state: 'on'
+      state: 'off'
+    light.bedroom_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 110
+      friendly_name: Bedroom light 1
+      supported_features: 40
+      state: 'off'
+    light.bedroom_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      off_with_transition: false
+      off_brightness: 110
+      friendly_name: Bedroom light 2
+      supported_features: 40
+      state: 'off'
   metadata:
     cover.all_shades:
       entity_only: true
     switch.circadian_lighting_whole_house_circadian_switch:
       entity_only: true
     light.bathroom_lights:
+      entity_only: true
+    light.bedroom_light_1:
+      entity_only: true
+    light.bedroom_light_2:
       entity_only: true
 - id: '1717551891701'
   name: Evening Shades
@@ -896,10 +1035,76 @@
       friendly_name: My Bedroom Bedroom Shade North
       supported_features: 15
       state: closed
-    switch.bedroom:
-      friendly_name: Bedroom
+    switch.circadian_lighting_whole_house_circadian_switch:
+      hs_color:
+      - 28.681
+      - 71.373
+      brightness: 43.39448408265949
+      colortemp: 2500
+      icon: mdi:theme-light-dark
+      friendly_name: Whole House Circadian Switch
+      state: 'off'
+    light.bedroom_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 6993
+      color_temp: 143
+      hs_color:
+      - 242.702
+      - 4.994
+      rgb_color:
+      - 243
+      - 242
+      - 255
+      xy_color:
+      - 0.315
+      - 0.315
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Bedroom light 1
+      supported_features: 40
       state: 'on'
-  metadata: {}
+    light.bedroom_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 6993
+      color_temp: 143
+      hs_color:
+      - 242.702
+      - 4.994
+      rgb_color:
+      - 243
+      - 242
+      - 255
+      xy_color:
+      - 0.315
+      - 0.315
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Bedroom light 2
+      supported_features: 40
+      state: 'on'
+  metadata:
+    switch.circadian_lighting_whole_house_circadian_switch:
+      entity_only: true
+    light.bedroom_light_1:
+      entity_only: true
+    light.bedroom_light_2:
+      entity_only: true
 - id: '1732031897223'
   name: Contractor lights
   entities:
@@ -920,10 +1125,10 @@
       rgb_color:
       - 255
       - 228
-      - 205
+      - 206
       xy_color:
-      - 0.372
-      - 0.35
+      - 0.371
+      - 0.349
       friendly_name: Basement light 1
       supported_features: 32
       state: 'on'
@@ -944,10 +1149,10 @@
       rgb_color:
       - 255
       - 228
-      - 205
+      - 206
       xy_color:
-      - 0.372
-      - 0.35
+      - 0.371
+      - 0.349
       friendly_name: Basement light 2
       supported_features: 32
       state: 'on'
@@ -978,10 +1183,10 @@
       - 5.284
       rgb_color:
       - 255
-      - 248
-      - 241
+      - 249
+      - 242
       xy_color:
-      - 0.335
+      - 0.334
       - 0.336
       off_with_transition: false
       off_brightness:
@@ -1009,18 +1214,15 @@
       - 5.284
       rgb_color:
       - 255
-      - 248
-      - 241
+      - 249
+      - 242
       xy_color:
-      - 0.335
+      - 0.334
       - 0.336
       off_with_transition: false
       off_brightness:
       friendly_name: Living Room Overhead Light
       supported_features: 44
-      state: 'on'
-    switch.bedroom:
-      friendly_name: Bedroom
       state: 'on'
     light.office_1:
       min_color_temp_kelvin: 2700
@@ -1038,10 +1240,10 @@
       - 5.284
       rgb_color:
       - 255
-      - 248
-      - 241
+      - 249
+      - 242
       xy_color:
-      - 0.335
+      - 0.334
       - 0.336
       friendly_name: office 1
       supported_features: 32
@@ -1062,15 +1264,73 @@
       - 5.284
       rgb_color:
       - 255
-      - 248
-      - 241
+      - 249
+      - 242
       xy_color:
-      - 0.335
+      - 0.334
       - 0.336
       friendly_name: office 2
       supported_features: 32
       state: 'on'
-  metadata: {}
+    light.bedroom_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 6993
+      color_temp: 143
+      hs_color:
+      - 242.702
+      - 4.994
+      rgb_color:
+      - 243
+      - 242
+      - 255
+      xy_color:
+      - 0.315
+      - 0.315
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Bedroom light 1
+      supported_features: 40
+      state: 'on'
+    light.bedroom_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6993
+      min_mireds: 143
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 6993
+      color_temp: 143
+      hs_color:
+      - 242.702
+      - 4.994
+      rgb_color:
+      - 243
+      - 242
+      - 255
+      xy_color:
+      - 0.315
+      - 0.315
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Bedroom light 2
+      supported_features: 40
+      state: 'on'
+  metadata:
+    light.bedroom_light_1:
+      entity_only: true
+    light.bedroom_light_2:
+      entity_only: true
 - id: '1733599193374'
   name: Pet lighting
   entities:
@@ -1127,9 +1387,6 @@
       xy_color:
       friendly_name: Office Backlight
       supported_features: 32
-      state: 'off'
-    switch.bedroom:
-      friendly_name: Bedroom
       state: 'off'
     light.living_room_corner_light:
       min_color_temp_kelvin: 1801
