@@ -12,11 +12,11 @@ actions:
       area_id:
         - living_room
         - office
+        - bedroom
   - action: switch.turn_on
     metadata: {}
     data: {}
     target:
       device_id:
         - 8576e7dab40455676993ad9a4bcc5c49
-        - d4b4dce9f0f3fcdf3e769a70ff259468
 mode: single
