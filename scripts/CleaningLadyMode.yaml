@@ -16,12 +16,12 @@ sequence:
       area_id:
         - living_room
         - office
+        - bedroom
   - action: switch.turn_on
     metadata: {}
     data: {}
     target:
       entity_id:
         - switch.kitchen_1
-        - switch.bedroom
 alias: Cleaning lady mode
 description: ""
