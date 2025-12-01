@@ -1,18 +1,21 @@
 alias: Bedroom light off on shades opened
 description: ""
-trigger:
-  - platform: template
-    value_template: "  {{state_attr('cover.bedroom_shades', 'current_position') | int == 100 }}"
+mode: single
+triggers:
+  - value_template: "  {{state_attr('cover.bedroom_shades', 'current_position') | int == 100 }}"
     for:
       hours: 0
       minutes: 0
       seconds: 30
-condition:
+    trigger: template
+conditions:
   - condition: sun
     before: sunset
-action:
-  - type: turn_off
-    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-    entity_id: 89d5346579b899623f4d4f45014c604a
-    domain: switch
-mode: single
+actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+        - light.bedroom_light_1
+        - light.bedroom_light_2
