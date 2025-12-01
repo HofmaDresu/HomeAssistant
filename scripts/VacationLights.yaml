@@ -11,10 +11,11 @@ sequence:
     then:
       - stop: ""
     alias: Stop if vacation mode off
-  - type: turn_on
-    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-    entity_id: 89d5346579b899623f4d4f45014c604a
-    domain: switch
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
   - alias: Wait until 07:07
     wait_for_trigger:
       - at: "07:07:00"
@@ -45,10 +46,11 @@ sequence:
     then:
       - stop: ""
     alias: Stop if vacation mode off
-  - type: turn_off
-    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-    entity_id: 89d5346579b899623f4d4f45014c604a
-    domain: switch
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
   - alias: Wait until 07:24
     wait_for_trigger:
       - at: "07:24:00"
@@ -223,10 +225,11 @@ sequence:
     then:
       - stop: ""
     alias: Stop if vacation mode off
-  - type: turn_on
-    device_id: d4b4dce9f0f3fcdf3e769a70ff259468
-    entity_id: 89d5346579b899623f4d4f45014c604a
-    domain: switch
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
   - alias: Wait until 23:22
     wait_for_trigger:
       - at: "23:22:00"
