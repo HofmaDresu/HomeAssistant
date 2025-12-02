@@ -238,4 +238,9 @@ sequence:
         data:
           volume_level: 0.4
         action: media_player.volume_set
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.morning_report
 mode: single
