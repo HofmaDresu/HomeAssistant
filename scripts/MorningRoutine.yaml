@@ -145,6 +145,11 @@ sequence:
         data: {}
         target:
           area_id: bedroom
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.bathroom_lights
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
@@ -200,6 +205,11 @@ sequence:
         data: {}
         target:
           area_id: bedroom
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.bathroom_lights
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
