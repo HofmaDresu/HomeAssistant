@@ -1,0 +1,18 @@
+alias: Make sure entryway is 3000 kelvin
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - light.entryway
+    to:
+      - "on"
+conditions: []
+actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      color_temp_kelvin: 3000
+      brightness_pct: 100
+    target:
+      entity_id: light.entryway
+mode: single
