@@ -1,0 +1,22 @@
+alias: Bedtime prep
+description: ""
+triggers:
+  - trigger: conversation
+    command:
+      - Bedtime
+      - Time for bed
+      - Lets go to bed
+      - It's bedtime
+      - Prepare for bed
+      - Let's prepare for bed
+      - Get ready for bed
+conditions: []
+actions:
+  - action: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id:
+        - bedroom
+        - bathroom
+mode: single
