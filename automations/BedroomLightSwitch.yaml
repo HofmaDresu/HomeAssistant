@@ -1,0 +1,16 @@
+alias: Bedroom light switch
+description: ""
+triggers:
+  - device_id: 943e421c3a754215181290dce601b780
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+conditions: []
+actions:
+  - action: light.toggle
+    metadata: {}
+    data: {}
+    target:
+      area_id: bedroom
+mode: single
