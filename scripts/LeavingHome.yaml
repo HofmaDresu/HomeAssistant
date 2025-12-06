@@ -123,4 +123,9 @@ sequence:
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_home
         code: "{{!secret alarm_code}}"
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.circadian_lighting_whole_house_circadian_switch
 mode: single
