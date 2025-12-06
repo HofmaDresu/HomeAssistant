@@ -12,5 +12,5 @@ actions:
     metadata: {}
     data: {}
     target:
-      area_id: bathroom
+      entity_id: light.bathroom_lights
 mode: single
