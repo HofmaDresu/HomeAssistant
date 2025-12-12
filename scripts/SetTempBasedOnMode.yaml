@@ -17,24 +17,29 @@ sequence:
             normal: 65
             pet: 70
             sick: 68
+            company: 70
           night:
             normal: 60
             pet: 65
             sick: 65
+            company: 65
         cool:
           day:
             normal: 80
             pet: 77
             sick: 77
+            company: 77
           night:
             normal: 75
             pet: 75
             sick: 75
+            company: 75
       petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
       sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
+      companyMode: "{{'company' if states('input_boolean.company_mode') == 'on' else null}}"
       dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
       heatCoolMode: "{{states('climate.family_room')}}"
-      tempMode: "{{petMode or sickMode or 'normal'}}"
+      tempMode: "{{petMode or sickMode or companyMode or 'normal'}}"
       targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
   - action: input_number.set_value
     metadata: {}
