@@ -1,0 +1,15 @@
+alias: Holiday lights on
+description: ""
+triggers:
+  - event: sunrise
+    offset: "-01:00:00"
+    trigger: sun
+  - trigger: sun
+    event: sunset
+    offset: "-01:00:00"
+conditions: []
+actions:
+  - action: script.run_holiday_lights
+    metadata: {}
+    data: {}
+mode: single
