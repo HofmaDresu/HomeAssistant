@@ -67,24 +67,27 @@ sequence:
         {% set today_is_mow_day = states.binary_sensor.today_is_mow_day.state ==
         'on' %}
 
-        {%- if now().weekday() == 1 or should_show_chores or today_is_mow_day %}
-          *Chores*
-          {{'\n'}}
-          {%- if now().weekday() == 1 %}
-            {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
-              take out trash, recycling, and yard waste
-            {% else %}
-              take out trash
+        {% set company_mode = states.input_boolean.company_mode.state == 'on' %}
+        {%- if not company_mode %}
+          {%- if now().weekday() == 1 or should_show_chores or today_is_mow_day %}
+            *Chores*
+            {{'\n'}}
+            {%- if now().weekday() == 1 %}
+              {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
+                take out trash, recycling, and yard waste
+              {% else %}
+                take out trash
+              {% endif -%}
             {% endif -%}
-          {% endif -%}
-          {%- if today_is_mow_day %}
-            pick up sticks in lawn
-          {% endif -%}
-          {%- if should_show_chores %}
-            {% for chore in chorelist_items -%}
-              {{chore.summary}}
-              {{'\n'}}
-            {%- endfor %}
+            {%- if today_is_mow_day %}
+              pick up sticks in lawn
+            {% endif -%}
+            {%- if should_show_chores %}
+              {% for chore in chorelist_items -%}
+                {{chore.summary}}
+                {{'\n'}}
+              {%- endfor %}
+            {% endif -%}
           {% endif -%}
         {% endif -%}
   - stop: testing
