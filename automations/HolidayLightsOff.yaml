@@ -1,0 +1,16 @@
+alias: Holiday lights off
+description: ""
+triggers:
+  - event: sunrise
+    offset: "01:00:00"
+    trigger: sun
+  - trigger: time
+    at: "03:00:00"
+conditions: []
+actions:
+  - metadata: {}
+    data: {}
+    target:
+      device_id: 957afb69a90840abaf62c497bf3c4185
+    action: light.turn_off
+mode: single
