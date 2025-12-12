@@ -7,9 +7,13 @@ triggers:
     above: 80
 conditions:
   - condition: sun
-    before: sunset
+    before: sunrise
     after: sunset
     after_offset: "-1:00"
+  - condition: state
+    entity_id: input_boolean.company_mode
+    state:
+      - "off"
 actions:
   - action: scene.turn_on
     metadata: {}
