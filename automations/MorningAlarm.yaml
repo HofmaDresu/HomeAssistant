@@ -1,0 +1,160 @@
+alias: Morning alarm
+description: ""
+triggers:
+  - trigger: time
+    at: input_datetime.morning_alarm_time
+conditions:
+  - condition: state
+    entity_id: input_boolean.alarm_circuitbreaker
+    state:
+      - "off"
+  - condition: state
+    entity_id: sensor.matt_s_phone_pixel_8_battery_state_2
+    state: discharging
+actions:
+  - alias: Trigger Alarm
+    if:
+      - condition: template
+        value_template: "{{targetIsWeekend}}"
+    then:
+      - target:
+          device_id:
+            - 9ad052cef9da6d789eb359a4ff2ee0f9
+        data:
+          volume_level: 0.75
+        action: media_player.volume_set
+      - target:
+          entity_id: media_player.home_assistant_bedroom_media_player
+        data:
+          media:
+            media_content_id: media-source://media_source/local/25 Salvation is Created.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 25 Salvation is Created.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
+        action: media_player.play_media
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 54
+          milliseconds: 250
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          area_id: bedroom
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.bathroom_lights
+      - if:
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
+        then:
+          - metadata: {}
+            data: {}
+            target:
+              area_id: living_room
+            action: light.turn_on
+        alias: Turn on living room lights if Pet Mode
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 58
+          milliseconds: 0
+      - target:
+          device_id:
+            - 9ad052cef9da6d789eb359a4ff2ee0f9
+        data:
+          volume_level: 0.4
+        action: media_player.volume_set
+    else:
+      - target:
+          device_id:
+            - 9ad052cef9da6d789eb359a4ff2ee0f9
+        data:
+          volume_level: 0.75
+        action: media_player.volume_set
+      - target:
+          entity_id: media_player.home_assistant_bedroom_media_player
+        data:
+          media:
+            media_content_id: media-source://media_source/local/01 Entry Cadence.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 01 Entry Cadence.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
+        action: media_player.play_media
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 42
+          milliseconds: 0
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          area_id: bedroom
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.bathroom_lights
+      - if:
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "on"
+        then:
+          - metadata: {}
+            data: {}
+            target:
+              area_id: living_room
+            action: light.turn_on
+        alias: Turn on living room lights if Pet Mode
+      - target:
+          entity_id: media_player.home_assistant_bedroom_media_player
+        data:
+          media:
+            media_content_id: media-source://media_source/local/02 M Fanfare.mp3
+            media_content_type: audio/mpeg
+            metadata:
+              title: 02 M Fanfare.mp3
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
+        action: media_player.play_media
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 54
+          milliseconds: 0
+      - target:
+          device_id:
+            - 9ad052cef9da6d789eb359a4ff2ee0f9
+        data:
+          volume_level: 0.4
+        action: media_player.volume_set
+  - action: script.turn_on
+    metadata: {}
+    target:
+      entity_id: script.morning_routine
+    data: {}
+mode: single
