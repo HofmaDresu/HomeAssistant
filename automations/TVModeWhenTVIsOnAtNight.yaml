@@ -11,9 +11,9 @@ conditions:
     after: sunset
     after_offset: "-1:00"
   - condition: state
-    entity_id: input_boolean.company_mode
+    entity_id: switch.circadian_lighting_whole_house_circadian_switch
     state:
-      - "off"
+      - "on"
 actions:
   - action: scene.turn_on
     metadata: {}
