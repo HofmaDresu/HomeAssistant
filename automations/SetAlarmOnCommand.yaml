@@ -38,15 +38,87 @@ actions:
             metadata: {}
             action: scene.turn_on
             data: {}
-      - alias: Run morning routine if CB off
+        enabled: true
+      - alias: Set alarm if needed
         if:
           - condition: state
             entity_id: input_boolean.alarm_circuitbreaker
             state: "off"
+          - condition: template
+            value_template: >-
+              {{(now() -
+              states.input_datetime.morning_alarm_time.last_changed).total_seconds()
+              / 60 / 60 > 16}}
+            alias: Time was last changed more than 16 hours ago
         then:
-          - action: script.turn_on
+          - variables:
+              today:
+                year: "{{now().year}}"
+                month: "{{now().month}}"
+                day: "{{now().day}}"
+                weekday: "{{now().weekday()}}"
+              tomorrow:
+                year: "{{(now() + timedelta(days=1)).year}}"
+                month: "{{(now() + timedelta(days=1)).month}}"
+                day: "{{(now() + timedelta(days=1)).day}}"
+                weekday: "{{(now() + timedelta(days=1)).weekday()}}"
+              target: "{{tomorrow if now().hour >= 7 else today}}"
+              targetIsToday: "{{today.day == target.day}}"
+              targetSixAmString: "{{target.year}}:{{target.month}}:{{target.day}}:6"
+              targetSixAm: "{{strptime(targetSixAmString, '%Y:%m:%d:%H')}}"
+              targetSevenAmString: "{{target.year}}:{{target.month}}:{{target.day}}:7"
+              targetSevenAm: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H')}}"
+              targetSevenAmTimestamp: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H').timestamp()}}"
+              targetEightAmString: "{{target.year}}:{{target.month}}:{{target.day}}:8"
+              targetEightAm: "{{strptime(targetEightAmString, '%Y:%m:%d:%H')}}"
+              targetEightAmTimestamp: "{{strptime(targetEightAmString, '%Y:%m:%d:%H').timestamp()}}"
+              targetNineAmString: "{{target.year}}:{{target.month}}:{{target.day}}:9"
+              targetNineAm: "{{strptime(targetNineAmString, '%Y:%m:%d:%H')}}"
+              eightHours: "{{8 * 60 * 60}}"
+              timeToSevenAm: "{{targetSevenAmTimestamp - now().timestamp()}}"
+              timeToEightAm: "{{targetEightAmTimestamp - now().timestamp()}}"
+              weekdayFireAlarmAt: >-
+                {{targetSevenAm if timeToSevenAm >= eightHours else
+                targetEightAm}}
+              weekendFireAlarmAt: >-
+                {{targetEightAm if timeToEightAm >= eightHours else
+                targetNineAm}}
+              targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
+              targetIsTuesday: "{{target.weekday == 1}}"
+              isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
+              fireAlarmAt: >-
+                {% if targetIsTuesday %} {{targetSevenAm}} {% elif isPetMode %}
+                {{targetSevenAm}} {% elif targetIsWeekend %}
+                {{weekendFireAlarmAt}} {% else %} {{weekdayFireAlarmAt}} {%
+                endif %}
+              fireAlarmAtTimeString: >-
+                {{strptime(fireAlarmAt,'%Y-%m-%d
+                %H:%M:%S').hour}}:{{strptime(fireAlarmAt,'%Y-%m-%d
+                %H:%M:%S').minute}}:{{strptime(fireAlarmAt,'%Y-%m-%d
+                %H:%M:%S').second}}
+          - action: input_datetime.set_datetime
             metadata: {}
-            data: {}
             target:
-              entity_id: script.morning_routine
+              entity_id: input_datetime.morning_alarm_time
+            data:
+              time: "{{fireAlarmAtTimeString}}"
+          - action: tts.cloud_say
+            metadata: {}
+            data:
+              cache: false
+              entity_id: media_player.home_assistant_bedroom_media_player
+              message: >-
+                Goodnight Matt. Your alarm is set to {{'today' if targetIsToday
+                else 'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
+                %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
+                %H:%M:%S').minute}}
+        enabled: true
+        else:
+          - action: tts.cloud_say
+            metadata: {}
+            data:
+              cache: false
+              entity_id: media_player.home_assistant_bedroom_media_player
+              message: Goodnight Matt. Your have no alarm set for tomorrow. Sleep well
+    enabled: true
 mode: single
