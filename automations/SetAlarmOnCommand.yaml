@@ -8,120 +8,131 @@ triggers:
 conditions: []
 actions:
   - set_conversation_response: ""
-  - parallel:
-      - if:
-          - condition: template
-            value_template: "{{true}}"
-        then:
-          - delay:
-              hours: 0
-              minutes: 0
-              seconds: 10
-              milliseconds: 0
-          - device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: arm_home
-            code: "{{!secret alarm_code}}"
-          - action: script.turn_on
-            metadata: {}
-            data: {}
-            target:
-              entity_id: script.lock_doors
-          - delay:
-              hours: 0
-              minutes: 0
-              seconds: 50
-              milliseconds: 0
-          - target:
-              entity_id: scene.power_off
-            metadata: {}
-            action: scene.turn_on
-            data: {}
+  - alias: Set alarm time if needed
+    if:
+      - condition: template
+        value_template: >-
+          {{(now() -
+          states.input_datetime.morning_alarm_time.last_changed).total_seconds()
+          / 60 / 60 > 16}}
+        alias: Time was last changed more than 16 hours ago
         enabled: true
-      - if:
-          - condition: template
-            value_template: >-
-              {{(now() -
-              states.input_datetime.morning_alarm_time.last_changed).total_seconds()
-              / 60 / 60 > 16}}
-            alias: Time was last changed more than 16 hours ago
-        then:
-          - variables:
-              today:
-                year: "{{now().year}}"
-                month: "{{now().month}}"
-                day: "{{now().day}}"
-                weekday: "{{now().weekday()}}"
-              tomorrow:
-                year: "{{(now() + timedelta(days=1)).year}}"
-                month: "{{(now() + timedelta(days=1)).month}}"
-                day: "{{(now() + timedelta(days=1)).day}}"
-                weekday: "{{(now() + timedelta(days=1)).weekday()}}"
-              target: "{{tomorrow if now().hour >= 7 else today}}"
-              targetIsToday: "{{today.day == target.day}}"
-              targetSixAmString: "{{target.year}}:{{target.month}}:{{target.day}}:6"
-              targetSixAm: "{{strptime(targetSixAmString, '%Y:%m:%d:%H')}}"
-              targetSevenAmString: "{{target.year}}:{{target.month}}:{{target.day}}:7"
-              targetSevenAm: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H')}}"
-              targetSevenAmTimestamp: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H').timestamp()}}"
-              targetEightAmString: "{{target.year}}:{{target.month}}:{{target.day}}:8"
-              targetEightAm: "{{strptime(targetEightAmString, '%Y:%m:%d:%H')}}"
-              targetEightAmTimestamp: "{{strptime(targetEightAmString, '%Y:%m:%d:%H').timestamp()}}"
-              targetNineAmString: "{{target.year}}:{{target.month}}:{{target.day}}:9"
-              targetNineAm: "{{strptime(targetNineAmString, '%Y:%m:%d:%H')}}"
-              eightHours: "{{8 * 60 * 60}}"
-              timeToSevenAm: "{{targetSevenAmTimestamp - now().timestamp()}}"
-              timeToEightAm: "{{targetEightAmTimestamp - now().timestamp()}}"
-              weekdayFireAlarmAt: >-
-                {{targetSevenAm if timeToSevenAm >= eightHours else
-                targetEightAm}}
-              weekendFireAlarmAt: >-
-                {{targetEightAm if timeToEightAm >= eightHours else
-                targetNineAm}}
-              targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
-              targetIsTuesday: "{{target.weekday == 1}}"
-              isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
-              fireAlarmAt: >-
-                {% if targetIsTuesday %} {{targetSevenAm}} {% elif isPetMode %}
-                {{targetSevenAm}} {% elif targetIsWeekend %}
-                {{weekendFireAlarmAt}} {% else %} {{weekdayFireAlarmAt}} {%
-                endif %}
-              fireAlarmAtTimeString: >-
-                {{strptime(fireAlarmAt,'%Y-%m-%d
-                %H:%M:%S').hour}}:{{strptime(fireAlarmAt,'%Y-%m-%d
-                %H:%M:%S').minute}}:{{strptime(fireAlarmAt,'%Y-%m-%d
-                %H:%M:%S').second}}
-          - action: input_datetime.set_datetime
-            metadata: {}
-            target:
-              entity_id: input_datetime.morning_alarm_time
-            data:
-              time: "{{fireAlarmAtTimeString}}"
-        alias: Set alarm time if needed
-      - alias: Say goonight and announce alarm
-        if:
-          - condition: state
-            entity_id: input_boolean.alarm_circuitbreaker
-            state: "off"
-        then:
-          - action: tts.cloud_say
-            metadata: {}
-            data:
-              cache: false
-              entity_id: media_player.home_assistant_bedroom_media_player
-              message: >-
-                Goodnight Matt. Your alarm is set to {{'today' if targetIsToday
-                else 'tomorrow'}} at {{strptime(fireAlarmAt, '%Y-%m-%d
-                %H:%M:%S').hour}}:{{strptime(fireAlarmAt, '%Y-%m-%d
-                %H:%M:%S').minute}}
+    then:
+      - action: calendar.get_events
+        metadata: {}
+        target:
+          entity_id: calendar.hofma_dresu
+        data:
+          start_date_time: "{{ today_at().strftime('%Y-%m-%d %H:%M') }}"
+          duration:
+            hours: 24
+            minutes: 0
+            seconds: 0
+        response_variable: events
+      - variables:
+          today:
+            year: "{{now().year}}"
+            month: "{{now().month}}"
+            day: "{{now().day}}"
+            weekday: "{{now().weekday()}}"
+          tomorrow:
+            year: "{{(now() + timedelta(days=1)).year}}"
+            month: "{{(now() + timedelta(days=1)).month}}"
+            day: "{{(now() + timedelta(days=1)).day}}"
+            weekday: "{{(now() + timedelta(days=1)).weekday()}}"
+          target: "{{tomorrow if now().hour >= 7 else today}}"
+          targetIsToday: "{{today.day == target.day}}"
+          targetSixAmString: "{{target.year}}:{{target.month}}:{{target.day}}:6"
+          targetSixAm: "{{strptime(targetSixAmString, '%Y:%m:%d:%H')}}"
+          targetSevenAmString: "{{target.year}}:{{target.month}}:{{target.day}}:7"
+          targetSevenAm: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H')}}"
+          targetSevenAmTimestamp: "{{strptime(targetSevenAmString, '%Y:%m:%d:%H').timestamp()}}"
+          targetEightAmString: "{{target.year}}:{{target.month}}:{{target.day}}:8"
+          targetEightAm: "{{strptime(targetEightAmString, '%Y:%m:%d:%H')}}"
+          targetEightAmTimestamp: "{{strptime(targetEightAmString, '%Y:%m:%d:%H').timestamp()}}"
+          targetNineAmString: "{{target.year}}:{{target.month}}:{{target.day}}:9"
+          targetNineAm: "{{strptime(targetNineAmString, '%Y:%m:%d:%H')}}"
+          eightHours: "{{8 * 60 * 60}}"
+          timeToSevenAm: "{{targetSevenAmTimestamp - now().timestamp()}}"
+          timeToEightAm: "{{targetEightAmTimestamp - now().timestamp()}}"
+          weekdayFireAlarmAt: "{{targetSevenAm if timeToSevenAm >= eightHours else targetEightAm}}"
+          weekendFireAlarmAt: "{{targetEightAm if timeToEightAm >= eightHours else targetNineAm}}"
+          targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
+          targetIsTuesday: "{{target.weekday == 1}}"
+          isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
+          isGymDay: >-
+            {{events['calendar.hofma_dresu'].events | selectattr('summary',
+            'match', '[Gg]ym.*') | list | count > 0}}
+          fireAlarmAt: >-
+            {% if isGymDay %} {{targetSixAm}} {% elif targetIsTuesday %}
+            {{targetSevenAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
+            targetIsWeekend %} {{weekendFireAlarmAt}} {% else %}
+            {{weekdayFireAlarmAt}} {% endif %}
+          fireAlarmAtTimeString: >-
+            {{strptime(fireAlarmAt,'%Y-%m-%d
+            %H:%M:%S').hour}}:{{strptime(fireAlarmAt,'%Y-%m-%d
+            %H:%M:%S').minute}}:{{strptime(fireAlarmAt,'%Y-%m-%d
+            %H:%M:%S').second}}
+      - action: input_datetime.set_datetime
+        metadata: {}
+        target:
+          entity_id: input_datetime.morning_alarm_time
+        data:
+          time: "{{fireAlarmAtTimeString}}"
         enabled: true
-        else:
-          - action: tts.cloud_say
-            metadata: {}
-            data:
-              cache: false
-              entity_id: media_player.home_assistant_bedroom_media_player
-              message: Goodnight Matt. Your have no alarm set for tomorrow. Sleep well
+  - alias: Say goonight and announce alarm
+    if:
+      - condition: state
+        entity_id: input_boolean.alarm_circuitbreaker
+        state: "off"
+    then:
+      - action: tts.cloud_say
+        metadata: {}
+        data:
+          cache: false
+          entity_id: media_player.home_assistant_bedroom_media_player
+          message: >-
+            Goodnight Matt. Your alarm is set to {{'today' if targetIsToday else
+            'tomorrow'}} at
+            {{strptime(states.input_datetime.morning_alarm_time.state,
+            '%H:%M:%S').hour}}:{{strptime(states.input_datetime.morning_alarm_time.state,
+            '%H:%M:%S').minute}}
+    enabled: true
+    else:
+      - action: tts.cloud_say
+        metadata: {}
+        data:
+          cache: false
+          entity_id: media_player.home_assistant_bedroom_media_player
+          message: Goodnight Matt. Your have no alarm set for tomorrow. Sleep well
+  - if:
+      - condition: template
+        value_template: "{{true}}"
+    then:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 10
+          milliseconds: 0
+      - device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: arm_home
+        code: "{{!secret alarm_code}}"
+      - action: script.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: script.lock_doors
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 50
+          milliseconds: 0
+      - target:
+          entity_id: scene.power_off
+        metadata: {}
+        action: scene.turn_on
+        data: {}
     enabled: true
 mode: single
