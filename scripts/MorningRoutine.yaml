@@ -16,6 +16,22 @@ sequence:
         target:
           area_id: living_room
         data: {}
+  - alias: Living room and kitchen lights on for tuesday
+    if:
+      - alias: Is Tuesday
+        condition: template
+        value_template: "{{now().weekday() == 2}}"
+    then:
+      - action: light.turn_on
+        metadata: {}
+        target:
+          area_id: living_room
+        data: {}
+      - action: switch.turn_on
+        metadata: {}
+        target:
+          entity_id: switch.kitchen_1
+        data: {}
   - action: script.turn_on
     metadata: {}
     data: {}
