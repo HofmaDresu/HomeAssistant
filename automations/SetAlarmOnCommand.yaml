@@ -39,11 +39,7 @@ actions:
             action: scene.turn_on
             data: {}
         enabled: true
-      - alias: Set alarm if needed
-        if:
-          - condition: state
-            entity_id: input_boolean.alarm_circuitbreaker
-            state: "off"
+      - if:
           - condition: template
             value_template: >-
               {{(now() -
@@ -102,6 +98,13 @@ actions:
               entity_id: input_datetime.morning_alarm_time
             data:
               time: "{{fireAlarmAtTimeString}}"
+        alias: Set alarm time if needed
+      - alias: Say goonight and announce alarm
+        if:
+          - condition: state
+            entity_id: input_boolean.alarm_circuitbreaker
+            state: "off"
+        then:
           - action: tts.cloud_say
             metadata: {}
             data:
