@@ -5,6 +5,17 @@ sequence:
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
     code: "{{!secret alarm_code}}"
+  - alias: Living room lights on for weekend
+    if:
+      - condition: template
+        value_template: "{{now().weekday() == 5 or now().weekday() == 6}}"
+        alias: Is Weekend
+    then:
+      - action: light.turn_on
+        metadata: {}
+        target:
+          area_id: living_room
+        data: {}
   - action: script.turn_on
     metadata: {}
     data: {}
