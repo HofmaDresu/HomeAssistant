@@ -26,10 +26,6 @@ sequence:
     target:
       entity_id: calendar.hofma_dresu
     response_variable: events
-  - action: ha_text_ai.clear_history
-    metadata: {}
-    data:
-      instance: sensor.ha_text_ai_openai_llm
   - variables:
       question: >
         *Time of day*  {%- if now().hour < 12 %}
@@ -92,78 +88,53 @@ sequence:
         {% endif -%}
   - stop: testing
     enabled: false
-  - action: ha_text_ai.ask_question
+  - action: openai_conversation.generate_content
     metadata: {}
     data:
-      temperature: 0.7
-      max_tokens: 1000
-      instance: sensor.ha_text_ai_openai_llm
-      question: "{{question}}"
-      system_prompt: |-
-        You are a radio reporter from the 1920s
-        You summarize the information you're given in the style of a news report
-        You state times in 24 hour format
-        You state temperatures in fahrenheit
-        You use old-timey coloquialisms
-    enabled: true
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-    enabled: true
-  - variables:
-      message: "{{ state_attr('sensor.ha_text_ai_openai_llm', 'response') }}"
-      messageArray: |-
-        {{message.split('
-        ')}}
-  - repeat:
-      sequence:
-        - variables:
-            isEmpty: "{{repeat.item == ''}}"
-            isNotEmpty: "{{repeat.item != ''}}"
-        - if:
-            - condition: template
-              value_template: "{{ isNotEmpty }}"
-          then:
-            - alias: TTS Speak
-              if:
-                - condition: template
-                  value_template: >-
-                    {{ repeat.item.split(' ') | length <
-                    states.sensor.eleven_labs_remaining_character_count.state  |
-                    int}}
-              then:
-                - action: tts.speak
-                  metadata: {}
-                  data:
-                    cache: true
-                    media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
-                    message: "{{ repeat.item }}"
-                    options:
-                      voice: ttLooivY93OUNiBcvW5R
-                  target:
-                    entity_id: tts.elevenlabs
-                  enabled: true
-              else:
-                - action: tts.speak
-                  metadata: {}
-                  data:
-                    cache: true
-                    media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
-                    message: "{{ repeat.item }}"
-                  target:
-                    entity_id: tts.home_assistant_cloud
-                  enabled: true
-            - wait_template: >-
-                {{is_state('media_player.home_assistant_voice_091b0c_media_player',
-                'playing')}}
-              continue_on_timeout: false
-            - wait_template: >-
-                {{not
-                is_state('media_player.home_assistant_voice_091b0c_media_player',
-                'playing')}}
-              continue_on_timeout: false
-      for_each: "{{messageArray}}"
+      config_entry: 01KE4R5M3S9151PZCY4TZ06581
+      prompt: >-
+        - You are a radio reporter from the 1920s
+
+        - You state times in 24 hour format
+
+        - You state temperatures in fahrenheit
+
+        - You use old-timey coloquialisms
+
+        - You summarize the following information in the style of a radio news
+        report
+
+
+
+        {{question}}
+    response_variable: message
+  - alias: TTS Speak
+    if:
+      - condition: template
+        value_template: >-
+          {{ message.text.split(' ') | length <
+          states.sensor.eleven_labs_remaining_character_count.state  | int}}
+    then:
+      - action: tts.speak
+        metadata: {}
+        data:
+          cache: true
+          media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+          message: "{{ message.text }}"
+          options:
+            voice: ttLooivY93OUNiBcvW5R
+        target:
+          entity_id: tts.elevenlabs
+        enabled: true
+    else:
+      - action: tts.speak
+        metadata: {}
+        data:
+          cache: true
+          media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+          message: "{{ message.text }}"
+        target:
+          entity_id: tts.home_assistant_cloud
+        enabled: true
 description: ""
 icon: mdi:radio-tower
