@@ -8,9 +8,11 @@ conditions:
     entity_id: input_boolean.alarm_circuitbreaker
     state:
       - "off"
-  - condition: state
-    entity_id: sensor.matt_s_phone_pixel_8_battery_state_2
-    state: discharging
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: sensor.matt_s_phone_pixel_8_battery_state_2
+        state: discharging
 actions:
   - alias: Trigger Alarm
     if:
