@@ -20,7 +20,7 @@ sequence:
     if:
       - alias: Is Tuesday
         condition: template
-        value_template: "{{now().weekday() == 2}}"
+        value_template: "{{now().weekday() == 1}}"
     then:
       - action: light.turn_on
         metadata: {}
