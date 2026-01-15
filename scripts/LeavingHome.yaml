@@ -26,14 +26,13 @@ sequence:
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_away
         code: "{{!secret alarm_code}}"
-  - type: turn_off
-    device_id: 26b86cb27513279a9260f6ab9e46ffac
-    entity_id: 67f7dd492134ea17716ddb0069dad07a
-    domain: switch
-  - type: turn_off
-    device_id: f1a451d00e600cabf0bc652eeb472934
-    entity_id: ea8b9a63f74a169a360aa8ad3b1a1dd7
-    domain: switch
+  - metadata: {}
+    data: {}
+    target:
+      device_id:
+        - 26b86cb27513279a9260f6ab9e46ffac
+        - c15ccc57da14176ae9d3a7af23376ce1
+    action: camera.disable_motion_detection
   - if:
       - condition: and
         conditions:
@@ -97,14 +96,13 @@ sequence:
     device_id: 0f1815f6576728547da6fbc3a3b69277
     entity_id: d7144b619bd94371cb9c1e6459036229
     domain: switch
-  - type: turn_on
-    device_id: 26b86cb27513279a9260f6ab9e46ffac
-    entity_id: 67f7dd492134ea17716ddb0069dad07a
-    domain: switch
-  - type: turn_on
-    device_id: f1a451d00e600cabf0bc652eeb472934
-    entity_id: ea8b9a63f74a169a360aa8ad3b1a1dd7
-    domain: switch
+  - metadata: {}
+    data: {}
+    target:
+      device_id:
+        - 26b86cb27513279a9260f6ab9e46ffac
+        - c15ccc57da14176ae9d3a7af23376ce1
+    action: camera.enable_motion_detection
   - alias: arm alarm if needed and petmode on
     if:
       - condition: and
