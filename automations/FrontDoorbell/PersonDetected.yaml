@@ -1,0 +1,19 @@
+alias: "Front Doorbell: Person Detected"
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.camera1_person
+    to:
+      - "on"
+conditions: []
+actions:
+  - data:
+      data:
+        channel: Home camera priority
+        priority: high
+        ttl: 0
+        image: "{{states.camera.camera1_fluent.attributes.entity_picture}}"
+      message: Person detected
+    action: notify.mobile_app_pixel_8
+mode: single
