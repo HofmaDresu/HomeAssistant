@@ -1,0 +1,38 @@
+alias: "Front Doorbell: On Ring"
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.camera1_visitor
+    to:
+      - "on"
+conditions: []
+actions:
+  - action: media_player.play_media
+    metadata: {}
+    target:
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
+    data:
+      media:
+        media_content_id: media-source://media_source/local/Ding-dong.wav
+        media_content_type: audio/x-wav
+        metadata:
+          title: Ding-dong.wav
+          thumbnail: null
+          media_class: music
+          children_media_class: null
+          navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://media_source
+          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+      announce: false
+  - data:
+      data:
+        channel: Home camera priority
+        priority: high
+        ttl: 0
+        image: "{{states.camera.camera1_fluent.attributes.entity_picture}}"
+      message: Ding Dong
+    action: notify.mobile_app_pixel_8
+mode: single
