@@ -60,14 +60,10 @@ actions:
           targetIsWeekend: "{{target.weekday == 5 or target.weekday == 6}}"
           targetIsTuesday: "{{target.weekday == 1}}"
           isPetMode: "{{states('input_boolean.pet_mode') == 'on'}}"
-          isGymDay: >-
-            {{events['calendar.hofma_dresu'].events | selectattr('summary',
-            'match', '[Gg]ym.*') | list | count > 0}}
           fireAlarmAt: >-
-            {% if isGymDay %} {{targetSixAm}} {% elif targetIsTuesday %}
-            {{targetSevenAm}} {% elif isPetMode %} {{targetSevenAm}} {% elif
-            targetIsWeekend %} {{weekendFireAlarmAt}} {% else %}
-            {{weekdayFireAlarmAt}} {% endif %}
+            {% if targetIsTuesday %} {{targetSevenAm}} {% elif isPetMode %}
+            {{targetSevenAm}} {% elif targetIsWeekend %} {{weekendFireAlarmAt}}
+            {% else %} {{weekdayFireAlarmAt}} {% endif %}
           fireAlarmAtTimeString: >-
             {{strptime(fireAlarmAt,'%Y-%m-%d
             %H:%M:%S').hour}}:{{strptime(fireAlarmAt,'%Y-%m-%d
