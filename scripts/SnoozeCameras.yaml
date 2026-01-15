@@ -1,0 +1,22 @@
+alias: Snooze Cameras
+sequence:
+  - metadata: {}
+    data: {}
+    target:
+      device_id:
+        - 26b86cb27513279a9260f6ab9e46ffac
+        - c15ccc57da14176ae9d3a7af23376ce1
+    action: camera.disable_motion_detection
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - metadata: {}
+    data: {}
+    target:
+      device_id:
+        - 26b86cb27513279a9260f6ab9e46ffac
+        - c15ccc57da14176ae9d3a7af23376ce1
+    action: camera.enable_motion_detection
+mode: single
