@@ -8,25 +8,128 @@ triggers:
       - "on"
 conditions: []
 actions:
-  - action: media_player.play_media
-    metadata: {}
-    target:
-      entity_id: media_player.home_assistant_voice_091b0c_media_player
-    data:
-      media:
-        media_content_id: media-source://media_source/local/Ding-dong.wav
-        media_content_type: audio/x-wav
-        metadata:
-          title: Ding-dong.wav
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
-      announce: false
+  - alias: Play ring tone
+    choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ now().month == 12 }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ now().day % 2 == 0 }}"
+            then:
+              - action: media_player.play_media
+                metadata: {}
+                target:
+                  entity_id: media_player.home_assistant_voice_091b0c_media_player
+                data:
+                  media:
+                    media_content_id: >-
+                      media-source://media_source/local/Jingle-bells-doorbell-sound-effect.mp3
+                    media_content_type: audio/mpeg
+                    metadata:
+                      title: Jingle-bells-doorbell-sound-effect.mp3
+                      thumbnail: null
+                      media_class: music
+                      children_media_class: null
+                      navigateIds:
+                        - {}
+                        - media_content_type: app
+                          media_content_id: media-source://media_source
+                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                  announce: false
+            else:
+              - action: media_player.play_media
+                metadata: {}
+                target:
+                  entity_id: media_player.home_assistant_voice_091b0c_media_player
+                data:
+                  media:
+                    media_content_id: >-
+                      media-source://media_source/local/Doorbell-sound-carol-of-the-bells.mp3
+                    media_content_type: audio/mpeg
+                    metadata:
+                      title: Doorbell-sound-carol-of-the-bells.mp3
+                      thumbnail: null
+                      media_class: music
+                      children_media_class: null
+                      navigateIds:
+                        - {}
+                        - media_content_type: app
+                          media_content_id: media-source://media_source
+                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                  announce: false
+        alias: December
+      - conditions:
+          - condition: template
+            value_template: "{{ now().month == 10 }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ now().day % 2 == 0 }}"
+            then:
+              - action: media_player.play_media
+                metadata: {}
+                target:
+                  entity_id: media_player.home_assistant_voice_091b0c_media_player
+                data:
+                  media:
+                    media_content_id: >-
+                      media-source://media_source/local/Scary-organ-doorbell-sound-effect.mp3
+                    media_content_type: audio/mpeg
+                    metadata:
+                      title: Scary-organ-doorbell-sound-effect.mp3
+                      thumbnail: null
+                      media_class: music
+                      children_media_class: null
+                      navigateIds:
+                        - {}
+                        - media_content_type: app
+                          media_content_id: media-source://media_source
+                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                  announce: false
+            else:
+              - action: media_player.play_media
+                metadata: {}
+                target:
+                  entity_id: media_player.home_assistant_voice_091b0c_media_player
+                data:
+                  media:
+                    media_content_id: >-
+                      media-source://media_source/local/Halloween-theme-doorbell-sound.mp3
+                    media_content_type: audio/mpeg
+                    metadata:
+                      title: Halloween-theme-doorbell-sound.mp3
+                      thumbnail: null
+                      media_class: music
+                      children_media_class: null
+                      navigateIds:
+                        - {}
+                        - media_content_type: app
+                          media_content_id: media-source://media_source
+                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                  announce: false
+        alias: October
+    default:
+      - action: media_player.play_media
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          media:
+            media_content_id: media-source://media_source/local/Ding-dong.wav
+            media_content_type: audio/x-wav
+            metadata:
+              title: Ding-dong.wav
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
+              browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+          announce: false
   - data:
       data:
         channel: Home camera priority
