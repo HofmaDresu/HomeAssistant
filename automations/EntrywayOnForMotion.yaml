@@ -1,16 +1,11 @@
 alias: Entryway on for motion
 description: ""
 triggers:
-  - type: motion
-    device_id: f1a451d00e600cabf0bc652eeb472934
-    entity_id: 7d28ef5d2c38a911fdaed396414d3e47
-    domain: binary_sensor
-    trigger: device
-  - type: motion
-    device_id: d335cbfa6df50be26984873aca876e52
-    entity_id: 0966c0d2ed8d5fde86311cefe3b49da8
-    domain: binary_sensor
-    trigger: device
+  - trigger: state
+    entity_id:
+      - binary_sensor.camera1_person
+    to:
+      - "on"
 conditions:
   - condition: and
     conditions:
