@@ -27,36 +27,38 @@ sequence:
       entity_id: calendar.hofma_dresu
     response_variable: events
   - variables:
-      question: >
-        *Time of day*  {%- if now().hour < 12 %}
-          morning
-        {% elif now().hour < 16 %}
-          afternoon
-        {% elif now().hour < 20 %}
-          evening
-        {% else %}
-          night
+      message: >
+        Good {%- if now().hour < 12 %}morning{% elif now().hour < 16
+        %}afternoon{% elif now().hour < 20 %}evening{% else %}night{%- endif %}
+        Matt!
+
+
+        Today is going to be a {%- if
+        weather['weather.openweathermap'].forecast[0].temperature < 20 %} cold{%
+        elif weather['weather.openweathermap'].forecast[0].temperature < 50 %}
+        chilly{% elif weather['weather.openweathermap'].forecast[0].temperature
+        < 80 %} balmy{% else %} hot{%- endif %} and
+        {{weather['weather.openweathermap'].forecast[0].condition}} day with a
+        high of {{weather['weather.openweathermap'].forecast[0].temperature}}
+        and a low of {{weather['weather.openweathermap'].forecast[0].templow}}.
+
+
+        {%- if
+
+        weather['weather.openweathermap'].forecast[0].precipitation_probability
+
+        > 0 %}
+          There's a {{weather['weather.openweathermap'].forecast[0].precipitation_probability}} percent chance of precipitation today with an expected total of {{weather['weather.openweathermap'].forecast[0].precipitation}} inches
         {%- endif %}
 
-        *Weather*
-          High: {{weather['weather.openweathermap'].forecast[0].temperature}} F
-        Low: {{weather['weather.openweathermap'].forecast[0].templow}} F
+        {% set calendarEvents = events['calendar.hofma_dresu'].events %} {% if
+        calendarEvents | count > 0 %}
+          On the docket today you have {% for ev in events['calendar.hofma_dresu'].events -%}{{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}{{", "}}{%- endfor %}
+        {% else %}
+          There's nothing on your calendar today, enjoy the free time!
+        {%- endif %}
 
-        Condition: {{weather['weather.openweathermap'].forecast[0].condition}}
-
-        Precipitation:
-        {{weather['weather.openweathermap'].forecast[0].precipitation}}
-
-        Precipitation Chance:
-        {{weather['weather.openweathermap'].forecast[0].precipitation_probability}}
-
-        *Calendar* {{'\n'}} {% for ev in events['calendar.hofma_dresu'].events
-        -%}
-          {{ev.summary}} {%- if 'T' in ev.start %} at {{':'.join(ev.start.split('T')[1].split('-')[0].split(':', 2)[:2])}}{% endif -%}
-          {{'\n'}}
-        {%- endfor %}
-
-        {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
+            {% set chorelist_items = chore_list['todo.chores']['items'] | list %} 
 
         {% set should_show_chores = chorelist_items | count > 0 %}
 
@@ -66,75 +68,36 @@ sequence:
         {% set company_mode = states.input_boolean.company_mode.state == 'on' %}
         {%- if not company_mode %}
           {%- if now().weekday() == 1 or should_show_chores or today_is_mow_day %}
-            *Chores*
-            {{'\n'}}
+            You have the following chores needing doing:
             {%- if now().weekday() == 1 %}
               {%- if states.input_boolean.recycling_at_next_trash.state == "on" %}
-                take out trash, recycling, and yard waste
+                Take out trash, recycling, and yard waste,
               {% else %}
-                take out trash
+                Take out trash,
               {% endif -%}
             {% endif -%}
             {%- if today_is_mow_day %}
-              pick up sticks in lawn
+              Pick up sticks in lawn,
             {% endif -%}
             {%- if should_show_chores %}
               {% for chore in chorelist_items -%}
-                {{chore.summary}}
-                {{'\n'}}
+                {{chore.summary}}{{', '}}
               {%- endfor %}
             {% endif -%}
           {% endif -%}
         {% endif -%}
+
+        Have a great day!
   - stop: testing
     enabled: false
-  - action: openai_conversation.generate_content
+  - action: tts.speak
     metadata: {}
     data:
-      config_entry: 01KE4R5M3S9151PZCY4TZ06581
-      prompt: >-
-        - You are a radio reporter from the 1920s
-
-        - You state times in 24 hour format
-
-        - You state temperatures in fahrenheit
-
-        - You use old-timey coloquialisms
-
-        - You summarize the following information in the style of a radio news
-        report
-
-
-
-        {{question}}
-    response_variable: message
-  - alias: TTS Speak
-    if:
-      - condition: template
-        value_template: >-
-          {{ message.text.split(' ') | length <
-          states.sensor.eleven_labs_remaining_character_count.state  | int}}
-    then:
-      - action: tts.speak
-        metadata: {}
-        data:
-          cache: true
-          media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
-          message: "{{ message.text }}"
-          options:
-            voice: ttLooivY93OUNiBcvW5R
-        target:
-          entity_id: tts.elevenlabs
-        enabled: true
-    else:
-      - action: tts.speak
-        metadata: {}
-        data:
-          cache: true
-          media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
-          message: "{{ message.text }}"
-        target:
-          entity_id: tts.home_assistant_cloud
-        enabled: true
+      cache: true
+      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
+      message: "{{ message }}"
+    target:
+      entity_id: tts.home_assistant_cloud
+    enabled: true
 description: ""
 icon: mdi:radio-tower
