@@ -303,7 +303,8 @@ actions:
             '.*[Pp]hone.*')        | rejectattr('name', 'match', '.*Roborock
             .*')        | rejectattr('name', 'match', '.*Mo99.*')        |
             rejectattr('name', 'match', 'Front Door Motion Sensor
-            Battery')        | rejectattr('name', 'match', 'Backyard Battery')%}
+            Battery')        | rejectattr('name', 'match', 'Backyard
+            Battery')        | rejectattr('name', 'match', 'Battery cycles')%}
             {%- if states.binary_sensor.garden_is_waterable_month != "on" %}  {%
             set batteryList = batteryList | rejectattr('name', 'match', 'SONOFF
             SWV Battery') %}{% endif -%}{% set batteryList = states.sensor     |
