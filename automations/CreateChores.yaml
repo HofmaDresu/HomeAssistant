@@ -368,4 +368,22 @@ actions:
         metadata: {}
         data:
           chore: Unhook garden hose
+  - alias: "Add chore: Record transactions"
+    if:
+      - condition: template
+        value_template: "{{ now().weekday() == 6 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Record transactions
+  - alias: "Add chore: Balance accounts"
+    if:
+      - condition: template
+        value_template: "{{ now().day == 1 and now().month == 2 }}"
+    then:
+      - action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Balance accounts
 mode: single
