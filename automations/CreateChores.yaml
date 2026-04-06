@@ -220,6 +220,20 @@ actions:
           chore: >-
             vacuum dock error:
             {{states.sensor.roborock_s7_maxv_dock_error.state}}
+  - alias: "Add chore: Clean vaccuum dock water filter"
+    if:
+      - type: is_duration
+        condition: device
+        device_id: 5c428134d6c49ca5dd0ecbeb0d705056
+        entity_id: 035093f0c80338c54ace62f2039681af
+        domain: sensor
+        below: 0
+    then:
+      - alias: "Add chore: Vacuum dock error"
+        action: script.add_unique_chore
+        metadata: {}
+        data:
+          chore: Clean vaccuum dock water filter
   - alias: "Add chore: Clean vacuum sensor"
     if:
       - condition: numeric_state
