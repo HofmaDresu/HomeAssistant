@@ -31,8 +31,46 @@ sensor:
       xi-api-key: !secret eleven_labs_api_key
     value_template: "{{ value_json.character_limit - value_json.character_count }}"
     scan_interval: 3600
+  - platform: rest
+    name: TeslaFi Report
+    resource: https://www.teslafi.com/feed.php
+    scan_interval: 300
+    params:
+      token: !secret tesla_fi_api_key
+      command: lastGood
+    value_template: "{{ value_json.display_name }}"
+    json_attributes:
+      - vehicle_id
+      - vin
+      - vehicle_name
+      - odometer
+      - carState
+      - car_version
+      - battery_level
+      - battery_range
+      - locked
+      - inside_tempF
+      - outside_tempF
+      - is_user_present
+      - latitude
+      - longitude
+      - charging_state
+      - charger_actual_current
+      # charger_power is rounded to whole kW
+      - charger_voltage
+      - charge_rate
+      - charge_energy_added
+      - time_to_full_charge
 
 template:
+  - sensor:
+      - unit_of_measurement: mi
+        default_entity_id: sensor.teslafi_odometer
+        icon: mdi:counter
+        name:
+          "{{ state_attr('sensor.teslafi_report', 'vehicle_name') + ' Odometer'
+          }}"
+        state: "{{ state_attr('sensor.teslafi_report', 'odometer') | round(1)}}"
   - trigger:
       - platform: time
         at: "00:01:00"
