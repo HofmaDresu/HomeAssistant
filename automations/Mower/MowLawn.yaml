@@ -49,7 +49,7 @@ actions:
               blade_height: 100
               areas:
                 - switch.mo99_area_8647782149318140073
-                - switch.mo99_area_3365964821918555184
+                - switch.mo99_area_main_lawn
             target:
               entity_id: lawn_mower.mo99
         else:
@@ -71,7 +71,7 @@ actions:
               start_progress: 0
               blade_height: 100
               areas:
-                - switch.mo99_area_3365964821918555184
+                - switch.mo99_area_main_lawn
             target:
               entity_id: lawn_mower.mo99
       - data:
