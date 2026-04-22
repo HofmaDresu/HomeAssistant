@@ -49,7 +49,6 @@ actions:
               blade_height: 100
               areas:
                 - switch.mo99_area_8647782149318140073
-                - switch.mo99_area_driveway_edge
                 - switch.mo99_area_3365964821918555184
             target:
               entity_id: lawn_mower.mo99
