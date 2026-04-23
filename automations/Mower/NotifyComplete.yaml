@@ -4,8 +4,11 @@ triggers:
   - trigger: numeric_state
     entity_id:
       - sensor.mo99_progress
-    above: 99
-conditions: []
+    below: 2
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.mo99_battery
+    below: 90
 actions:
   - data:
       title: Mo
