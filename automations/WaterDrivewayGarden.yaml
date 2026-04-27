@@ -34,7 +34,7 @@ actions:
       device_id: 1dd1aabd76c1d3600d697e2071897d7a
   - delay:
       hours: 0
-      minutes: 10
+      minutes: 5
       seconds: 0
       milliseconds: 0
   - action: switch.turn_off
