@@ -1,13 +1,23 @@
 alias: Leaving Home
 sequence:
-  - action: tts.speak
+  - action: media_player.play_media
     metadata: {}
-    data:
-      cache: true
-      message: Goodbye
-      media_player_entity_id: media_player.home_assistant_voice_091b0c_media_player
     target:
-      entity_id: tts.home_assistant_cloud
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
+    data:
+      media:
+        media_content_id: media-source://media_source/local/CPU please don't go.wav
+        media_content_type: audio/x-wav
+        metadata:
+          title: CPU please don't go.wav
+          thumbnail: null
+          media_class: music
+          children_media_class: null
+          navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://media_source
+          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
   - alias: arm alarm if needed and petmode off
     if:
       - condition: and
@@ -26,21 +36,20 @@ sequence:
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_away
         code: "{{!secret alarm_code}}"
+  - type: turn_on
+    device_id: c15ccc57da14176ae9d3a7af23376ce1
+    entity_id: 1005ff4ba31f145fb2f6f60926ab8924
+    domain: switch
   - metadata: {}
     data: {}
     target:
       device_id:
         - 26b86cb27513279a9260f6ab9e46ffac
-        - c15ccc57da14176ae9d3a7af23376ce1
     action: camera.disable_motion_detection
-  - if:
+  - alias: Turn on garage light if needed
+    if:
       - condition: and
         conditions:
-          - type: is_plugged_in
-            condition: device
-            device_id: ed7b9f44ffc98852eea9b0c0969fd836
-            entity_id: a5bb6cb73ab470aa4d8736886f5f12af
-            domain: binary_sensor
           - condition: sun
             before: sunrise
             after: sunset
@@ -49,7 +58,6 @@ sequence:
         device_id: 0f1815f6576728547da6fbc3a3b69277
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
-    alias: Turn on garage light if needed
   - delay:
       hours: 0
       minutes: 1
@@ -101,8 +109,11 @@ sequence:
     target:
       device_id:
         - 26b86cb27513279a9260f6ab9e46ffac
-        - c15ccc57da14176ae9d3a7af23376ce1
     action: camera.enable_motion_detection
+  - type: turn_off
+    device_id: c15ccc57da14176ae9d3a7af23376ce1
+    entity_id: 1005ff4ba31f145fb2f6f60926ab8924
+    domain: switch
   - alias: arm alarm if needed and petmode on
     if:
       - condition: and
