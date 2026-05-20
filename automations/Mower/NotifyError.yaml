@@ -21,6 +21,10 @@ conditions:
         state: "1108"
       - condition: state
         entity_id: sensor.mo99_last_error_code
+        state:
+          - "5002"
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
         state: unavailable
       - condition: state
         entity_id: sensor.mo99_last_error_code
@@ -80,6 +84,26 @@ actions:
                     ttl: 0
                     notification_icon: mdi:robot-mower
                 action: notify.mobile_app_pixel_8
+              - action: media_player.play_media
+                metadata: {}
+                target:
+                  entity_id: media_player.home_assistant_voice_091b0c_media_player
+                data:
+                  media:
+                    media_content_id: >-
+                      media-source://media_source/local/cpu invalid
+                      terraform.wav
+                    media_content_type: audio/x-wav
+                    metadata:
+                      title: cpu invalid terraform.wav
+                      thumbnail: null
+                      media_class: music
+                      children_media_class: null
+                      navigateIds:
+                        - {}
+                        - media_content_type: app
+                          media_content_id: media-source://media_source
+                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
         alias: Last error code is 1300 (Poor positioning status)
       - conditions:
           - condition: state
@@ -104,4 +128,22 @@ actions:
             ttl: 0
             notification_icon: mdi:robot-mower
         action: notify.mobile_app_pixel_8
+      - action: media_player.play_media
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          media:
+            media_content_id: media-source://media_source/local/cpu invalid terraform.wav
+            media_content_type: audio/x-wav
+            metadata:
+              title: cpu invalid terraform.wav
+              thumbnail: null
+              media_class: music
+              children_media_class: null
+              navigateIds:
+                - {}
+                - media_content_type: app
+                  media_content_id: media-source://media_source
+              browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
 mode: single
