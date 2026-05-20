@@ -14,6 +14,25 @@ actions:
         priority: high
         ttl: 0
         image: "{{states.camera.camera1_fluent.attributes.entity_picture}}"
+        url: /security
       message: Person detected
     action: notify.mobile_app_pixel_8
+  - action: media_player.play_media
+    metadata: {}
+    target:
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
+    data:
+      media:
+        media_content_id: media-source://media_source/local/CPU indigenous lifeforms.wav
+        media_content_type: audio/x-wav
+        metadata:
+          title: CPU indigenous lifeforms.wav
+          thumbnail: null
+          media_class: music
+          children_media_class: null
+          navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://media_source
+          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
 mode: single
