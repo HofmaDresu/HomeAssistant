@@ -10,19 +10,19 @@ actions:
       - condition: and
         conditions:
           - condition: state
-            entity_id: sensor.openweathermap_precipitation_kind
-            state: None
-            for:
-              hours: 2
-              minutes: 0
-              seconds: 0
-            enabled: true
-          - condition: state
             entity_id: binary_sensor.today_is_mow_day
             state: "on"
           - condition: numeric_state
             entity_id: sensor.openweathermap_temperature
             above: 40
+          - condition: state
+            entity_id: binary_sensor.solar_rain_sensor
+            state:
+              - "off"
+            for:
+              hours: 1
+              minutes: 0
+              seconds: 0
     then:
       - alias: Mow target sections
         if:
