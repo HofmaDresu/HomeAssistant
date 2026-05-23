@@ -1,0 +1,39 @@
+sequence:
+  - parallel:
+      - action: media_player.volume_set
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          volume_level: 0.85
+        enabled: true
+      - action: media_player.play_media
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          media:
+            media_content_id: "{{soundfile}}"
+            media_content_type: audio/x-wav
+          announce: true
+  - wait_for_trigger:
+      - device_id: 7527e037f7354d6ae588bc665c855565
+        domain: media_player
+        entity_id: 66904da270ee3d982aca5a1c16f736c4
+        type: idle
+        trigger: device
+  - action: media_player.volume_set
+    metadata: {}
+    target:
+      entity_id: media_player.home_assistant_voice_091b0c_media_player
+    data:
+      volume_level: 0.7
+fields:
+  soundfile:
+    selector:
+      text: {}
+    name: soundfile
+    description: File for the Alpha Centauri sound
+    required: true
+alias: Play Alpha Centauri Sound On Livingroom
+description: ""
