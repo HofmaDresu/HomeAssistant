@@ -5,11 +5,7 @@ triggers:
     entity_id:
       - sensor.mo99_time_left
     below: 1
-conditions:
-  - condition: state
-    entity_id: binary_sensor.mo99_charging
-    state:
-      - "on"
+conditions: []
 actions:
   - data:
       title: Mo
@@ -26,22 +22,8 @@ actions:
       value: 0
     target:
       entity_id: input_number.days_since_last_mow
-  - action: media_player.play_media
+  - action: script.play_alpha_centauri_sound_on_livingroom
     metadata: {}
-    target:
-      entity_id: media_player.home_assistant_voice_091b0c_media_player
     data:
-      media:
-        media_content_id: media-source://media_source/local/CPU terraform complete.wav
-        media_content_type: audio/x-wav
-        metadata:
-          title: CPU terraform complete.wav
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+      soundfile: media-source://media_source/local/CPU terraform complete.wav
 mode: single
