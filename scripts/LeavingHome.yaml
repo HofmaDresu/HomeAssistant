@@ -1,41 +1,9 @@
 alias: Leaving Home
 sequence:
-  - action: media_player.play_media
+  - action: script.play_alpha_centauri_sound_on_livingroom
     metadata: {}
-    target:
-      entity_id: media_player.home_assistant_voice_091b0c_media_player
     data:
-      media:
-        media_content_id: media-source://media_source/local/CPU please don't go.wav
-        media_content_type: audio/x-wav
-        metadata:
-          title: CPU please don't go.wav
-          thumbnail: null
-          media_class: music
-          children_media_class: null
-          navigateIds:
-            - {}
-            - media_content_type: app
-              media_content_id: media-source://media_source
-          browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
-  - alias: arm alarm if needed and petmode off
-    if:
-      - condition: and
-        conditions:
-          - condition: device
-            device_id: 12991409e93a14125e39db65a3b740dc
-            domain: alarm_control_panel
-            entity_id: ed8fc83278462fc5ba4f6de76da799ad
-            type: is_disarmed
-          - condition: state
-            entity_id: input_boolean.pet_mode
-            state: "off"
-    then:
-      - device_id: 12991409e93a14125e39db65a3b740dc
-        domain: alarm_control_panel
-        entity_id: ed8fc83278462fc5ba4f6de76da799ad
-        type: arm_away
-        code: "{{!secret alarm_code}}"
+      soundfile: media-source://media_source/local/CPU please don't go.wav
   - type: turn_on
     device_id: c15ccc57da14176ae9d3a7af23376ce1
     entity_id: 1005ff4ba31f145fb2f6f60926ab8924
@@ -58,6 +26,29 @@ sequence:
         device_id: 0f1815f6576728547da6fbc3a3b69277
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 6
+      milliseconds: 0
+  - alias: arm alarm if needed and petmode off
+    if:
+      - condition: and
+        conditions:
+          - condition: device
+            device_id: 12991409e93a14125e39db65a3b740dc
+            domain: alarm_control_panel
+            entity_id: ed8fc83278462fc5ba4f6de76da799ad
+            type: is_disarmed
+          - condition: state
+            entity_id: input_boolean.pet_mode
+            state: "off"
+    then:
+      - device_id: 12991409e93a14125e39db65a3b740dc
+        domain: alarm_control_panel
+        entity_id: ed8fc83278462fc5ba4f6de76da799ad
+        type: arm_away
+        code: "{{!secret alarm_code}}"
   - delay:
       hours: 0
       minutes: 1
