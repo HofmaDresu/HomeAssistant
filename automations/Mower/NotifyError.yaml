@@ -25,6 +25,10 @@ conditions:
           - "5002"
       - condition: state
         entity_id: sensor.mo99_last_error_code
+        state:
+          - "1031"
+      - condition: state
+        entity_id: sensor.mo99_last_error_code
         state: unavailable
       - condition: state
         entity_id: sensor.mo99_last_error_code
@@ -84,26 +88,10 @@ actions:
                     ttl: 0
                     notification_icon: mdi:robot-mower
                 action: notify.mobile_app_pixel_8
-              - action: media_player.play_media
+              - action: script.play_alpha_centauri_sound_on_livingroom
                 metadata: {}
-                target:
-                  entity_id: media_player.home_assistant_voice_091b0c_media_player
                 data:
-                  media:
-                    media_content_id: >-
-                      media-source://media_source/local/cpu invalid
-                      terraform.wav
-                    media_content_type: audio/x-wav
-                    metadata:
-                      title: cpu invalid terraform.wav
-                      thumbnail: null
-                      media_class: music
-                      children_media_class: null
-                      navigateIds:
-                        - {}
-                        - media_content_type: app
-                          media_content_id: media-source://media_source
-                      browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+                  soundfile: media-source://media_source/local/cpu invalid terraform.wav
         alias: Last error code is 1300 (Poor positioning status)
       - conditions:
           - condition: state
@@ -116,6 +104,18 @@ actions:
             data:
               chore: Clean Mo's camera
         alias: Last error code is 1068 (Clean camera)
+      - conditions:
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - "7000107"
+        sequence:
+          - alias: "Add chore: Clean Mo's camera"
+            action: script.add_unique_chore
+            metadata: {}
+            data:
+              chore: Clean Mo's charging contacts
+        alias: Last error code is 7000107 (Clean contacts)
     default:
       - data:
           title: Mo encountered an error
@@ -128,6 +128,12 @@ actions:
             ttl: 0
             notification_icon: mdi:robot-mower
         action: notify.mobile_app_pixel_8
+      - action: media_player.volume_set
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          volume_level: 1
       - action: media_player.play_media
         metadata: {}
         target:
@@ -146,4 +152,14 @@ actions:
                 - media_content_type: app
                   media_content_id: media-source://media_source
               browse_entity_id: media_player.home_assistant_voice_091b0c_media_player
+      - action: media_player.volume_set
+        metadata: {}
+        target:
+          entity_id: media_player.home_assistant_voice_091b0c_media_player
+        data:
+          volume_level: 0.7
+      - action: script.play_alpha_centauri_sound_on_livingroom
+        metadata: {}
+        data:
+          soundfile: media-source://media_source/local/cpu invalid terraform.wav
 mode: single
