@@ -32,4 +32,8 @@ actions:
       message: Temp good to open windows
       title: Open Windows
     action: notify.mobile_app_pixel_8
+  - action: script.play_alpha_centauri_sound_on_livingroom
+    metadata: {}
+    data:
+      soundfile: media-source://media_source/local/cpu golden age begun.wav
 mode: single
