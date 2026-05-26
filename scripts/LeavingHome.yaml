@@ -31,6 +31,7 @@ sequence:
       minutes: 0
       seconds: 6
       milliseconds: 0
+    enabled: false
   - alias: arm alarm if needed and petmode off
     if:
       - condition: and
