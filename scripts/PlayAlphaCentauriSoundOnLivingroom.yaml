@@ -5,7 +5,7 @@ sequence:
         target:
           entity_id: media_player.home_assistant_voice_091b0c_media_player
         data:
-          volume_level: 0.85
+          volume_level: 0.8
         enabled: true
       - action: media_player.play_media
         metadata: {}
