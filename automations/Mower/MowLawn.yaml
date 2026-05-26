@@ -20,7 +20,7 @@ actions:
             state:
               - "off"
             for:
-              hours: 1
+              hours: 0
               minutes: 0
               seconds: 0
     then:
