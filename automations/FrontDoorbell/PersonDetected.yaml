@@ -6,7 +6,13 @@ triggers:
       - binary_sensor.camera1_person
     to:
       - "on"
-conditions: []
+conditions:
+  - condition: template
+    value_template: >-
+      {{ (as_timestamp(now()) -
+      as_timestamp(state_attr('automation.front_doorbell_person_detected',
+      'last_triggered'))) > 30 }}
+    alias: Last triggered more than 30s ago
 actions:
   - data:
       data:
@@ -23,11 +29,6 @@ actions:
       entity_id: media_player.home_assistant_voice_091b0c_media_player
     data:
       volume_level: 1
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 10
-      milliseconds: 0
   - action: script.play_alpha_centauri_sound_on_livingroom
     metadata: {}
     data:
