@@ -318,7 +318,8 @@ actions:
             .*')     | rejectattr('name', 'match', '.*Mo99.*')     |
             rejectattr('name', 'match', 'Front Door Motion Sensor Battery')    |
             rejectattr('name', 'match', '.*Smoke Alarm Battery')    |
-            rejectattr('name', 'match', '.*CO Alarm Battery')    |
+            rejectattr('name', 'match', '.*CO Alarm Battery') |
+            rejectattr('name', 'match', '.*FranklinWH.*')    |
             rejectattr('name', 'match', 'Vacuum Battery')    |
             rejectattr('name', 'match', 'Solar Rain Sensor Battery')    |
             rejectattr('name', 'match', 'Backyard Battery') | list %}{%- if
