@@ -25,13 +25,6 @@ mqtt:
 
 sensor:
   - platform: rest
-    name: Eleven Labs Remaining Character Count
-    resource: https://api.elevenlabs.io/v1/user/subscription
-    headers:
-      xi-api-key: !secret eleven_labs_api_key
-    value_template: "{{ value_json.character_limit - value_json.character_count }}"
-    scan_interval: 3600
-  - platform: rest
     name: TeslaFi Report
     resource: https://www.teslafi.com/feed.php
     scan_interval: 300
@@ -61,6 +54,11 @@ sensor:
       - charge_rate
       - charge_energy_added
       - time_to_full_charge
+  - platform: franklin_wh
+    username: "hofmadresu@gmail.com"
+    password: !secret franklinwh_password
+    id: "10060010A00X25321735"
+    tolerate_stale_data: true
 
 template:
   - sensor:
