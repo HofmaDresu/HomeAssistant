@@ -3,6 +3,12 @@ description: ""
 triggers:
   - trigger: time
     at: "10:00:00"
+  - trigger: moisture.cleared
+    target:
+      entity_id: binary_sensor.solar_rain_sensor
+    options:
+      behavior: each
+      for: "00:00:00"
 conditions: []
 actions:
   - alias: Mow if needed
@@ -23,6 +29,8 @@ actions:
               hours: 0
               minutes: 0
               seconds: 0
+          - condition: time
+            before: "12:00:00"
     then:
       - alias: Mow target sections
         if:
