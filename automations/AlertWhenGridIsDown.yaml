@@ -1,0 +1,16 @@
+alias: Alert when grid is down
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - sensor.franklinwh_grid_status
+    to:
+      - DOWN
+      - "OFF"
+conditions: []
+actions:
+  - action: script.play_alpha_centauri_sound_on_livingroom
+    metadata: {}
+    data:
+      soundfile: media-source://media_source/local/cpu resource shortfall.wav
+mode: single
