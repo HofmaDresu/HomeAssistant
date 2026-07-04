@@ -83,22 +83,4 @@ actions:
             ttl: 0
             notification_icon: mdi:robot-mower
         action: notify.mobile_app_pixel_8
-    else:
-      - if:
-          - condition: state
-            entity_id: binary_sensor.mower_is_mowable_month
-            state: "on"
-        then:
-          - action: input_number.increment
-            metadata: {}
-            data: {}
-            target:
-              entity_id: input_number.days_since_last_mow
-        else:
-          - action: input_number.set_value
-            metadata: {}
-            data:
-              value: 0
-            target:
-              entity_id: input_number.days_since_last_mow
 mode: single
