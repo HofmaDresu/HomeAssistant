@@ -30,10 +30,10 @@ sequence:
             sick: 77
             company: 77
           night:
-            normal: 75
-            pet: 75
-            sick: 75
-            company: 75
+            normal: 77
+            pet: 77
+            sick: 77
+            company: 77
       petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
       sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
       companyMode: "{{'company' if states('input_boolean.company_mode') == 'on' else null}}"
