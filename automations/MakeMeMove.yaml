@@ -29,6 +29,10 @@ conditions:
   - condition: state
     entity_id: input_boolean.sick_mode
     state: "off"
+  - condition: state
+    entity_id: input_boolean.pet_mode
+    state:
+      - "off"
 actions:
   - variables:
       anywhereExercises:
