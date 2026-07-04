@@ -4,8 +4,13 @@ triggers:
   - trigger: numeric_state
     entity_id:
       - sensor.mo99_time_left
-    below: 1
-conditions: []
+    below: 5
+conditions:
+  - condition: lawn_mower.is_mowing
+    target:
+      device_id: c1a6fce56e3605c6ec1e00d22321e2f2
+    options:
+      behavior: any
 actions:
   - data:
       title: Mo
