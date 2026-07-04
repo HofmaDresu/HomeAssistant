@@ -16,12 +16,12 @@ actions:
         ttl: 0
         notification_icon: mdi:robot-mower
     action: notify.mobile_app_pixel_8
-  - action: input_number.set_value
+  - action: input_datetime.set_datetime
     metadata: {}
-    data:
-      value: 0
     target:
-      entity_id: input_number.days_since_last_mow
+      entity_id: input_datetime.mower_last_mowed_date
+    data:
+      date: "{{ now().strftime('%Y-%m-%d') }}"
   - action: script.play_alpha_centauri_sound_on_livingroom
     metadata: {}
     data:
