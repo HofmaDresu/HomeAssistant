@@ -18,28 +18,35 @@ sequence:
             pet: 70
             sick: 68
             company: 70
+            lowPower: 65
           night:
             normal: 60
             pet: 65
             sick: 65
             company: 65
+            lowPower: 60
         cool:
           day:
-            normal: 80
+            normal: 77
             pet: 77
             sick: 77
             company: 77
+            lowPower: 80
           night:
             normal: 77
             pet: 77
             sick: 77
             company: 77
+            lowPower: 77
       petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
       sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
       companyMode: "{{'company' if states('input_boolean.company_mode') == 'on' else null}}"
       dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
+      lowPowerMode: >-
+        {{'lowPower' if states.sensor.franklinwh_state_of_charge.state < 25 else
+        null}}
       heatCoolMode: "{{states('climate.family_room')}}"
-      tempMode: "{{petMode or sickMode or companyMode or 'normal'}}"
+      tempMode: "{{petMode or sickMode or companyMode or lowPowerMode or 'normal'}}"
       targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
   - action: input_number.set_value
     metadata: {}
