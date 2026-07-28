@@ -5,34 +5,41 @@ triggers:
     entity_id:
       - sensor.mo99_last_error_code
 conditions:
-  - condition: not
+  - condition: and
     conditions:
-      - condition: time
-        after: "00:00:00"
-        before: "09:00:00"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state: "1005"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state: "2701"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state: "1108"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state:
-          - "5002"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state:
-          - "1031"
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state: unavailable
-      - condition: state
-        entity_id: sensor.mo99_last_error_code
-        state: unknown
+      - condition: not
+        conditions:
+          - condition: time
+            after: "00:00:00"
+            before: "09:00:00"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: "1005"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: "2701"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: "1108"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - "5002"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - "1031"
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: unavailable
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state: unknown
+      - condition: template
+        value_template: >-
+          {{(as_timestamp(now().date()) -
+          as_timestamp(states.sensor.mo99_last_error_time.state)) /60 / 60 < 1}}
+        alias: Error was within last hour
 actions:
   - choose:
       - conditions:
