@@ -1,14 +1,14 @@
-alias: "Mower: Mow lawn"
-description: ""
+alias: 'Mower: Mow lawn'
+description: ''
 triggers:
   - trigger: time
-    at: "10:00:00"
+    at: '10:00:00'
   - trigger: moisture.cleared
     target:
       entity_id: binary_sensor.solar_rain_sensor
     options:
       behavior: each
-      for: "00:00:00"
+      for: '00:00:00'
 conditions: []
 actions:
   - alias: Mow if needed
@@ -17,21 +17,21 @@ actions:
         conditions:
           - condition: state
             entity_id: binary_sensor.today_is_mow_day
-            state: "on"
+            state: 'on'
           - condition: numeric_state
             entity_id: sensor.openweathermap_temperature
             above: 40
           - condition: state
             entity_id: binary_sensor.solar_rain_sensor
             state:
-              - "off"
+              - 'off'
             for:
               hours: 0
               minutes: 0
               seconds: 0
           - condition: time
-            before: "12:00:00"
-            after: "09:00:00"
+            before: '12:00:00'
+            after: '09:00:00'
     then:
       - alias: Mow target sections
         if:
@@ -45,19 +45,20 @@ actions:
             data:
               is_mow: true
               is_dump: false
-              border_mode: "0"
+              border_mode: '0'
               speed: 0.3
-              ultra_wave: "10"
-              channel_mode: "0"
+              ultra_wave: '10'
+              channel_mode: '0'
               channel_width: 12
-              rain_tactics: "1"
-              toward_mode: "2"
-              mowing_laps: "3"
-              obstacle_laps: "1"
+              rain_tactics: '1'
+              toward_mode: '2'
+              mowing_laps: '3'
+              obstacle_laps: '1'
               start_progress: 0
               blade_height: 100
               areas:
                 - switch.mo99_area_8647782149318140073
+                - switch.mo99_area_driveway_edge
                 - switch.mo99_area_main_lawn
             target:
               entity_id: lawn_mower.mo99
@@ -68,15 +69,15 @@ actions:
             data:
               is_mow: true
               is_dump: false
-              border_mode: "0"
+              border_mode: '0'
               speed: 0.3
-              ultra_wave: "10"
-              channel_mode: "0"
+              ultra_wave: '10'
+              channel_mode: '0'
               channel_width: 12
-              rain_tactics: "1"
-              toward_mode: "0"
-              mowing_laps: "3"
-              obstacle_laps: "1"
+              rain_tactics: '1'
+              toward_mode: '0'
+              mowing_laps: '3'
+              obstacle_laps: '1'
               start_progress: 0
               blade_height: 100
               areas:
