@@ -1,31 +1,38 @@
 alias: Water driveway garden
-description: ""
+description: ''
 triggers:
   - trigger: sun
     event: sunset
-    offset: "-01:00:00"
+    offset: '-01:00:00'
 conditions:
   - condition: numeric_state
     entity_id: sensor.openweathermap_temperature
     above: 50
-  - condition: state
-    entity_id: sensor.openweathermap_precipitation_kind
-    state: None
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
+  - condition: moisture.is_not_detected
+    target:
+      entity_id: binary_sensor.solar_rain_sensor
+    options:
+      behavior: any
+      for:
+        hours: 12
+        minutes: 0
+        seconds: 0
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{now().day % 2 == 0}}"
+        value_template: '{{now().day % 2 == 0}}'
         alias: Day number is even
       - condition: numeric_state
         entity_id: sensor.openweathermap_temperature
         above: 70
+    enabled: false
   - condition: state
     entity_id: binary_sensor.garden_is_waterable_month
-    state: "on"
+    state: 'on'
+    enabled: false
+  - condition: numeric_state
+    entity_id: sensor.mo99_time_left
+    below: 1
 actions:
   - action: switch.turn_on
     metadata: {}
@@ -35,6 +42,12 @@ actions:
   - delay:
       hours: 0
       minutes: 5
+      seconds: 0
+      milliseconds: 0
+    enabled: false
+  - delay:
+      hours: 0
+      minutes: 30
       seconds: 0
       milliseconds: 0
   - action: switch.turn_off
