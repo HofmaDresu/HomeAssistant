@@ -59,9 +59,9 @@ actions:
               areas:
                 - switch.mo99_area_8647782149318140073
                 - switch.mo99_area_driveway_edge
-                - switch.mo99_area_main_lawn
+                - switch.yard_mo99_area_main_lawn
             target:
-              entity_id: lawn_mower.mo99
+              device_id: 0210f440c83128d3e08a0c33fb62266e
         else:
           - alias: Mow just main lawn
             action: mammotion.start_mow
@@ -81,9 +81,9 @@ actions:
               start_progress: 0
               blade_height: 100
               areas:
-                - switch.mo99_area_main_lawn
+                - switch.yard_mo99_area_main_lawn
             target:
-              entity_id: lawn_mower.mo99
+              device_id: 0210f440c83128d3e08a0c33fb62266e
       - data:
           title: Mo
           message: Mowing has started
