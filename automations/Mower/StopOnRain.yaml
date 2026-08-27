@@ -1,0 +1,22 @@
+alias: 'Mower: Stop on rain'
+description: ''
+triggers:
+  - trigger: moisture.detected
+    target:
+      entity_id: binary_sensor.solar_rain_sensor
+    options:
+      behavior: each
+      for: '00:00:00'
+conditions:
+  - condition: lawn_mower.is_mowing
+    target:
+      area_id: yard
+    options:
+      behavior: any
+actions:
+  - action: mammotion.cancel_job
+    metadata: {}
+    target:
+      entity_id: lawn_mower.mo99
+    data: {}
+mode: single
