@@ -1,9 +1,9 @@
-alias: "Mower: Notify complete"
-description: ""
+alias: 'Mower: Notify complete'
+description: ''
 triggers:
   - trigger: lawn_mower.returned_to_dock
     target:
-      device_id: c1a6fce56e3605c6ec1e00d22321e2f2
+      device_id: 0210f440c83128d3e08a0c33fb62266e
     options:
       behavior: each
 conditions: []
@@ -22,7 +22,7 @@ actions:
     target:
       entity_id: input_datetime.mower_last_mowed_date
     data:
-      date: "{{ now().strftime('%Y-%m-%d') }}"
+      date: '{{ now().strftime(''%Y-%m-%d'') }}'
   - action: script.play_alpha_centauri_sound_on_livingroom
     metadata: {}
     data:
