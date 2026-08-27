@@ -62,8 +62,16 @@ sensor:
 
 template:
   - sensor:
+      - unit_of_measurement: "%"
+        unique_id: teslafi_lets_go_battery_level
+        icon: mdi:battery-80
+        name:
+          "{{ state_attr('sensor.teslafi_report', 'vehicle_name') + ' Battery Level'
+          }}"
+        state: "{{ state_attr('sensor.teslafi_report', 'battery_level') | round(1)}}"
+  - sensor:
       - unit_of_measurement: mi
-        default_entity_id: sensor.teslafi_odometer
+        unique_id: teslafi_lets_go_odometer
         icon: mdi:counter
         name:
           "{{ state_attr('sensor.teslafi_report', 'vehicle_name') + ' Odometer'
