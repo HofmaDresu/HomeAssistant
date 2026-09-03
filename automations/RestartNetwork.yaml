@@ -1,0 +1,54 @@
+alias: Restart network
+description: ""
+triggers:
+  - trigger: conversation
+    command:
+      - Restart network
+      - Restart the network
+      - Reboot network
+      - Reboot the network
+      - Bounce network
+      - Bounce the network
+conditions: []
+actions:
+  - set_conversation_response: Network restarting
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+        - switch.gateway_outlet
+        - switch.innr_sp_244
+        - switch.living_room_ap
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.innr_sp_244
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.gateway_outlet
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.living_room_ap
+  - set_conversation_response: Network restart complete. APs may still be booting
+mode: single
