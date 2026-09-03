@@ -1,26 +1,26 @@
 alias: Terrible air notification
-description: ""
+description: ''
 triggers:
   - type: carbon_dioxide
-    device_id: d276e61bffda959e361f8b8683b8afd6
+    device_id: a14bff4ff16f7bf73a94e02a756477ae
     entity_id: 070616c02a3b9688b3a97f4023c0b515
     domain: sensor
-    above: 1000
     trigger: device
+    above: 1000
     for:
       hours: 0
       minutes: 10
       seconds: 0
   - type: carbon_dioxide
-    device_id: d276e61bffda959e361f8b8683b8afd6
+    device_id: a14bff4ff16f7bf73a94e02a756477ae
     entity_id: 070616c02a3b9688b3a97f4023c0b515
     domain: sensor
+    trigger: device
     above: 800
     for:
       hours: 1
       minutes: 0
       seconds: 0
-    trigger: device
 conditions:
   - condition: and
     conditions:
@@ -31,7 +31,7 @@ conditions:
         conditions:
           - condition: state
             entity_id: binary_sensor.bedroom_window_open_state
-            state: "on"
+            state: 'on'
     alias: Home and window is not open
 actions:
   - data:
