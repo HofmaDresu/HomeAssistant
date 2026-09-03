@@ -6,7 +6,22 @@ triggers:
       device_id: 0210f440c83128d3e08a0c33fb62266e
     options:
       behavior: each
-conditions: []
+conditions:
+  - condition: not
+    conditions:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - '11133'
+          - condition: template
+            value_template: >-
+              {{(as_timestamp(now()) -
+              as_timestamp(states.sensor.mo99_last_error_time.state)) /60 / 60 <
+              1}}
+            alias: Error within last hour
+    alias: Wasn't canceled
 actions:
   - data:
       title: Mo
