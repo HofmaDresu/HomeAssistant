@@ -1,5 +1,5 @@
-alias: "Mower: Notify error"
-description: ""
+alias: 'Mower: Notify error'
+description: ''
 triggers:
   - trigger: state
     entity_id:
@@ -10,25 +10,29 @@ conditions:
       - condition: not
         conditions:
           - condition: time
-            after: "00:00:00"
-            before: "09:00:00"
+            after: '00:00:00'
+            before: '09:00:00'
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "1005"
+            state: '1005'
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "2701"
+            state: '2701'
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "1108"
-          - condition: state
-            entity_id: sensor.mo99_last_error_code
-            state:
-              - "5002"
+            state: '1108'
           - condition: state
             entity_id: sensor.mo99_last_error_code
             state:
-              - "1031"
+              - '5002'
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - '1031'
+          - condition: state
+            entity_id: sensor.mo99_last_error_code
+            state:
+              - '11133'
           - condition: state
             entity_id: sensor.mo99_last_error_code
             state: unavailable
@@ -47,7 +51,7 @@ actions:
             conditions:
               - condition: state
                 entity_id: sensor.mo99_last_error_code
-                state: "1105"
+                state: '1105'
             alias: Is resumable error
         sequence:
           - delay:
@@ -72,7 +76,7 @@ actions:
       - conditions:
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "1300"
+            state: '1300'
         sequence:
           - delay:
               hours: 0
@@ -103,9 +107,9 @@ actions:
       - conditions:
           - condition: state
             entity_id: sensor.mo99_last_error_code
-            state: "1068"
+            state: '1068'
         sequence:
-          - alias: "Add chore: Clean Mo's camera"
+          - alias: 'Add chore: Clean Mo''s camera'
             action: script.add_unique_chore
             metadata: {}
             data:
@@ -115,9 +119,9 @@ actions:
           - condition: state
             entity_id: sensor.mo99_last_error_code
             state:
-              - "7000107"
+              - '7000107'
         sequence:
-          - alias: "Add chore: Clean Mo's camera"
+          - alias: 'Add chore: Clean Mo''s camera'
             action: script.add_unique_chore
             metadata: {}
             data:
