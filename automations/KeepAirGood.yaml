@@ -1,13 +1,13 @@
 alias: Keep air good
-description: ""
-trigger:
+description: ''
+triggers:
   - type: carbon_dioxide
-    platform: device
-    device_id: d276e61bffda959e361f8b8683b8afd6
+    device_id: a14bff4ff16f7bf73a94e02a756477ae
     entity_id: 070616c02a3b9688b3a97f4023c0b515
     domain: sensor
+    trigger: device
     above: 700
-condition:
+conditions:
   - condition: and
     conditions:
       - alias: Nest not off
@@ -18,27 +18,27 @@ condition:
             domain: climate
             entity_id: c6c45aeb39a40b31cfc9e0bd944c67ae
             type: is_hvac_mode
-            hvac_mode: "off"
+            hvac_mode: 'off'
       - condition: zone
         entity_id: person.hofmadresu
         zone: zone.home
-action:
-  - service: climate.set_fan_mode
-    data:
-      fan_mode: "on"
+actions:
+  - data:
+      fan_mode: 'on'
     target:
       device_id: 695ac42995783206896bb51e715e03e1
-  - wait_for_trigger:
+    action: climate.set_fan_mode
+  - alias: Wait for good air
+    wait_for_trigger:
       - type: carbon_dioxide
-        platform: device
-        device_id: d276e61bffda959e361f8b8683b8afd6
+        device_id: a14bff4ff16f7bf73a94e02a756477ae
         entity_id: 070616c02a3b9688b3a97f4023c0b515
         domain: sensor
+        trigger: device
         below: 600
-    alias: Wait for good air
-  - service: climate.set_fan_mode
-    data:
-      fan_mode: "off"
+  - data:
+      fan_mode: 'off'
     target:
       device_id: 695ac42995783206896bb51e715e03e1
+    action: climate.set_fan_mode
 mode: restart
