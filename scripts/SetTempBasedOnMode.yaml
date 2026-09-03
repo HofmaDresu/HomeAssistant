@@ -14,17 +14,17 @@ sequence:
       temps:
         heat:
           day:
-            normal: 65
+            normal: 55
             pet: 70
             sick: 68
             company: 70
-            lowPower: 65
+            lowPower: 60
           night:
             normal: 60
             pet: 65
             sick: 65
             company: 65
-            lowPower: 60
+            lowPower: 55
         cool:
           day:
             normal: 77
@@ -37,21 +37,22 @@ sequence:
             pet: 77
             sick: 75
             company: 77
-            lowPower: 77
-      petMode: "{{'pet' if states('input_boolean.pet_mode') == 'on' else null}}"
-      sickMode: "{{'sick' if states('input_boolean.sick_mode') == 'on' else null}}"
-      companyMode: "{{'company' if states('input_boolean.company_mode') == 'on' else null}}"
-      dayNightMode: "{{'night' if now().hour >= 21 or now().hour < 7 else 'day'}}"
+            lowPower: 80
+      petMode: '{{''pet'' if states(''input_boolean.pet_mode'') == ''on'' else null}}'
+      sickMode: '{{''sick'' if states(''input_boolean.sick_mode'') == ''on'' else null}}'
+      companyMode: '{{''company'' if states(''input_boolean.company_mode'') == ''on'' else null}}'
+      dayNightMode: '{{''night'' if now().hour >= 21 or now().hour < 7 else ''day''}}'
       lowPowerMode: >-
-        {{'lowPower' if states.sensor.franklinwh_state_of_charge.state | float <
-        25 else null}}
-      heatCoolMode: "{{states('climate.family_room')}}"
-      tempMode: "{{petMode or sickMode or companyMode or lowPowerMode or 'normal'}}"
-      targetTemp: "{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}"
+        {{'lowPower' if (states.sensor.franklinwh_state_of_charge.state | float
+        < 25) and (states.sensor.franklinwh_grid_status.state != 'NORMAL') else
+        null}}
+      heatCoolMode: '{{states(''climate.family_room'')}}'
+      tempMode: '{{petMode or sickMode or companyMode or lowPowerMode or ''normal''}}'
+      targetTemp: '{{temps.get(heatCoolMode).get(dayNightMode).get(tempMode)}}'
   - action: input_number.set_value
     metadata: {}
     data:
-      value: "{{targetTemp}}"
+      value: '{{targetTemp}}'
     target:
       entity_id: input_number.thermostat_target_temp
   - if:
@@ -72,7 +73,7 @@ sequence:
   - target:
       entity_id: climate.family_room
     data:
-      temperature: "{{targetTemp}}"
+      temperature: '{{targetTemp}}'
     action: climate.set_temperature
     enabled: true
   - delay:
