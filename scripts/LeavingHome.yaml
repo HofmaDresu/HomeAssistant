@@ -11,8 +11,7 @@ sequence:
   - metadata: {}
     data: {}
     target:
-      device_id:
-        - 26b86cb27513279a9260f6ab9e46ffac
+      device_id: 29c371493f0d1442abde221586ab1ceb
     action: camera.disable_motion_detection
   - alias: Turn on garage light if needed
     if:
@@ -23,7 +22,7 @@ sequence:
             after: sunset
     then:
       - type: turn_on
-        device_id: 0f1815f6576728547da6fbc3a3b69277
+        device_id: dda38102960cf94d58b3d32cdb229343
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
   - delay:
@@ -43,13 +42,13 @@ sequence:
             type: is_disarmed
           - condition: state
             entity_id: input_boolean.pet_mode
-            state: "off"
+            state: 'off'
     then:
       - device_id: 12991409e93a14125e39db65a3b740dc
         domain: alarm_control_panel
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_away
-        code: "{{!secret alarm_code}}"
+        code: '{{!secret alarm_code}}'
   - delay:
       hours: 0
       minutes: 1
@@ -59,7 +58,7 @@ sequence:
     if:
       - condition: state
         entity_id: input_boolean.pet_mode
-        state: "off"
+        state: 'off'
     then:
       - target:
           entity_id: scene.indoor_power_off
@@ -93,14 +92,13 @@ sequence:
       seconds: 0
       milliseconds: 0
   - type: turn_off
-    device_id: 0f1815f6576728547da6fbc3a3b69277
+    device_id: dda38102960cf94d58b3d32cdb229343
     entity_id: d7144b619bd94371cb9c1e6459036229
     domain: switch
   - metadata: {}
     data: {}
     target:
-      device_id:
-        - 26b86cb27513279a9260f6ab9e46ffac
+      device_id: 29c371493f0d1442abde221586ab1ceb
     action: camera.enable_motion_detection
   - type: turn_off
     device_id: c15ccc57da14176ae9d3a7af23376ce1
@@ -117,13 +115,13 @@ sequence:
             type: is_disarmed
           - condition: state
             entity_id: input_boolean.pet_mode
-            state: "on"
+            state: 'on'
     then:
       - device_id: 12991409e93a14125e39db65a3b740dc
         domain: alarm_control_panel
         entity_id: ed8fc83278462fc5ba4f6de76da799ad
         type: arm_home
-        code: "{{!secret alarm_code}}"
+        code: '{{!secret alarm_code}}'
   - action: switch.turn_on
     metadata: {}
     data: {}
