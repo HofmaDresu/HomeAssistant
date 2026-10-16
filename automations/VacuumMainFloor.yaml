@@ -1,17 +1,17 @@
 alias: Vacuum main floor
-description: ""
+description: ''
 triggers:
-  - at: "11:00:00"
+  - at: '11:00:00'
     trigger: time
 conditions:
   - condition: and
     conditions:
       - condition: state
         entity_id: input_boolean.vacuum_circuitbreaker
-        state: "off"
+        state: 'off'
       - condition: state
         entity_id: input_boolean.vacation_mode
-        state: "off"
+        state: 'off'
 actions:
   - if:
       - condition: time
@@ -23,7 +23,7 @@ actions:
         data:
           fan_speed: max
         action: vacuum.set_fan_speed
-      - device_id: 76db24d3a176285f3be6d972ee76b37a
+      - device_id: 3777a5bdceac20ce4fbcc7710621a17f
         domain: select
         entity_id: dfbe856fbf9eebc63d793e257ef12970
         type: select_option
@@ -32,7 +32,7 @@ actions:
           entity_id: vacuum.roborock_s7_maxv
         data: {}
         action: vacuum.start
-      - stop: ""
+      - stop: ''
   - if:
       - condition: time
         weekday:
@@ -43,7 +43,7 @@ actions:
         data:
           fan_speed: quiet
         action: vacuum.set_fan_speed
-      - device_id: 76db24d3a176285f3be6d972ee76b37a
+      - device_id: 3777a5bdceac20ce4fbcc7710621a17f
         domain: select
         entity_id: dfbe856fbf9eebc63d793e257ef12970
         type: select_option
@@ -52,7 +52,7 @@ actions:
           entity_id: vacuum.roborock_s7_maxv
         data: {}
         action: vacuum.start
-      - stop: ""
+      - stop: ''
   - if:
       - condition: or
         conditions:
@@ -61,18 +61,18 @@ actions:
               - fri
           - condition: state
             entity_id: input_boolean.pet_mode
-            state: "on"
+            state: 'on'
     then:
       - target:
           entity_id: vacuum.roborock_s7_maxv
         data:
           fan_speed: quiet
         action: vacuum.set_fan_speed
-      - device_id: 76db24d3a176285f3be6d972ee76b37a
+      - device_id: 3777a5bdceac20ce4fbcc7710621a17f
         domain: select
         entity_id: dfbe856fbf9eebc63d793e257ef12970
         type: select_option
-        option: "off"
+        option: 'off'
       - target:
           entity_id: vacuum.roborock_s7_maxv
         data: {}
