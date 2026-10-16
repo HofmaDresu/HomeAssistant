@@ -14,11 +14,11 @@ sequence:
       temps:
         heat:
           day:
-            normal: 55
+            normal: 65
             pet: 70
             sick: 68
             company: 70
-            lowPower: 60
+            lowPower: 55
           night:
             normal: 60
             pet: 65
