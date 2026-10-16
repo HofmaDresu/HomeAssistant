@@ -1,5 +1,5 @@
-alias: "Arrive home routine "
-description: ""
+alias: 'Arrive home routine '
+description: ''
 triggers:
   - entity_id: person.hofmadresu
     zone: zone.home
@@ -15,7 +15,7 @@ actions:
   - if:
       - condition: state
         entity_id: input_boolean.vacation_mode
-        state: "on"
+        state: 'on'
     then:
       - action: input_boolean.turn_off
         metadata: {}
@@ -27,7 +27,7 @@ actions:
     domain: alarm_control_panel
     entity_id: ed8fc83278462fc5ba4f6de76da799ad
     type: disarm
-    code: "{{!secret alarm_code}}"
+    code: '{{!secret alarm_code}}'
   - action: script.turn_on
     metadata: {}
     data: {}
@@ -40,11 +40,11 @@ actions:
         before: sunrise
     then:
       - type: turn_on
-        device_id: 0f1815f6576728547da6fbc3a3b69277
+        device_id: dda38102960cf94d58b3d32cdb229343
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
       - type: turn_on
-        device_id: 8576e7dab40455676993ad9a4bcc5c49
+        device_id: b7d22b990f0b4a08ccc617b34ce0b61e
         entity_id: f2899e19720f9c1b0f0c164f3eea4069
         domain: switch
       - type: turn_on
@@ -61,7 +61,7 @@ actions:
           seconds: 0
           milliseconds: 0
       - type: turn_off
-        device_id: 0f1815f6576728547da6fbc3a3b69277
+        device_id: dda38102960cf94d58b3d32cdb229343
         entity_id: d7144b619bd94371cb9c1e6459036229
         domain: switch
     else:
@@ -71,20 +71,20 @@ actions:
             above: 10
         then:
           - variables:
-              action_open_blinds: "{{ 'OPEN_BLINDS_' ~ context.id }}"
+              action_open_blinds: '{{ ''OPEN_BLINDS_'' ~ context.id }}'
           - alias: Ask to open the blinds
             action: notify.mobile_app_pixel_8
             data:
               message: Open the blinds?
               data:
                 actions:
-                  - action: "{{ action_open_blinds }}"
+                  - action: '{{ action_open_blinds }}'
                     title: Do it!
           - alias: Wait for a response
             wait_for_trigger:
               - event_type: mobile_app_notification_action
                 event_data:
-                  action: "{{ action_open_blinds }}"
+                  action: '{{ action_open_blinds }}'
                 trigger: event
             timeout:
               hours: 0
@@ -94,7 +94,7 @@ actions:
           - choose:
               - conditions:
                   - condition: template
-                    value_template: "{{ wait.trigger.event.data.action == action_open_blinds }}"
+                    value_template: '{{ wait.trigger.event.data.action == action_open_blinds }}'
                 sequence:
                   - data: {}
                     action: script.zarathustra
