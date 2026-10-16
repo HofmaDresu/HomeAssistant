@@ -1,5 +1,5 @@
 alias: Morning alarm
-description: ""
+description: ''
 triggers:
   - trigger: time
     at: input_datetime.morning_alarm_time
@@ -7,7 +7,7 @@ conditions:
   - condition: state
     entity_id: input_boolean.alarm_circuitbreaker
     state:
-      - "off"
+      - 'off'
   - condition: not
     conditions:
       - condition: state
@@ -20,11 +20,10 @@ actions:
   - alias: Trigger Alarm
     if:
       - condition: template
-        value_template: "{{now().weekday() >= 5}}"
+        value_template: '{{now().weekday() >= 5}}'
     then:
       - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
+          device_id: 2f67e680fa0e88d3ef9cea23e17db15c
         data:
           volume_level: 0.75
         action: media_player.volume_set
@@ -62,7 +61,7 @@ actions:
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
-            state: "on"
+            state: 'on'
         then:
           - metadata: {}
             data: {}
@@ -76,15 +75,13 @@ actions:
           seconds: 58
           milliseconds: 0
       - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
+          device_id: 2f67e680fa0e88d3ef9cea23e17db15c
         data:
           volume_level: 0.4
         action: media_player.volume_set
     else:
       - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
+          device_id: 2f67e680fa0e88d3ef9cea23e17db15c
         data:
           volume_level: 0.75
         action: media_player.volume_set
@@ -122,7 +119,7 @@ actions:
       - if:
           - condition: state
             entity_id: input_boolean.pet_mode
-            state: "on"
+            state: 'on'
         then:
           - metadata: {}
             data: {}
@@ -152,8 +149,7 @@ actions:
           seconds: 54
           milliseconds: 0
       - target:
-          device_id:
-            - 9ad052cef9da6d789eb359a4ff2ee0f9
+          device_id: 2f67e680fa0e88d3ef9cea23e17db15c
         data:
           volume_level: 0.4
         action: media_player.volume_set
