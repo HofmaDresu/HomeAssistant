@@ -3,10 +3,12 @@ sequence:
   - metadata: {}
     data: {}
     target:
-      device_id:
-        - 26b86cb27513279a9260f6ab9e46ffac
-        - c15ccc57da14176ae9d3a7af23376ce1
+      device_id: 29c371493f0d1442abde221586ab1ceb
     action: camera.disable_motion_detection
+  - type: turn_on
+    device_id: c15ccc57da14176ae9d3a7af23376ce1
+    entity_id: 1005ff4ba31f145fb2f6f60926ab8924
+    domain: switch
   - delay:
       hours: 2
       minutes: 0
@@ -15,8 +17,10 @@ sequence:
   - metadata: {}
     data: {}
     target:
-      device_id:
-        - 26b86cb27513279a9260f6ab9e46ffac
-        - c15ccc57da14176ae9d3a7af23376ce1
+      device_id: 29c371493f0d1442abde221586ab1ceb
     action: camera.enable_motion_detection
+  - type: turn_off
+    device_id: c15ccc57da14176ae9d3a7af23376ce1
+    entity_id: 1005ff4ba31f145fb2f6f60926ab8924
+    domain: switch
 mode: single
