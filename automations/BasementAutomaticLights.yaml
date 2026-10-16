@@ -1,16 +1,16 @@
 alias: Basement automatic lights
-description: ""
+description: ''
 triggers:
   - entity_id:
       - binary_sensor.basement_motion_sensor_motion
-    to: "on"
+    to: 'on'
     trigger: state
 conditions:
   - condition: and
     conditions:
       - condition: device
         type: is_off
-        device_id: 7ee989242547eb89f3064d90902f0eb7
+        device_id: 7f431acfccb5c4d6321f0eb8e309543e
         entity_id: bb00fcbf210a9d5ff50742987089da85
         domain: light
       - condition: numeric_state
@@ -27,7 +27,7 @@ actions:
   - wait_for_trigger:
       - entity_id:
           - binary_sensor.basement_motion_sensor_motion
-        from: "on"
+        from: 'on'
         for:
           hours: 0
           minutes: 5
