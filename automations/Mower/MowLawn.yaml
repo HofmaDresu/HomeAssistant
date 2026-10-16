@@ -50,7 +50,6 @@ actions:
               ultra_wave: '10'
               channel_mode: '0'
               channel_width: 12
-              rain_tactics: '1'
               toward_mode: '2'
               mowing_laps: '3'
               obstacle_laps: '1'
@@ -59,7 +58,7 @@ actions:
               areas:
                 - switch.mo99_area_8647782149318140073
                 - switch.mo99_area_driveway_edge
-                - switch.yard_mo99_area_main_lawn
+                - switch.yard_mo99_area_main_lawn_2
             target:
               device_id: 0210f440c83128d3e08a0c33fb62266e
         else:
@@ -74,14 +73,13 @@ actions:
               ultra_wave: '10'
               channel_mode: '0'
               channel_width: 12
-              rain_tactics: '1'
               toward_mode: '0'
               mowing_laps: '3'
               obstacle_laps: '1'
               start_progress: 0
               blade_height: 100
               areas:
-                - switch.yard_mo99_area_main_lawn
+                - switch.yard_mo99_area_main_lawn_2
             target:
               device_id: 0210f440c83128d3e08a0c33fb62266e
       - data:
