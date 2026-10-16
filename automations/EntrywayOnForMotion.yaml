@@ -1,11 +1,11 @@
 alias: Entryway on for motion
-description: ""
+description: ''
 triggers:
   - trigger: state
     entity_id:
       - binary_sensor.camera1_person
     to:
-      - "on"
+      - 'on'
 conditions:
   - condition: and
     conditions:
@@ -14,12 +14,12 @@ conditions:
         before: sunrise
       - condition: device
         type: is_off
-        device_id: 5bb08e144b56c7704e730b5423bbd866
+        device_id: f7f9e8146aeedba57b5fade815c8f7b7
         entity_id: e61c2892bd3b7db050d5212b10ed5230
         domain: light
 actions:
   - type: turn_on
-    device_id: 5bb08e144b56c7704e730b5423bbd866
+    device_id: f7f9e8146aeedba57b5fade815c8f7b7
     entity_id: e61c2892bd3b7db050d5212b10ed5230
     domain: light
   - delay:
@@ -28,7 +28,7 @@ actions:
       seconds: 0
       milliseconds: 0
   - type: turn_off
-    device_id: 5bb08e144b56c7704e730b5423bbd866
+    device_id: f7f9e8146aeedba57b5fade815c8f7b7
     entity_id: e61c2892bd3b7db050d5212b10ed5230
     domain: light
 mode: single
