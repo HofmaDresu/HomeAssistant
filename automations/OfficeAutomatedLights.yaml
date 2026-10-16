@@ -1,24 +1,24 @@
 alias: Office automatic lights
-description: ""
+description: ''
 triggers:
   - entity_id:
       - binary_sensor.office_motion_sensor_motion
-    to: "on"
+    to: 'on'
     trigger: state
 conditions:
   - condition: device
     type: is_off
-    device_id: bad671e7062197c2244063c9ab807b41
+    device_id: 58ee3b3de4e2dc855d1a087842ffe276
     entity_id: 570122fb667e2bbf465c4b1eee4cc5b8
     domain: light
   - condition: device
     type: is_off
-    device_id: 1155e017f2b58ecdf76d69807001a0b9
+    device_id: 84a62494ffa1236e9a6f734ad0e2b214
     entity_id: 525207ce60b068d636526e83f993b12a
     domain: light
   - condition: state
     entity_id: input_boolean.pet_mode
-    state: "off"
+    state: 'off'
   - condition: numeric_state
     entity_id: cover.office_shades
     attribute: current_position
@@ -32,7 +32,7 @@ actions:
   - wait_for_trigger:
       - entity_id:
           - binary_sensor.office_motion_sensor_motion
-        from: "on"
+        from: 'on'
         for:
           hours: 0
           minutes: 1
