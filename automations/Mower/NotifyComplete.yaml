@@ -22,6 +22,12 @@ conditions:
               1}}
             alias: Error within last hour
     alias: Wasn't canceled
+  - condition: template
+    value_template: >-
+      {{((as_timestamp(now()) -
+      as_timestamp(states.sensor.mo99_activity_mode.last_changed)) / 60 / 60 /
+      24) < 1}}
+    alias: Mowed within the last day
 actions:
   - data:
       title: Mo
