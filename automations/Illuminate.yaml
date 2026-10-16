@@ -1,5 +1,5 @@
 alias: Illuminate
-description: ""
+description: ''
 triggers:
   - trigger: conversation
     command: Illuminate
@@ -17,6 +17,5 @@ actions:
     metadata: {}
     data: {}
     target:
-      device_id:
-        - 8576e7dab40455676993ad9a4bcc5c49
+      device_id: b7d22b990f0b4a08ccc617b34ce0b61e
 mode: single
