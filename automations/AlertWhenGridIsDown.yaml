@@ -1,12 +1,16 @@
 alias: Alert when grid is down
-description: ""
+description: ''
 triggers:
   - trigger: state
     entity_id:
       - sensor.franklinwh_grid_status
     to:
       - DOWN
-      - "OFF"
+      - 'OFF'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
 conditions: []
 actions:
   - action: script.play_alpha_centauri_sound_on_livingroom
